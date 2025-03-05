@@ -415,8 +415,8 @@ p {
 }
 
 .highlight {
-    font-size: 30px;
-    font-weight: 1000;
+    font-size: 38px;
+    font-weight: 900;
     background: linear-gradient(to bottom, #00fd51, #0ca542);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
@@ -427,8 +427,8 @@ p {
 }
 
 .highlight2 {
-    font-size: 30px;
-    font-weight: 1000;
+    font-size: 38px;
+    font-weight: 900;
     background: linear-gradient(to bottom, #ffffff, #b6b5b5);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
@@ -459,7 +459,7 @@ p {
     justify-content: center; /* Center children vertically */
     margin: 0px auto; /* Center the content with margin */
     padding: 0; /* Add padding for spacing */
-    width: 550px; /* Set a maximum width for the content */
+    width: 100%; /* Set a maximum width for the content */
     text-align: center; /* Center text within the content */
 }
 
@@ -505,7 +505,7 @@ p {
 .wellcome-heading > h2 {
     font-size: 60px;
     font-weight: 1000;
-    background: linear-gradient(to bottom, #00fd51, #032910);
+    background: linear-gradient(to bottom, #ffffff, #0f8a04);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
@@ -583,6 +583,7 @@ p {
     color: #fff;
     font-size: 18px;
     text-align: center;
+    font-weight: 900;
 }
 
 .wellcome-heading > h3 {
@@ -609,8 +610,8 @@ p {
 
 .special_description_img {
     margin-top: 25px; /* Added margin-top */
-    height: 700px;
-    margin-bottom: 0px; /* Space below the image */
+    height: 750px;
+    margin-bottom: 75px; /* Space below the image */
     text-align: center; /* Center the content */
 }
 
@@ -632,10 +633,7 @@ p {
     background-color: black;
 }
 
-.single-special > h4 {
-    font-size: 22px;
-    color: #10b146;
-}
+
 
 .single-icon {
     margin-bottom: 25px;
@@ -653,13 +651,13 @@ p {
 .single-special {
     position: relative; /* Position relative for the gradient */
     border: 1px solid #2d3030; /* Existing border */
-    padding: 40px;
+    padding: 30px;
     border-radius: 30px;
     -webkit-transition-duration: 800ms;
     -o-transition-duration: 800ms;
     transition-duration: 800ms;
     margin-bottom: 30px;
-    height: 100%;
+    height: 400px;
     background-color: #161615; /* Background color */
     overflow: hidden; /* Ensure the gradient doesn't overflow */
 }
@@ -671,7 +669,7 @@ p {
     left: 0; /* Align to the left */
     right: 0; /* Align to the right */
     height: 10px; /* Height of the gradient */
-    background: linear-gradient(to right, transparent, rgba(8, 107, 43, 0.3), transparent); /* Updated gradient effect */
+    background: linear-gradient(to right, transparent, rgba(33, 179, 4, 0.3), transparent); /* Updated gradient effect */
     border-radius: 30px 30px 0 0; /* Match the top corners */
 }
 
@@ -694,10 +692,10 @@ p {
 }
 
 .single-special p {
-    margin-bottom: 0;
     color: #fff;
     font-size: 18px;
     text-align: center;
+    font-weight: 900;
 }
 
 .app-download-area {
@@ -708,12 +706,12 @@ p {
 
 .app-buttons {
     display: flex; /* Enables flexbox for buttons */
-    gap: 10px; /* Adds space between buttons */
-     margin-top: 55px; /* Reduce this value to bring buttons closer */
+    gap: 25px; /* Adds space between buttons */
+    margin-top: 55px; /* Reduce this value to bring buttons closer */
 }
 
 .apple-store-btn img {
-    width: 240px; /* Adjust as needed */
+    width: 275px; /* Adjust as needed */
     height: auto;
 }
 
@@ -731,13 +729,13 @@ p {
 
 .rectangle {
     border: 1px solid #2d302d; /* Border color */
-    padding: 20px; /* Padding inside the rectangle */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #161615); /* Subtle yellow gradient */
+    padding: 40px; /* Padding inside the rectangle */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #181616); /* Subtle yellow gradient */
     border-radius: 20px; /* Rounded corners */
     margin: 100px 0; /* Margin for spacing */
     text-align: center; /* Center text inside the rectangle */
-    box-shadow: 0 0 300px rgba(0, 253, 81, 0.3), 0 0 100px rgba(8, 107, 43, 0.3); /* Adjusted glow effect */
-    width: 500px;
+    width: 700px;
+    height: 350px;
 }
 
 /* --------------------------
@@ -1319,8 +1317,8 @@ p {
 }
 
 .special-area{
-    padding: 100px 0; /* Existing padding */
-    margin-top: 150px; /* Adjust this value to lower the section */
+    padding: 0 0; /* Existing padding */
+    margin-top: 0px; /* Adjust this value to lower the section */
     height: auto; /* Allow height to adjust based on content */
     min-height: 400px; /* Set a minimum height if desired */
     background-color: #0f0f0f;
@@ -1351,7 +1349,7 @@ p {
 
     .app-download-area {
         flex-direction: column; /* Stack buttons vertically */
-        margin-top: 20px; /* Adjust margin */
+        margin-top: -20px; /* Adjust margin */
         
     }
 
@@ -1386,7 +1384,7 @@ p {
 
     .special_description_img {
         height: 400px;
-        
+        margin-bottom: -20px; /* Space below the image */ 
     }
 
     .rating {
@@ -1395,12 +1393,16 @@ p {
     }
 
     .highlight {
-        font-size: 26px;
+        font-size: 28px;
+        display: block; /* Ensures the second span starts on a new line */
+        text-align: center;
         
     }
 
     .highlight2 {
-        font-size: 26px;
+        font-size: 28px;
+        display: block; /* Ensures the second span starts on a new line */
+        text-align: center;
         
     }
 
@@ -1438,9 +1440,36 @@ p {
     margin: 0px auto; /* Center the content with margin */
     padding: 0; /* Add padding for spacing */
     width: 100%; /* Set a maximum width for the content */
-    text-align: center; /* Center text within the content */
+    text-align: center; /* Center text within the content */   
+    }
+
+    .logo-container {
+        margin-top: -20px;
+    }
+
+    .Headline  {
+        margin-top: -20px;
+        
+        text-align: center;
+    }
+
+    .row {
+        gap: 20px;
+    }
+
+    .apple-store-btn img {
+        width: 155px; /* Adjust as needed */
+        height: auto;
+    }
+
+    .app-buttons {
+        gap: 15px; /* Adds space between buttons */
         
     }
+
+    
+
+   
 
     
 
@@ -1459,3 +1488,6 @@ p {
     margin: 0 20px; /* Add some spacing between the icons */
     margin-bottom: 30px;
 }
+
+
+
