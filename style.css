@@ -231,7 +231,7 @@ p {
 .email {
     font-size: 100px;
     font-weight: 1000;
-    background: linear-gradient(to bottom, #ffffff, #056b0e);
+    background: linear-gradient(to bottom, #00ff15, #034108);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     
@@ -252,7 +252,7 @@ p {
 
 
 .section-heading > h1 {
-    font-size: 40px;
+    font-size: 87px;
     font-weight: 1000;
     background: linear-gradient(to bottom, #ffffff, #8f8c8c);
     letter-spacing: -1.5px;
@@ -430,7 +430,6 @@ p {
     display: inline-block; /* Helps prevent layout issues */
     text-align: left;
     letter-spacing: -1.5px;
-    text-shadow: rgba(32, 224, 7, 0.29) 0px 0px 40px;
 }
 
 .highlight2 {
@@ -442,8 +441,6 @@ p {
     display: inline-block; /* Helps prevent layout issues */
     text-align: left;
     letter-spacing: -1.5px;
-    text-shadow: rgba(255,255,255,0.29) 0px 0px 40px;
-    
 }
 
 
@@ -513,7 +510,7 @@ p {
 .wellcome-heading > h2 {
     font-size: 60px;
     font-weight: 1000;
-    background: linear-gradient(to bottom, #ffffff, #0f8a04);
+    background: linear-gradient(to bottom, #00f54d, #16853d);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
@@ -737,6 +734,7 @@ p {
 }
 
 .rectangle {
+    position: relative;
     border: 1px solid #2d302d; /* Border color */
     padding: 40px; /* Padding inside the rectangle */
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #181616); /* Subtle yellow gradient */
@@ -744,7 +742,18 @@ p {
     margin: 100px 0; /* Margin for spacing */
     text-align: center; /* Center text inside the rectangle */
     width: 700px;
-    height: 350px;
+    height: 300px;
+}
+
+.rectangle::before {
+    content: ''; /* Required for pseudo-element */
+    position: absolute; /* Position it absolutely */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    right: 0; /* Align to the right */
+    height: 5px; /* Height of the gradient */
+    background: linear-gradient(to right, transparent, rgba(33, 179, 4, 0.3), transparent); /* Updated gradient effect */
+    border-radius: 30px 30px 0 0; /* Match the top corners */
 }
 
 /* --------------------------
@@ -898,6 +907,7 @@ p {
     transform: scale(0.85);
     border: 2px solid #202020;
     border-radius: 5px;
+    
 
 }
 
@@ -907,6 +917,7 @@ p {
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     transform: scale(1)
+    
 }
 
 .app-screenshots-area{
@@ -1298,9 +1309,9 @@ p {
 .footer-menu ul li a {
     display: block;
     padding: 10px;
-    color: #8f8f8f;
+    color: #aca9a9;
     font-size: 14px;
-    font-weight: 900px;
+    font-weight: 100;
 }
 
 .footer-social-icon > a .active {
@@ -1317,12 +1328,14 @@ p {
 
 .footer-menu {
     margin-bottom: 0px;
+    margin-top: -25px;
 }
 
 .copyright-text > p {
     margin-bottom: 0;
     font-weight: 600;
     font-size: 14px;
+    color: #aca9a9;
 }
 
 .special-area{
@@ -1358,6 +1371,11 @@ p {
 .col-md-6.mx-auto {
     max-width: 600px; /* Set a maximum width for the div */
     margin: 0 auto; /* Center the div horizontally */
+}
+
+.LLC {
+    font-weight: 900;
+    color: #c4c4c4;
 }
 
 
@@ -1436,7 +1454,7 @@ p {
     }
 
     .section-heading > h1 {
-        font-size: 30px;
+        font-size: 45px;
     }
 
     .email h1 {
@@ -1475,7 +1493,7 @@ p {
     }
 
     .logo-container {
-        margin-top: -20px;
+        margin-top: -40px;
     }
 
     .Headline  {
@@ -1498,6 +1516,10 @@ p {
         
     }
 
+    .container {
+        margin-top: -75px;
+    }
+
     
 
    
@@ -1506,6 +1528,8 @@ p {
 
     
 }
+
+
 
 
 
