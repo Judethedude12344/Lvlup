@@ -67,8 +67,8 @@ h6 {
 }
 
 .section_padding_100 {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 0px;
+    padding-bottom: 00px;
 }
 
 .section_padding_100_50 {
@@ -103,11 +103,11 @@ h6 {
 
 .section_padding_0_100 {
     padding-top: 0;
-    padding-bottom: 100px;
+    padding-bottom: 0px;
 }
 
 .section_padding_70 {
-    padding-top: 70px;
+    padding-top: 0px;
     padding-bottom: 0px;
     background-color: #0f0f0f;
 }
@@ -234,7 +234,7 @@ p {
     background: linear-gradient(to bottom, #ffffff, #056b0e);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
-    display: inline-block; /* Helps prevent layout issues */
+    
     text-align: center;
 }
 .color1  {
@@ -252,18 +252,21 @@ p {
 
 
 .section-heading > h1 {
-    font-size: 60px;
+    font-size: 40px;
     font-weight: 1000;
-    background: linear-gradient(to bottom, #00fd51, #032910);
+    background: linear-gradient(to bottom, #ffffff, #8f8c8c);
+    letter-spacing: -1.5px;
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
     text-align: center;
+
 }
 
 
 .section-heading {
     margin-bottom: 60px;
+    margin-top: 70px;
     justify-content: center; /* Centers horizontally */
     align-items: center; /* Centers vertically */
     text-align: center; /* Center section headings */
@@ -410,12 +413,16 @@ p {
 
 .Headline h1 {
     text-align: center; /* Center the text */
-    margin: 20px 0; /* Add vertical spacing */
+    margin: 10px 0; /* Add vertical spacing */
     
 }
 
+.Headline {
+    margin-top: -15px;
+}
+
 .highlight {
-    font-size: 38px;
+    font-size: 30px;
     font-weight: 900;
     background: linear-gradient(to bottom, #00fd51, #0ca542);
     -webkit-background-clip: text; /* Applies gradient to text */
@@ -427,7 +434,7 @@ p {
 }
 
 .highlight2 {
-    font-size: 38px;
+    font-size: 30px;
     font-weight: 900;
     background: linear-gradient(to bottom, #ffffff, #b6b5b5);
     -webkit-background-clip: text; /* Applies gradient to text */
@@ -461,6 +468,7 @@ p {
     padding: 0; /* Add padding for spacing */
     width: 100%; /* Set a maximum width for the content */
     text-align: center; /* Center text within the content */
+    margin-bottom: -80px;
 }
 
 /*.wellcome_area:after {
@@ -642,10 +650,11 @@ p {
 .single-special > h4 {
     font-size: 30px;
     font-weight: 900;
-    background: linear-gradient(to bottom, #10b146, #0b8134);
+    background: linear-gradient(to bottom, #10b146, #04b140);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
+    margin-bottom: 25px;
 }
 
 .single-special {
@@ -658,7 +667,7 @@ p {
     transition-duration: 800ms;
     margin-bottom: 30px;
     height: 400px;
-    background-color: #161615; /* Background color */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #181616); /* Subtle yellow gradient */
     overflow: hidden; /* Ensure the gradient doesn't overflow */
 }
 
@@ -668,7 +677,7 @@ p {
     top: 0; /* Align to the top */
     left: 0; /* Align to the left */
     right: 0; /* Align to the right */
-    height: 10px; /* Height of the gradient */
+    height: 5px; /* Height of the gradient */
     background: linear-gradient(to right, transparent, rgba(33, 179, 4, 0.3), transparent); /* Updated gradient effect */
     border-radius: 30px 30px 0 0; /* Match the top corners */
 }
@@ -901,7 +910,7 @@ p {
 }
 
 .app-screenshots-area{
-    padding-top: 100px;
+    padding-top: px;
 
 }
 
@@ -1332,6 +1341,26 @@ p {
     background-color: #0f0f0f;
 }
 
+/* Adjust container padding for larger sides */
+.container {
+    padding-left: 20px; /* Adjust padding for smaller screens */
+    padding-right: 20px; /* Adjust padding for smaller screens */
+    margin-top: 40px;
+}
+
+.footer-social-icon img {
+    width: 60px; /* Set the desired width for mobile */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 20px; /* Add some spacing between the icons */
+    margin-bottom: 0px;
+}
+
+.col-md-6.mx-auto {
+    max-width: 600px; /* Set a maximum width for the div */
+    margin: 0 auto; /* Center the div horizontally */
+}
+
+
 /* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
     .wellcome_area {
@@ -1407,7 +1436,7 @@ p {
     }
 
     .section-heading > h1 {
-        font-size: 50px;
+        font-size: 30px;
     }
 
     .email h1 {
@@ -1430,6 +1459,8 @@ p {
         margin: 100px 0; /* Margin for spacing */
         text-align: center; /* Center text inside the rectangle */
         width: 100%;
+        max-width: 350px;
+        
     }
 
     .app-content {
@@ -1448,7 +1479,7 @@ p {
     }
 
     .Headline  {
-        margin-top: -20px;
+        margin-top: -15px;
         
         text-align: center;
     }
@@ -1476,18 +1507,7 @@ p {
     
 }
 
-/* Adjust container padding for larger sides */
-.container {
-    padding-left: 20px; /* Adjust padding for smaller screens */
-    padding-right: 20px; /* Adjust padding for smaller screens */
-}
 
-.footer-social-icon img {
-    width: 60px; /* Set the desired width for mobile */
-    height: auto; /* Maintain aspect ratio */
-    margin: 0 20px; /* Add some spacing between the icons */
-    margin-bottom: 30px;
-}
 
 
 
