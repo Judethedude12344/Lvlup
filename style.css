@@ -26,6 +26,10 @@
 -------------------------- */
 
 @import url('https://fonts.googleapis.com/css?family=Cabin:400,500,700|Montserrat:400,500,700');
+@font-face {
+    font-family: "Paralucent Bold";
+    src: url("../fonts/ParalucentBold.otf") format("");
+}
 @import 'css/bootstrap.min.css';
 @import 'css/animate.css';
 @import 'css/magnific-popup.css';
@@ -47,8 +51,8 @@
 
 body {
     margin: 0; /* Remove default margin */
-    font-family: Arial, sans-serif; /* Set a default font */
-    background-color: #0f0f0f;
+    font-family: "Paralucent Bold", sans-serif;
+    background-color: #000000;
 }
 
 a {
@@ -60,7 +64,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Cabin', sans-serif;
+    font-family: "Paralucent Bold", sans-serif;
     font-weight: 900;
     color: #10b146;
     line-height: 1.2;
@@ -109,7 +113,7 @@ h6 {
 .section_padding_70 {
     padding-top: 0px;
     padding-bottom: 0px;
-    background-color: #0f0f0f;
+    background-color: #000000;
 }
 
 .section_padding_0_50 {
@@ -195,11 +199,7 @@ img {
     margin-left: 100px;
 }
 
-ul,
-ol {
-    margin: 0;
-    padding: 0;
-}
+
 
 
 
@@ -213,28 +213,21 @@ a:active {
     transition-duration: 500ms;
 }
 
-li {
-    list-style: none;
-}
 
-p {
-    color: #8f8f8f;
-    font-size: 16px;
-    font-weight: 300;
-    margin-top: 0;
-}
+
+
 
 .heading-text > p {
     font-size: 16px;
 }
 
 .email {
-    font-size: 100px;
+    font-size: 40px;
     font-weight: 1000;
     background: linear-gradient(to bottom, #00ff15, #034108);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
-    
+    margin-top: -40px;
     text-align: center;
 }
 .color1  {
@@ -252,7 +245,7 @@ p {
 
 
 .section-heading > h1 {
-    font-size: 87px;
+    font-size: 70px;
     font-weight: 1000;
     background: linear-gradient(to bottom, #ffffff, #8f8c8c);
     letter-spacing: -1.5px;
@@ -265,7 +258,7 @@ p {
 
 
 .section-heading {
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     margin-top: 70px;
     justify-content: center; /* Centers horizontally */
     align-items: center; /* Centers vertically */
@@ -375,7 +368,7 @@ p {
 }
 
 .logo-container {
-    margin-top: 25px;
+    margin-top: -30px;
     width: 350px; /* Match your logo's actual width */
     
     
@@ -418,13 +411,25 @@ p {
 }
 
 .Headline {
-    margin-top: -15px;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Headline h1 {
+    text-align: center;
+    margin: 0; /* Remove default margin */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between wing and text */
 }
 
 .highlight {
     font-size: 30px;
     font-weight: 900;
-    background: linear-gradient(to bottom, #00fd51, #0ca542);
+    background: linear-gradient(to bottom, #00fd4c, #085e33);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
@@ -435,7 +440,7 @@ p {
 .highlight2 {
     font-size: 30px;
     font-weight: 900;
-    background: linear-gradient(to bottom, #ffffff, #b6b5b5);
+    background: linear-gradient(to bottom, #ffffff, #ffffff);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
@@ -447,7 +452,7 @@ p {
 
 .wellcome_area {
     display: block; /* Change this to block to avoid flex overriding */
-    background-color: #0f0f0f;
+    background-color: #000000;
     height: 815 px;
     position: relative;
     z-index: 1;
@@ -737,7 +742,7 @@ p {
     position: relative;
     border: 1px solid #2d302d; /* Border color */
     padding: 40px; /* Padding inside the rectangle */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #181616); /* Subtle yellow gradient */
+    background: #080808; /* Subtle yellow gradient */
     border-radius: 20px; /* Rounded corners */
     margin: 100px 0; /* Margin for spacing */
     text-align: center; /* Center text inside the rectangle */
@@ -907,7 +912,6 @@ p {
     transform: scale(0.85);
     border: 2px solid #202020;
     border-radius: 5px;
-    
 
 }
 
@@ -917,12 +921,12 @@ p {
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     transform: scale(1)
-    
 }
 
-.app-screenshots-area{
-    padding-top: px;
-
+.app-screenshots-area {
+    padding-top: 50px;
+    width: 100%;
+    background-color: #000000;
 }
 
 .app-screenshots-area .owl-dot {
@@ -936,7 +940,7 @@ p {
 }
 
 .app-screenshots-area .owl-dot.active {
-    background-color: #10b146;
+    background-color: #EE5E86;
     border: transparent;
 }
 
@@ -1298,8 +1302,49 @@ p {
     margin-bottom: 0px;
 }
 
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 0;
+}
+
 .footer-text {
-    margin-bottom: 0px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-social-icon {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* This creates equal spacing between social icons */
+    margin-bottom: 30px;
+}
+
+.footer-social-icon img {
+    width: 60px;
+    height: auto;
+}
+
+.copyright-text {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.footer-menu {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.footer-menu ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* This creates equal spacing between menu items */
 }
 
 .footer-menu ul li {
@@ -1309,8 +1354,8 @@ p {
 .footer-menu ul li a {
     display: block;
     padding: 10px;
-    color: #aca9a9;
-    font-size: 14px;
+    color: #e2dfdf;
+    font-size: 12px;
     font-weight: 100;
 }
 
@@ -1335,7 +1380,7 @@ p {
     margin-bottom: 0;
     font-weight: 600;
     font-size: 14px;
-    color: #aca9a9;
+    color: #e2dfdf;
 }
 
 .special-area{
@@ -1343,15 +1388,15 @@ p {
     margin-top: 0px; /* Adjust this value to lower the section */
     height: auto; /* Allow height to adjust based on content */
     min-height: 400px; /* Set a minimum height if desired */
-    background-color: #0f0f0f;
+    background-color: #000000;
 }
 
 .awesome-feature-area{
-    background-color: #0f0f0f;
+    background-color: #000000;
 }
 
 .app-screenshots-area{
-    background-color: #0f0f0f;
+    background-color: #000000;
 }
 
 /* Adjust container padding for larger sides */
@@ -1374,9 +1419,66 @@ p {
 }
 
 .LLC {
-    font-weight: 900;
-    color: #c4c4c4;
+    
+    color: #e2dfdf;
 }
+
+/* Add this at the end of your CSS file */
+
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background-color: #000000;
+    padding: 60px 0;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+  }
+  
+  .ticker {
+    display: flex;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+  }
+  
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    color: #ffffff;
+    font-family: "Paralucent Bold", sans-serif;
+  }
+  
+  .ticker-item span {
+    margin: 0 5px;
+  }
+  
+  .ticker-item .number {
+    color: #10b146;
+    font-weight: 900;
+  }
+  
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  /* Add hover effect to pause animation */
+  .ticker-wrap:hover .ticker {
+    
+  }
+
+  .wing {
+    display: inline-block;
+    margin-bottom: -80px; /* Pulls the text up closer to the wing */
+    position: relative;
+    z-index: 1;
+}
+
+
 
 
 /* Responsive adjustments for mobile devices */
@@ -1520,6 +1622,31 @@ p {
         margin-top: -75px;
     }
 
+    .ticker-item {
+        padding: 0 15px;
+        font-size: 14px;
+      }
+
+
+    
+      .wing img {
+        height: 60px; /* Smaller wing size for mobile */
+    }
+    
+    .wing {
+        margin-bottom: -60px; /* Adjust for mobile */
+    }
+    
+    .wing img {
+        height: 60px; /* Smaller wing size for mobile */
+    }
+    }
+
+    
+
+
+
+
     
 
    
@@ -1527,7 +1654,11 @@ p {
     
 
     
-}
+
+
+
+
+
 
 
 
