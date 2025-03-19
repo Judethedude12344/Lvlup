@@ -222,12 +222,12 @@ a:active {
 }
 
 .email {
-    font-size: 40px;
+    font-size: 15px;
     font-weight: 1000;
-    background: linear-gradient(to bottom, #00ff15, #034108);
+    background: linear-gradient(to bottom, #00f54d, #16853d);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
-    margin-top: -40px;
+    margin-top: -30px;
     text-align: center;
 }
 .color1  {
@@ -245,8 +245,8 @@ a:active {
 
 
 .section-heading > h1 {
-    font-size: 70px;
-    font-weight: 1000;
+    font-size: 40px;
+    font-weight: 800;
     background: linear-gradient(to bottom, #ffffff, #8f8c8c);
     letter-spacing: -1.5px;
     -webkit-background-clip: text; /* Applies gradient to text */
@@ -258,6 +258,28 @@ a:active {
 
 
 .section-heading {
+    margin-bottom: 30px;
+    margin-top: 70px;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    text-align: center; /* Center section headings */
+    
+}
+
+.section-heading2 > h1 {
+    font-size: 50px;
+    font-weight: 800;
+    background: linear-gradient(to bottom, #ffffff, #8f8c8c);
+    letter-spacing: -1.5px;
+    -webkit-background-clip: text; /* Applies gradient to text */
+    -webkit-text-fill-color: transparent; /* Makes text take the gradient */
+    display: inline-block; /* Helps prevent layout issues */
+    text-align: center;
+
+}
+
+
+.section-heading2 {
     margin-bottom: 30px;
     margin-top: 70px;
     justify-content: center; /* Centers horizontally */
@@ -417,7 +439,7 @@ a:active {
 .highlight {
     font-size: 30px;
     font-weight: 900;
-    background: linear-gradient(to bottom, #00fd4c, #085e33);
+    background: linear-gradient(to bottom, #00fd4c, #0a8146);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
@@ -428,7 +450,7 @@ a:active {
 .highlight2 {
     font-size: 30px;
     font-weight: 900;
-    background: linear-gradient(to bottom, #ffffff, #ffffff);
+    background: linear-gradient(to bottom, #ffffff, #c2c0c0);
     -webkit-background-clip: text; /* Applies gradient to text */
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     display: inline-block; /* Helps prevent layout issues */
@@ -744,25 +766,76 @@ a:active {
 
 .rectangle {
     position: relative;
-    border: 1px solid #2d302d; /* Border color */
-    padding: 40px; /* Padding inside the rectangle */
-    background: #080808; /* Subtle yellow gradient */
-    border-radius: 20px; /* Rounded corners */
-    margin: 100px 0; /* Margin for spacing */
-    text-align: center; /* Center text inside the rectangle */
-    width: 700px;
-    height: 300px;
+    border: 1px solid #2d302d;
+    padding: 20px 20px;
+    background: #080808;
+    border-radius: 20px;
+    margin: 70px 0;
+    width: 600px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    margin-top: 100px;
 }
 
 .rectangle::before {
-    content: ''; /* Required for pseudo-element */
-    position: absolute; /* Position it absolutely */
-    top: 0; /* Align to the top */
-    left: 0; /* Align to the left */
-    right: 0; /* Align to the right */
-    height: 5px; /* Height of the gradient */
-    background: linear-gradient(to right, transparent, rgba(33, 179, 4, 0.3), transparent); /* Updated gradient effect */
-    border-radius: 30px 30px 0 0; /* Match the top corners */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, #00f54d, #16853d);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    filter: blur(15px);
+    z-index: -1;
+}
+
+.rectangle:hover::before {
+    opacity: 0.20;
+}
+
+
+
+.mission-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px; /* Increased space between header and text */
+    margin-left: 0px;
+    margin-top: -10px; /* Added negative margin to move it up */
+    align-items: center;
+}
+
+.mission-icon {
+    width: 40px;
+    height: auto;
+    
+    filter: invert(56%) sepia(98%) saturate(454%) hue-rotate(93deg) brightness(97%) contrast(97%);
+}
+
+.rectangle h2 {
+    font-size: 30px;
+    margin: 0;
+    font-weight: 900;
+    background: linear-gradient(to bottom, #00f54d, #16853d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.rectangle p {
+    background: linear-gradient(to bottom, #ffffff, #b0b4b2);
+    -webkit-background-clip: text; /* Applies gradient to text */
+    -webkit-text-fill-color: transparent; /* Makes text take the gradient */
+    font-size: 24px;
+    font-weight: 500;
+    margin: -15px 0;
+    margin-top: -15px; /* Adjusted top margin */
+    margin-left: 20px;
+    font-weight: 500;
 }
 
 /* --------------------------
@@ -944,7 +1017,7 @@ a:active {
 }
 
 .app-screenshots-area .owl-dot.active {
-    background-color: #EE5E86;
+    background-color: #10b146;
     border: transparent;
 }
 
@@ -1325,7 +1398,7 @@ a:active {
 .footer-social-icon {
     display: flex;
     justify-content: center;
-    gap: 40px; /* This creates equal spacing between social icons */
+    gap: 0px; /* This creates equal spacing between social icons */
     margin-bottom: 30px;
 }
 
@@ -1372,7 +1445,8 @@ a:active {
 }
 
 .footer-social-icon {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    
 }
 
 .footer-menu {
@@ -1411,9 +1485,9 @@ a:active {
 }
 
 .footer-social-icon img {
-    width: 60px; /* Set the desired width for mobile */
+    width: 40px; /* Set the desired width for mobile */
     height: auto; /* Maintain aspect ratio */
-    margin: 0 20px; /* Add some spacing between the icons */
+    margin: 0 5px; /* Add some spacing between the icons */
     margin-bottom: 0px;
 }
 
@@ -1433,55 +1507,69 @@ a:active {
     width: 100%;
     overflow: hidden;
     background-color: #000000;
-    padding: 60px 0;
+    padding: 40px 0;
     border-top: 1px solid #222;
     border-bottom: 1px solid #222;
-  }
-  
-  .ticker {
+}
+
+.ticker {
     display: flex;
     animation: ticker 30s linear infinite;
-    white-space: nowrap;
-  }
-  
-  .ticker-item {
-    display: flex;
-    align-items: center;
-    padding: 0 30px;
+}
+
+.ticker-item {
+    flex-shrink: 0;
+    width: 300px; /* Fixed width for each item */
+    padding: 0 20px;
+    text-align: center;
+}
+
+.ticker-item span {
+    display: block;
+    line-height: 1.5;
     color: #ffffff;
-    font-family: "Paralucent Bold", sans-serif;
-  }
-  
-  .ticker-item span {
-    margin: 0 5px;
-  }
-  
-  .ticker-item .number {
-    color: #10b146;
+}
+
+.ticker-item .ticker1 {
+    background: linear-gradient(to bottom, #ffffff, #b0b4b2);
+    -webkit-background-clip: text; /* Applies gradient to text */
+    -webkit-text-fill-color: transparent; /* Makes text take the gradient */
+    font-size: 24px;
+    font-weight: 500;
+    margin: -15px 0;
+}
+
+.ticker-item .ticker2 {
+    background: linear-gradient(to bottom, #00fd4c, #0a8146);
+    -webkit-background-clip: text; /* Applies gradient to text */
+    -webkit-text-fill-color: transparent; /* Makes text take the gradient */
+    font-size: 24px;
     font-weight: 900;
-  }
-  
-  @keyframes ticker {
+    margin: 5px 0;
+}
+
+@keyframes ticker {
     0% {
-      transform: translateX(0);
+        transform: translateX(0);
     }
     100% {
-      transform: translateX(-50%);
+        transform: translateX(-1800px); /* Width of all items in first set (300px * 6) */
     }
-  }
-  
-  /* Add hover effect to pause animation */
-  .ticker-wrap:hover .ticker {
-    
-  }
+}
 
+/* Add this to create a smoother transition */
+.ticker {
+    will-change: transform;
+}
 
 /* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
     .wellcome_area {
         height: auto; /* Allow height to adjust based on content */
-        padding: 50px 0px; /* Add padding for better spacing */
+        padding: 0px 0px; /* Add padding for better spacing */
     }
+
+    
 
     .wellcome-heading > h2 {
         font-size: 40px; /* Adjust heading size for mobile */
@@ -1523,35 +1611,60 @@ a:active {
     }
 
     .footer-social-icon {
-        flex-direction: column; /* Stack social icons vertically */
+        
     }
 
     .special_description_img {
-        height: 400px;
+        height: 500px;
         margin-bottom: -20px; /* Space below the image */ 
     }
 
     .rating {
         text-align: center; /* Center the content */
-        height: 55px;
+        height: 90px;
+        margin-top: 30px;
+        margin-bottom: 15px;
     }
 
-    .highlight {
+    .highlight, .highlight2 {
         font-size: 28px;
-        display: block; /* Ensures the second span starts on a new line */
+        display: block;
         text-align: center;
-        
+        margin: 0;
+        padding: 1px 0; /* Reduced padding */
+        line-height: 1.05;
+        height: auto;
     }
 
     .highlight2 {
-        font-size: 28px;
-        display: block; /* Ensures the second span starts on a new line */
+        margin-top: -3px; /* Slightly increased negative margin to pull up */
+        padding-top: 0; /* Remove top padding from second line */
+        padding-bottom: 3px; /* Keep minimal bottom padding to prevent cut-off */
+    }
+
+    .Headline h1 {
+        margin: 0;
+        line-height: 0;
+        min-height: fit-content;
+    }
+
+    .Headline {
+        margin-top: -70px;
         text-align: center;
-        
+        display: flex;
+        flex-direction: column;
+        gap: 0; /* Removed gap */
     }
 
     .section-heading > h1 {
+        font-size: 34px;
+    }
+
+    .section-heading2 > h1 {
         font-size: 45px;
+        margin-top: 30px;
+        
+    
     }
 
     .email h1 {
@@ -1571,7 +1684,7 @@ a:active {
     .rectangle {
         padding: 20px; /* Padding inside the rectangle */
         border-radius: 20px; /* Rounded corners */
-        margin: 100px 0; /* Margin for spacing */
+        margin: 60px 0; /* Margin for spacing */
         text-align: center; /* Center text inside the rectangle */
         width: 100%;
         max-width: 350px;
@@ -1590,13 +1703,7 @@ a:active {
     }
 
     .logo-container {
-        margin-top: -40px;
-    }
-
-    .Headline  {
-        margin-top: -15px;
-        
-        text-align: center;
+        margin-top: -80px;
     }
 
     .row {
@@ -1621,6 +1728,12 @@ a:active {
         padding: 0 15px;
         font-size: 14px;
       }
+
+    .app-screenshots-area {
+        padding-top: 0px;
+        width: 100%;
+        background-color: #000000;
+    }
     }
 
 
