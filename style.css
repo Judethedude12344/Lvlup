@@ -28,7 +28,8 @@
 @import url('https://fonts.googleapis.com/css?family=Cabin:400,500,700|Montserrat:400,500,700');
 @font-face {
     font-family: "Paralucent Bold";
-    src: url("../fonts/ParalucentBold.otf") format("");
+    src: url("../fonts/ParalucentBold.otf") format("opentype"),
+         url("../fonts/ParalucentBold.woff") format("woff");
 }
 @import 'css/bootstrap.min.css';
 @import 'css/animate.css';
