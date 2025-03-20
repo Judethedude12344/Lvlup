@@ -52,7 +52,7 @@
 
 body {
     margin: 0; /* Remove default margin */
-    font-family: "Paralucent Bold", sans-serif;
+    font-family: "ParalucentBold", sans-serif;
     background-color: #000000;
 }
 
@@ -65,7 +65,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Paralucent Bold", sans-serif;
+    font-family: "ParalucentBold", sans-serif;
     font-weight: 900;
     color: #10b146;
     line-height: 1.2;
