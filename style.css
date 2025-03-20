@@ -230,6 +230,7 @@ a:active {
     -webkit-text-fill-color: transparent; /* Makes text take the gradient */
     margin-top: -30px;
     text-align: center;
+    
 }
 .color1  {
     font-weight: 1000;
@@ -934,57 +935,7 @@ a:active {
     color: #fff;
 }
 
-/* --------------------------
-:: 7.0 Cool Facts Area CSS
--------------------------- */
 
-.cool_facts_area {
-    position: relative;
-    z-index: auto;
-    background: #10b146;
-    background: -webkit-linear-gradient(to left, #262626, #262626);
-    background: -webkit-linear-gradient(right, #262626, #262626);
-    background: -webkit-gradient(linear, right top, left top, from(#262626), to(#262626));
-    background: -o-linear-gradient(right, #262626, #262626);
-    background: linear-gradient(to left bottom, #262626, #262626);
-    padding: 80px 0 80px 0;
-}
-
-
-.cool_facts_area:after {
-    position: absolute;
-    /* bottom: -100px; */
-    left: 0;
-    right: 0;
-    width: 100%;
-    /* height: 100px; */
-    background-color: #fff;
-    content: ''
-}
-
-.cool-facts-content > i {
-    color: #ffffff;
-    font-size: 36px;
-}
-
-.counter-area {
-    min-width: 100px;
-    -ms-flex-item-align: end;
-    align-self: flex-end;
-}
-
-.counter-area > h3 {
-    color: #ffffff;
-    font-size: 60px;
-    margin-bottom: 0;
-    line-height: 1;
-}
-
-.cool-facts-content > p {
-    font-size: 18px;
-    color: #ffffff;
-    margin-bottom: 0;
-}
 
 /* --------------------------
 :: 8.0 Screenshots Area CSS
@@ -1359,6 +1310,161 @@ a:active {
 
 
 /* --------------------------
+:: 13.0 Contact Area CSS Start
+-------------------------- */
+
+.address-text > p,
+.phone-text > p,
+.email-text > p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    
+}
+
+.address-text > p > span,
+.phone-text > p > span,
+.email-text > p > span {
+    color: #EE5E86;
+}
+
+.footer-contact-area .line-shape {
+    margin-left: 0;
+}
+
+.footer-contact-area .heading-text > p {
+    margin-top: 50px;
+}
+
+.footer-contact-area .heading-text {
+    margin-bottom: 50px;
+}
+.form-control {
+    background-color: #141414;
+    border: 1px solid #2d302d;
+}
+#name {
+    font-size: 18px;
+    padding: 15px 15px;
+}
+
+#email {
+    font-size: 18px;
+    padding: 15px 15px;
+/*    border-radius: 25px;*/
+}
+
+#message {
+    font-size: 18px;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    background-color: #080808;
+    border: 1px solid #2d302d !important;
+    color: #ffffff;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+    min-height: 100px;
+    max-height: 400px;
+}
+
+/* Style for submit button */
+.btn.submit-btn {
+    position: relative;
+    background-color: #080808;
+    border: 1px solid #2d302d;
+    height: 48px;
+    width: 100%;
+    max-width: 150px;
+    border-radius: 20px;
+    font-size: 22px;
+    font-weight: 900;
+    
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    background: linear-gradient(to bottom, #00fd4c, #0a8146);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1.5px;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 0 rgba(0, 245, 77, 0);
+}
+
+/* Hover state */
+.btn.submit-btn:hover {
+    box-shadow: 0 0 20px rgba(0, 245, 78, 0.253);
+}
+
+.contact_form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.contact_input_area {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Style for name and email inputs */
+#name, #email {
+    font-size: 18px;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    background-color: #080808;
+    border: 1px solid #2d302d !important;
+    color: #ffffff;
+    transition: all 0.4s ease;
+}
+
+/* Style for message input */
+#message:focus {
+    color: #ffffff;
+    outline: none;
+    border: 1px solid #2d302d !important;
+    background-color: #080808;
+    box-shadow: none;
+}
+
+/* Style for placeholder text */
+.form-control::placeholder {
+    color: #a0a0a0;
+    opacity: 1;
+}
+
+/* Ensure text color remains white when focused */
+.form-control:focus {
+    color: #ffffff;
+    outline: none;
+    border: 1px solid #2d302d !important;
+    background-color: #080808;
+    box-shadow: none;
+}
+
+.footer-text > p {
+    margin-bottom: 50px;
+}
+
+
+
+/* --------------------------
 :: 14.0 Footer Area CSS Start
 -------------------------- */
 
@@ -1677,7 +1783,8 @@ a:active {
     }
 
     .section-heading > h1 {
-        font-size: 34px;
+        font-size: 32px;
+        margin-top: 12px;
     }
 
     .section-heading2 > h1 {
@@ -1756,7 +1863,14 @@ a:active {
         background-color: #000000;
     }
 
-   
+    .contact_input_area {
+        max-width: 90%;
+    }
+
+    #name, #email, #message {
+        max-width: 100%; /* Make inputs full width on mobile */
+    }
+
     }
 
 
