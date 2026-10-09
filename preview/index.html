@@ -82,10 +82,14 @@
     .cart-btn svg { width: 16px; height: 16px; }
 
     /* Announcement + header */
-    .bar { background: #1b1e21; color: #d9dee2; text-align: center; font: 500 12px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; padding: 11px var(--gutter); }
+    /* Announcement bar (after Based): faint translucent strip with a light blur and a hairline underneath */
+    .bar { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; height: 32px; padding: 0 10px; overflow: hidden;
+      background: rgba(255,255,255,.06); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-bottom: .5px solid rgba(255,255,255,.1); }
+    .bar p { margin: 0; font: 400 12px/1 var(--body); letter-spacing: 1.56px; text-transform: uppercase; color: #fff; white-space: nowrap; max-width: 100%; overflow: hidden; }
     /* Header: see-through at all times, like Based: a dark gradient with a blur that both fade out toward the bottom edge */
-    .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; isolation: isolate; }
-    .site-header::before {
+    .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; }
+    .hdr-bar { position: relative; isolation: isolate; }
+    .hdr-bar::before {
       content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
       background: linear-gradient(180deg, rgba(0,0,0,.6), rgba(0,0,0,0));
       -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
@@ -304,6 +308,10 @@
       .foot > .brand, .foot > .promo-card { grid-column: 1 / -1; }
       .promo-pill { display: none; }
     }
+    @media (max-width: 749px) {
+      .bar { padding: 4px 12px; }
+      .bar p { font-size: 9px; letter-spacing: .16px; }
+    }
     @media (max-width: 860px) {
       .nav-links { display: none; }
       /* Phone hero: photo fills the frame; short copy sits top-left over the dark mirror, clear of her and the Chamber */
@@ -340,7 +348,6 @@
       .frame { border-inline: 0; }
     }
     @media (max-width: 520px) {
-      .bar { font-size: 10.5px; letter-spacing: .1em; }
       .grid { gap: 14px 10px; }
       .card h3 { font-size: 15px; }
       .cart-btn { font-size: 12px; padding: 12px 10px; }
@@ -351,8 +358,9 @@
   </style>
 </head>
 <body>
-  <div class="bar">Now available · Free shipping on bundles</div>
   <header class="site-header">
+    <div class="bar"><p>Now available · Free shipping on bundles</p></div>
+    <div class="hdr-bar">
     <div class="wrap nav">
       <a class="logo-img" href="#top"><img src="../assets/cryo-wipes-logo.svg" alt="Cryo Wipes" width="102" height="44"></a>
       <nav class="nav-links" aria-label="Main">
@@ -366,6 +374,7 @@
         <a class="icon-btn" href="#contact" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.3-3.6 4.3-5.4 7.5-5.4s6.2 1.8 7.5 5.4"/></svg></a>
         <a class="icon-btn" href="#shop" aria-label="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cart-count" id="cart-count">0</span></a>
       </div>
+    </div>
     </div>
   </header>
 
