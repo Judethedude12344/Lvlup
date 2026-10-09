@@ -92,8 +92,22 @@
     .nav-links a { opacity: .9; }
     .nav-links a:hover { color: var(--ice); opacity: 1; }
     .nav-right { margin-left: auto; display: flex; align-items: center; gap: 18px; }
-    .promo-pill { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; background: #1b1e21; font: 500 12px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; }
-    .promo-pill svg { width: 14px; height: 14px; color: var(--ice); }
+    /* Header pill: an ice-metal layer fades in on hover and the label turns dark (after Based's header sale button) */
+    .promo-pill {
+      position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px;
+      background: rgba(23,23,23,.75); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); color: var(--text);
+      font: 500 12px/1 var(--display); letter-spacing: .08em; text-transform: uppercase;
+      transition: color .125s ease-in-out;
+    }
+    .promo-pill::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: linear-gradient(82deg, #3a86ad 6%, #7cc8e6 28%, #b5e3f4 46%, #5fb0d4 69%, #3a86ad 94%);
+      opacity: 0; transition: opacity .24s;
+    }
+    .promo-pill:hover, .promo-pill:focus-visible { color: var(--on-ice); }
+    .promo-pill:hover::before, .promo-pill:focus-visible::before { opacity: 1; }
+    .promo-pill svg { width: 14px; height: 14px; color: var(--ice); transition: color .125s ease-in-out; }
+    .promo-pill:hover svg, .promo-pill:focus-visible svg { color: currentColor; }
     .icon-btn { position: relative; display: grid; place-items: center; width: 34px; height: 34px; }
     .icon-btn svg { width: 22px; height: 22px; }
     .cart-count { position: absolute; top: 0; right: -4px; min-width: 17px; height: 17px; padding: 0 4px; background: var(--ice); color: var(--on-ice); font: 700 10px/17px var(--body); text-align: center; border-radius: 999px; font-variant-numeric: tabular-nums; }
