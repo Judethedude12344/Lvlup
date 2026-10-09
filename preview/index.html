@@ -124,6 +124,7 @@
     .hero h1 { font-size: clamp(36px, 4.2vw, 56px); line-height: 1.04; text-transform: uppercase; letter-spacing: -.01em; }
     .hero p { margin: 18px 0 30px; color: #d6dbdf; font-size: 15px; line-height: 1.6; max-width: 40ch; }
     .hero .btn { min-width: 290px; }
+    .hero .btn .lbl-short { display: none; }
 
     /* Products */
     .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
@@ -297,18 +298,18 @@
     }
     @media (max-width: 860px) {
       .nav-links { display: none; }
-      /* Phone hero (after Based): centred copy at the top, photo filling the lower screen and fading up into black */
-      .hero { min-height: 0; flex-direction: column; justify-content: flex-start; align-items: stretch; padding-block: 34px 0; text-align: center; }
-      .hero > .wrap { order: 1; position: relative; z-index: 2; }
-      .hero picture { order: 2; position: relative; inset: auto; display: block; height: auto; aspect-ratio: 1 / 1.02; margin-top: 18px; }
-      .hero picture img { object-fit: cover; object-position: 77% 50%; }
-      .hero picture::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 16%; background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0) 100%); }
-      .hero::after { content: none; }
-      .hero-copy { max-width: 34em; margin-inline: auto; }
-      .hero .eyebrow { margin-bottom: 14px; }
-      .hero h1 { font-size: clamp(30px, 8.6vw, 40px); }
-      .hero p { margin: 14px auto 22px; font-size: 15px; }
-      .hero .btn { min-width: 0; width: 100%; }
+      /* Phone hero: photo fills the frame; short copy sits top-left over the dark mirror, clear of her and the Chamber */
+      .hero { min-height: 0; aspect-ratio: 4 / 5; align-items: flex-start; padding-block: 22px 0; }
+      .hero picture img { object-fit: cover; object-position: 78% 100%; }
+      .hero::after { background: linear-gradient(90deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,0) 55%); }
+      .hero > .wrap { position: relative; z-index: 2; }
+      .hero-copy { max-width: 44%; }
+      .hero .eyebrow { font-size: 10px; margin-bottom: 10px; }
+      .hero h1 { font-size: clamp(19px, 5.6vw, 26px); line-height: 1.08; }
+      .hero p { display: none; }
+      .hero .btn { min-width: 0; margin-top: 16px; padding: 11px 14px; font-size: 11px; }
+      .hero .btn .lbl-long { display: none; }
+      .hero .btn .lbl-short { display: inline; }
       .stats { grid-template-columns: 1fr 1fr; }
       .stats > :first-child { grid-column: 1 / -1; }
       .banner { display: flex; flex-direction: column; align-items: stretch; min-height: 0; }
@@ -370,7 +371,7 @@
           <p class="eyebrow">Now available</p>
           <h1>The rush of a cold plunge, <span class="ice">in a wipe.</span></h1>
           <p>Cryo Wipes chill in the Cryo Chamber to just above freezing. Thirty seconds, every morning, to wake up, depuff and reset.</p>
-          <a class="btn" href="#shop">Shop the Starter Kit</a>
+          <a class="btn" href="#shop"><span class="lbl-long">Shop the Starter Kit</span><span class="lbl-short">Shop now</span></a>
         </div>
       </div>
     </section>
