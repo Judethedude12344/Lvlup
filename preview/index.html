@@ -153,7 +153,8 @@
     .compare .cell.us { color: var(--on-ice); border-top-color: rgba(6,18,26,.12); position: relative; z-index: 1; }
     .compare .cell.them { color: #5c646b; }
     .compare .hrow { border-top: 0; padding: 26px 0; }
-    .compare .hrow.us { font-weight: 700; letter-spacing: .06em; font-size: 18px; }
+    .compare .hrow.us { padding: 18px 0; }
+    .compare-logo { height: 36px; width: auto; }
     .compare .hrow.them { color: var(--text); }
     .compare svg { width: 22px; height: 22px; }
 
@@ -206,8 +207,6 @@
     .chamber { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
     .chamber-media { position: relative; aspect-ratio: 1 / 1; display: grid; place-items: center; overflow: hidden; background: radial-gradient(70% 50% at 50% 78%, rgba(124,200,230,.2) 0%, rgba(124,200,230,0) 70%), linear-gradient(180deg, #050607 0%, #15181b 70%, #24282c 100%); }
     .chamber-media img { width: 118%; max-width: none; filter: drop-shadow(0 30px 40px rgba(0,0,0,.7)); }
-    .temp { position: absolute; top: 18px; left: 18px; padding: 12px 14px; background: rgba(10,11,12,.8); box-shadow: inset 0 0 0 1px var(--line-strong); font: 500 11px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .temp b { display: block; margin-top: 4px; font-size: 18px; letter-spacing: 0; color: var(--text); text-transform: none; }
     .specs { list-style: none; margin: 26px 0 0; padding: 0; border-top: 1px solid var(--line); }
     .specs li { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
     .specs b { font: 500 14px var(--display); }
@@ -403,7 +402,7 @@
       <div class="compare" role="table" aria-label="Cryo Wipes compared with other cold therapy">
         <div class="glow" aria-hidden="true"></div>
         <div class="cell hrow" role="columnheader"></div>
-        <div class="cell hrow us" role="columnheader">CRYO</div>
+        <div class="cell hrow us" role="columnheader"><img class="compare-logo" src="../assets/cryo-wipes-logo-black.svg" alt="Cryo Wipes" width="84" height="36"></div>
         <div class="cell hrow them" role="columnheader">Others</div>
 
         <div class="cell" role="cell">Quick &amp; convenient</div>
@@ -498,7 +497,6 @@
       <div class="chamber">
         <div class="chamber-media">
           <img src="../assets/chamber-white-product-card.png" alt="Cryo Chamber, White Edition, with lid open">
-          <div class="temp">Holds at<b>Just above freezing</b></div>
         </div>
         <div>
           <p class="eyebrow">The Cryo Chamber</p>
