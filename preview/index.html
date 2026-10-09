@@ -27,7 +27,9 @@
       --display: "Lexend", "Helvetica Neue", Arial, sans-serif;
       --body: "Inter", "Helvetica Neue", Arial, sans-serif;
       --gutter: max(16px, 3.75vw);
-      --wrap: 1328px;
+      --frame: 1440px;
+      --inner: clamp(16px, 5.5vw, 80px);
+      --wrap: calc(var(--frame) - 2 * var(--inner));
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -47,7 +49,13 @@
       -webkit-background-clip: text; background-clip: text;
       color: transparent; -webkit-text-fill-color: transparent;
     }
-    .wrap { width: min(var(--wrap), 100% - 2 * var(--gutter)); margin-inline: auto; }
+    .wrap { width: min(var(--wrap), 100% - 2 * (var(--gutter) + var(--inner))); margin-inline: auto; }
+    /* Page frame: centred column with hairlines down both sides, full-bleed dividers between blocks */
+    .frame { width: min(var(--frame), 100% - 2 * var(--gutter)); margin-inline: auto; border-inline: 1px solid var(--line); }
+    .frame > * { position: relative; padding-inline: var(--inner); }
+    .frame > * + *::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line); box-shadow: 0 0 0 100vmax var(--line); clip-path: inset(0 -100vmax); pointer-events: none; }
+    .frame .wrap { width: auto; margin-inline: 0; }
+    .frame > .flush { padding-inline: 0; }
     .section { padding-block: clamp(56px, 7vw, 96px); }
     .eyebrow { margin: 0 0 12px; font: 600 12px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--ice); }
     .h2 { font-size: clamp(26px, 2.6vw, 34px); line-height: 1.15; }
@@ -129,13 +137,6 @@
     .card .meta svg { width: 14px; height: 14px; color: var(--ice); }
     .card .spacer { flex: 1; }
 
-    /* Category tiles */
-    .tiles { display: grid; grid-template-columns: 1fr 1fr; }
-    .tile { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #050607; }
-    .tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; }
-    .tile:hover img { transform: scale(1.04); }
-    .tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,11,12,0) 45%, rgba(10,11,12,.92) 100%); }
-    .tile span { position: absolute; z-index: 2; left: 0; right: 0; bottom: 9%; text-align: center; font: 400 clamp(18px, 1.8vw, 24px) var(--display); }
 
     /* Comparison */
     .why { text-align: center; }
@@ -163,13 +164,30 @@
     .stat .meter i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--metal); background-size: 200% 100%; }
     .stat span { font: 300 18px/1.35 var(--display); color: #e2e6e9; }
 
-    /* Editorial banner */
-    .banner { position: relative; overflow: hidden; background: #050607; min-height: 520px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
-    .banner .stripe { position: absolute; top: 0; height: 62%; left: 46%; width: 70px; background: var(--metal-v); opacity: .95; }
-    .banner .shot { position: relative; z-index: 2; grid-column: 1 / -1; grid-row: 1; justify-self: center; width: min(560px, 72%); filter: drop-shadow(0 40px 50px rgba(0,0,0,.8)); }
-    .banner .left, .banner .right { position: relative; z-index: 3; grid-row: 1; padding: clamp(28px, 5vw, 64px); }
-    .banner .left { grid-column: 1; align-self: center; max-width: 380px; }
-    .banner .right { grid-column: 2; justify-self: end; max-width: 330px; }
+    /* Editorial banner: panel with an ice light-beam falling onto the Chamber */
+    .banner {
+      position: relative; overflow: hidden; min-height: 500px;
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+      background: radial-gradient(60% 60% at 50% 100%, rgba(124,200,230,.10) 0%, rgba(124,200,230,0) 70%), #0e1012;
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .banner .visual { position: absolute; inset: 0; }
+    .banner .stripe {
+      position: absolute; top: 0; left: 50%; width: 76px; height: 72%; transform: translateX(-50%);
+      background: linear-gradient(180deg, rgba(205,238,250,.95) 0%, rgba(124,200,230,.75) 55%, rgba(124,200,230,0) 100%);
+      box-shadow: 0 0 80px rgba(124,200,230,.25);
+    }
+    .banner .stage {
+      position: absolute; left: 50%; bottom: 13%; width: min(520px, 54%); height: 60px; transform: translateX(-50%);
+      background: radial-gradient(50% 50% at 50% 50%, rgba(124,200,230,.35) 0%, rgba(124,200,230,0) 70%);
+      filter: blur(6px);
+    }
+    .banner .shot, .banner .shot-2 { position: absolute; z-index: 2; filter: drop-shadow(0 28px 30px rgba(0,0,0,.75)); }
+    .banner .shot { left: 50%; bottom: 16%; width: min(400px, 40%); transform: translateX(-56%); }
+    .banner .shot-2 { left: 50%; bottom: 17%; width: min(130px, 13%); transform: translateX(95%) rotate(10deg); }
+    .banner .left, .banner .right { position: relative; z-index: 3; grid-row: 1; padding: clamp(28px, 4vw, 56px); }
+    .banner .left { grid-column: 1; max-width: 380px; }
+    .banner .right { grid-column: 2; justify-self: end; max-width: 320px; }
     .banner h2 { font-size: clamp(24px, 2.2vw, 30px); line-height: 1.2; }
     .banner .right p { margin: 0 0 18px; color: #c3cad0; font-size: 14px; line-height: 1.6; }
     .banner .foot-note { margin-top: 28px; color: #5c646b; font: 500 10px var(--display); letter-spacing: .12em; text-transform: uppercase; }
@@ -195,7 +213,7 @@
     .chamber .btn { margin-top: 28px; }
 
     /* Ingredients ticker */
-    .ticker { overflow: hidden; border-block: 1px solid var(--line); padding-block: 22px; }
+    .ticker { overflow: hidden; padding-block: 22px; }
     .ticker-inner { display: flex; width: max-content; animation: marquee 40s linear infinite; }
     .ticker-group { display: flex; gap: 56px; padding-right: 56px; }
     .ticker-group span { display: inline-flex; align-items: center; gap: 56px; font: 400 15px var(--display); color: #d2d8dc; white-space: nowrap; }
@@ -213,7 +231,7 @@
     details p { margin: 0; padding: 0 0 22px; color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 62ch; }
 
     /* Footer */
-    footer { border-top: 1px solid var(--line); overflow: hidden; }
+    footer { overflow: hidden; }
     .foot { display: grid; grid-template-columns: 1.3fr .7fr .7fr 1.3fr; gap: 32px; padding-block: 48px 24px; }
     .foot .logo { display: inline-block; margin-bottom: 18px; }
     .foot p { margin: 0; color: #c3cad0; font: 300 16px/1.5 var(--display); max-width: 30ch; }
@@ -246,19 +264,25 @@
       .hero picture img { object-position: center 25%; }
       .hero::after { background: linear-gradient(0deg, rgba(5,6,7,.97) 0%, rgba(5,6,7,.85) 38%, rgba(5,6,7,0) 70%); }
       .hero .btn { min-width: 0; width: 100%; }
-      .tiles { grid-template-columns: 1fr; }
       .stats { grid-template-columns: 1fr 1fr; }
       .stats > :first-child { grid-column: 1 / -1; }
-      .banner { grid-template-columns: 1fr; min-height: 0; padding-block: 40px 0; }
-      .banner .left, .banner .right { grid-column: 1; grid-row: auto; justify-self: start; max-width: none; }
-      .banner .left { grid-row: 1; padding-bottom: 0; }
-      .banner .shot { grid-row: 2; width: 86%; margin-block: 8px; }
-      .banner .right { grid-row: 3; padding-top: 0; }
-      .banner .stripe { left: 62%; width: 46px; height: 46%; top: 18%; }
+      .banner { display: flex; flex-direction: column; align-items: stretch; min-height: 0; }
+      .banner .left, .banner .right { max-width: none; justify-self: auto; }
+      .banner .left { padding-bottom: 0; }
+      .banner .right { padding-top: 0; }
+      .banner .visual { position: relative; inset: auto; height: 300px; }
+      .banner .stripe { height: 80%; width: 56px; }
+      .banner .shot { width: 62%; bottom: 14%; }
+      .banner .shot-2 { width: 21%; bottom: 15%; }
+      .banner .stage { width: 80%; bottom: 10%; }
       .steps { grid-template-columns: 1fr; }
       .step, .step + .step { padding: 24px 0; border-left: 0; }
       .step + .step { border-top: 1px solid var(--line); }
       .chamber, .faq { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      :root { --gutter: 0px; --inner: 16px; }
+      .frame { border-inline: 0; }
     }
     @media (max-width: 520px) {
       .grid { gap: 14px 10px; }
@@ -304,11 +328,12 @@
         </div>
       </div>
     </section>
+  </main>
 
+  <div class="frame">
     <section class="section wrap" id="shop">
       <div class="row-head">
         <h2 class="h2">Shop Cryo</h2>
-        <a class="link-arrow" href="#shop">Shop all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="tabs" role="group" aria-label="Filter products">
         <button class="tab" type="button" aria-pressed="true" data-filter="all">All</button>
@@ -376,10 +401,6 @@
       </div>
     </section>
 
-    <section class="tiles" aria-label="Shop by product">
-      <a class="tile" href="#chamber"><img src="../assets/cryochamberpic-hero.png" alt="Man holding the Cryo Chamber" style="object-position: 72% 35%"><span>Shop the Chamber →</span></a>
-      <a class="tile" href="#shop"><img src="../assets/solution-cryo-left-hero.png" alt="Man holding a pack of Cryo Wipes" style="object-position: 20% 40%"><span>Shop Cryo Wipes →</span></a>
-    </section>
 
     <section class="section wrap why" id="why">
       <h2 class="h2">Why <strong style="font-weight:700; letter-spacing:.04em">CRYO</strong></h2>
@@ -416,11 +437,10 @@
       </div>
     </section>
 
-    <section class="wrap" style="padding-bottom: clamp(56px, 7vw, 96px)">
+    <section class="section wrap">
       <div class="stats">
         <div>
           <p class="statement">Because waking up shouldn't take <span class="ice">an ice bath.</span></p>
-          <a class="link-arrow" href="#shop">Shop all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
         <div class="stat">
           <b>700,000+</b>
@@ -435,17 +455,23 @@
       </div>
     </section>
 
-    <section class="banner">
-      <div class="stripe" aria-hidden="true"></div>
-      <img class="shot" src="../assets/cryo-chamber-no-irritants.png" alt="Cryo Chamber, Black Edition">
-      <div class="left">
-        <p class="eyebrow" style="color: var(--muted)">Simple, effective, cold.</p>
-        <h2><span class="ice">The Cold Standard</span><br>of morning care.</h2>
-        <p class="foot-note">*Free shipping on bundles</p>
-      </div>
-      <div class="right">
-        <p>The Starter Kit pairs the Cryo Chamber with your first pack of Cryo Wipes, so day one is ice-cold.</p>
-        <a class="link-arrow" href="#shop">Shop the kit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <section class="section banner-wrap">
+      <div class="banner">
+        <div class="visual">
+          <div class="stripe" aria-hidden="true"></div>
+          <div class="stage" aria-hidden="true"></div>
+          <img class="shot" src="../assets/cryo-chamber-trim.png" alt="Cryo Chamber, Black Edition">
+          <img class="shot-2" src="../assets/cryo-wipes-trim.png" alt="Cryo Wipes pack">
+        </div>
+        <div class="left">
+          <p class="eyebrow" style="color: var(--muted)">Simple, effective, cold.</p>
+          <h2><span class="ice">The Cold Standard</span><br>of morning care.</h2>
+          <p class="foot-note">*Free shipping on bundles</p>
+        </div>
+        <div class="right">
+          <p>The Starter Kit pairs the Cryo Chamber with your first pack of Cryo Wipes, so day one is ice-cold.</p>
+          <a class="link-arrow" href="#shop">Shop the kit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
       </div>
     </section>
 
@@ -472,7 +498,7 @@
       </div>
     </section>
 
-    <div class="ticker" aria-label="Formula promises">
+    <div class="ticker flush" aria-label="Formula promises">
       <div class="ticker-inner">
         <div class="ticker-group">
           <span>Paraben-free</span><span>Sulfate-free</span><span>Phthalate-free</span><span>Non-toxic, endocrine safe</span><span>Formulated &amp; filled in USA</span><span>100% biodegradable bamboo</span><span>Dermatologist-tested</span>
@@ -506,7 +532,7 @@
       </div>
     </section>
 
-    <section class="section wrap" id="faq" style="padding-top: 0">
+    <section class="section wrap" id="faq">
       <div class="faq">
         <div>
           <h2 class="h2">FAQs</h2>
@@ -540,10 +566,9 @@
         </div>
       </div>
     </section>
-  </main>
 
   <footer>
-    <div class="wrap foot">
+    <div class="foot">
       <div class="brand">
         <span class="logo">CRYO<span>WIPES</span></span>
         <p>The rush of a cold plunge, in a wipe.</p>
@@ -571,12 +596,13 @@
         <a class="btn" href="#shop">Shop the kit</a>
       </div>
     </div>
-    <div class="wrap wordmark" aria-hidden="true">CRYO</div>
-    <div class="wrap legal">
+    <div class="wordmark" aria-hidden="true">CRYO</div>
+    <div class="legal">
       <span>© 2026, Cryo Wipes</span>
       <nav aria-label="Legal"><a href="#top">Privacy</a><a href="#top">Terms of Service</a><a href="#top">Shipping</a></nav>
     </div>
   </footer>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
