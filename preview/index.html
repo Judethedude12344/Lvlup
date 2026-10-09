@@ -50,10 +50,10 @@
       color: transparent; -webkit-text-fill-color: transparent;
     }
     .wrap { width: min(var(--wrap), 100% - 2 * (var(--gutter) + var(--inner))); margin-inline: auto; }
-    /* Page frame: centred column with hairlines down both sides, full-bleed dividers between blocks */
+    /* Page frame: centred column with hairlines down both sides, dividers between blocks */
     .frame { width: min(var(--frame), 100% - 2 * var(--gutter)); margin-inline: auto; border-inline: 1px solid var(--line); }
     .frame > * { position: relative; padding-inline: var(--inner); }
-    .frame > * + *::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line); box-shadow: 0 0 0 100vmax var(--line); clip-path: inset(0 -100vmax); pointer-events: none; }
+    .frame > * + *::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line); pointer-events: none; }
     .frame .wrap { width: auto; margin-inline: 0; }
     .frame > .flush { padding-inline: 0; }
     .section { padding-block: clamp(56px, 7vw, 96px); }
