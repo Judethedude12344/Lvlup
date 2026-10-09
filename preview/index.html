@@ -212,13 +212,6 @@
     .specs span { color: var(--muted); line-height: 1.5; }
     .chamber .btn { margin-top: 28px; }
 
-    /* Ingredients ticker */
-    .ticker { overflow: hidden; padding-block: 22px; }
-    .ticker-inner { display: flex; width: max-content; animation: marquee 40s linear infinite; }
-    .ticker-group { display: flex; gap: 56px; padding-right: 56px; }
-    .ticker-group span { display: inline-flex; align-items: center; gap: 56px; font: 400 15px var(--display); color: #d2d8dc; white-space: nowrap; }
-    .ticker-group span::after { content: ""; width: 6px; height: 6px; background: var(--ice); transform: rotate(45deg); }
-    @keyframes marquee { to { transform: translate3d(-50%,0,0); } }
 
     /* FAQ */
     .faq { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(28px, 5vw, 80px); align-items: start; }
@@ -498,16 +491,6 @@
       </div>
     </section>
 
-    <div class="ticker flush" aria-label="Formula promises">
-      <div class="ticker-inner">
-        <div class="ticker-group">
-          <span>Paraben-free</span><span>Sulfate-free</span><span>Phthalate-free</span><span>Non-toxic, endocrine safe</span><span>Formulated &amp; filled in USA</span><span>100% biodegradable bamboo</span><span>Dermatologist-tested</span>
-        </div>
-        <div class="ticker-group" aria-hidden="true">
-          <span>Paraben-free</span><span>Sulfate-free</span><span>Phthalate-free</span><span>Non-toxic, endocrine safe</span><span>Formulated &amp; filled in USA</span><span>100% biodegradable bamboo</span><span>Dermatologist-tested</span>
-        </div>
-      </div>
-    </div>
 
     <section class="section wrap" id="chamber">
       <div class="chamber">
