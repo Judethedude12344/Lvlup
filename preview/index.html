@@ -83,11 +83,14 @@
 
     /* Announcement + header */
     .bar { background: #1b1e21; color: #d9dee2; text-align: center; font: 500 12px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; padding: 11px var(--gutter); }
-    /* Header: see-through over the hero with only a soft dark fade (after Based); turns solid once the page scrolls */
-    .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; isolation: isolate; border-bottom: 1px solid transparent; transition: background-color .3s ease, border-color .3s ease; }
-    .site-header::before { content: ""; position: absolute; inset: 0 0 -36px 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.22) 62%, rgba(0,0,0,0) 100%); transition: opacity .3s ease; }
-    .site-header.is-solid { background-color: rgba(10,11,12,.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--line); }
-    .site-header.is-solid::before { opacity: 0; }
+    /* Header: see-through at all times, like Based: a dark gradient with a blur that both fade out toward the bottom edge */
+    .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; isolation: isolate; }
+    .site-header::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: linear-gradient(180deg, rgba(0,0,0,.6), rgba(0,0,0,0));
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      -webkit-mask-image: linear-gradient(180deg, #000, transparent); mask-image: linear-gradient(180deg, #000, transparent);
+    }
     .nav { display: flex; align-items: center; gap: 36px; padding-block: 16px; }
     .logo { font: 700 22px/1 var(--display); letter-spacing: .06em; white-space: nowrap; }
     .logo span { font-weight: 300; }
@@ -656,10 +659,8 @@
     (function () {
       var hdr = document.querySelector('.site-header');
       function setH() { document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px'); }
-      function onScroll() { hdr.classList.toggle('is-solid', window.scrollY > hdr.offsetTop + 24); }
-      setH(); onScroll();
+      setH();
       window.addEventListener('resize', setH);
-      window.addEventListener('scroll', onScroll, { passive: true });
     })();
     (function () {
       var count = 0, timer;
