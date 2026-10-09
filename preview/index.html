@@ -120,16 +120,20 @@
     .card-media {
       position: relative; aspect-ratio: 4 / 5; overflow: hidden;
       background: radial-gradient(90% 55% at 50% 88%, rgba(124,200,230,.16) 0%, rgba(124,200,230,0) 70%), linear-gradient(180deg, #050607 0%, #15181b 72%, #24282c 100%);
-      display: grid; place-items: center;
     }
-    .card-media img { width: 128%; max-width: none; height: auto; filter: drop-shadow(0 26px 26px rgba(0,0,0,.7)); transition: transform .5s ease; }
-    .card:hover .card-media img { transform: scale(1.05); }
-    .card-media .duo { position: relative; width: 100%; height: 100%; }
-    .card-media .duo img { position: absolute; }
-    .card-media .duo .a { width: 120%; max-width: none; left: -14%; bottom: 14%; }
-    .card-media .duo .b { width: 84%; max-width: none; right: -22%; bottom: 20%; transform: rotate(9deg); }
-    .card:hover .card-media .duo img { transform: none; }
-    .card:hover .card-media .duo .b { transform: rotate(6deg) translateY(-6px); }
+    /* Shadow is its own soft shape, not a filter on the photo (iOS Safari draws filters over the whole image box) */
+    .card-media::after {
+      content: ""; position: absolute; z-index: 1; left: 50%; bottom: 25%; width: 66%; height: 8%; transform: translateX(-50%);
+      background: radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 100%);
+    }
+    .card-media .prod { position: absolute; z-index: 2; left: 50%; bottom: 28%; height: auto; max-width: none; transform: translateX(-50%); transition: transform .5s ease; }
+    .card:hover .card-media .prod { transform: translateX(-50%) scale(1.05); }
+    .prod.chamber-black { width: 74%; }
+    .prod.chamber-white { width: 64%; }
+    .prod.wipes { width: 42%; bottom: 27%; }
+    .card-media .duo-a { position: absolute; z-index: 2; left: 8%; bottom: 28%; width: 68%; transition: transform .5s ease; }
+    .card-media .duo-b { position: absolute; z-index: 3; right: 6%; bottom: 27%; width: 31%; transform: rotate(9deg); transition: transform .5s ease; }
+    .card:hover .card-media .duo-b { transform: rotate(6deg) translateY(-6px); }
     .tag { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 6px 10px; background: var(--metal); background-size: 200% 100%; color: var(--on-ice); font: 600 11px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; }
     .tag.plain { background: #23272b; color: var(--text); }
     .card-body { display: flex; flex-direction: column; gap: 6px; padding: 16px 0 0; flex: 1; }
@@ -185,7 +189,8 @@
       background: radial-gradient(50% 50% at 50% 50%, rgba(124,200,230,.35) 0%, rgba(124,200,230,0) 70%);
       filter: blur(6px);
     }
-    .banner .shot, .banner .shot-2 { position: absolute; z-index: 2; filter: drop-shadow(0 28px 30px rgba(0,0,0,.75)); }
+    .banner .shot, .banner .shot-2 { position: absolute; z-index: 2; }
+    .banner .visual::after { content: ""; position: absolute; z-index: 1; left: 50%; bottom: 13%; width: min(440px, 46%); height: 46px; transform: translateX(-50%); background: radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.75) 0%, rgba(0,0,0,0) 100%); }
     .banner .shot { left: 50%; bottom: 16%; width: min(400px, 40%); transform: translateX(-56%); }
     .banner .shot-2 { left: 50%; bottom: 17%; width: min(130px, 13%); transform: translateX(95%) rotate(10deg); }
     .banner .left, .banner .right { position: relative; z-index: 3; grid-row: 1; padding: clamp(28px, 4vw, 56px); }
@@ -220,7 +225,8 @@
       background: radial-gradient(50% 50% at 50% 50%, rgba(124,200,230,.35) 0%, rgba(124,200,230,0) 70%);
       filter: blur(6px);
     }
-    .chamber-media img { position: absolute; z-index: 2; left: 50%; bottom: 21%; width: 64%; transform: translateX(-50%); filter: drop-shadow(0 28px 30px rgba(0,0,0,.75)); }
+    .chamber-media img { position: absolute; z-index: 2; left: 50%; bottom: 21%; width: 64%; transform: translateX(-50%); }
+    .chamber-media::after { content: ""; position: absolute; z-index: 1; left: 50%; bottom: 17%; width: 62%; height: 8%; transform: translateX(-50%); background: radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.75) 0%, rgba(0,0,0,0) 100%); }
     .specs { list-style: none; margin: 26px 0 0; padding: 0; border-top: 1px solid var(--line); }
     .specs li { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
     .specs b { font: 500 14px var(--display); }
@@ -353,10 +359,8 @@
         <article class="card" data-cat="kit">
           <div class="card-media">
             <span class="tag">Most popular</span>
-            <div class="duo">
-              <img class="a" src="../assets/cryo-chamber-no-irritants.png" alt="Cryo Chamber, Black Edition">
-              <img class="b" src="../assets/cryo-wipes-sachet-card.png" alt="Cryo Wipes pack">
-            </div>
+            <img class="duo-a" src="../assets/cryo-chamber-trim.png" alt="Cryo Chamber, Black Edition">
+            <img class="duo-b" src="../assets/cryo-wipes-trim.png" alt="Cryo Wipes pack">
           </div>
           <div class="card-body">
             <h3>Cryo Starter Kit</h3>
@@ -369,7 +373,7 @@
 
         <article class="card" data-cat="chamber">
           <div class="card-media">
-            <img src="../assets/cryo-chamber-no-irritants.png" alt="Cryo Chamber, Black Edition">
+            <img class="prod chamber-black" src="../assets/cryo-chamber-trim.png" alt="Cryo Chamber, Black Edition">
           </div>
           <div class="card-body">
             <h3>Cryo Chamber</h3>
@@ -383,7 +387,7 @@
         <article class="card" data-cat="chamber">
           <div class="card-media">
             <span class="tag plain">New colour</span>
-            <img src="../assets/chamber-white-product-card.png" alt="Cryo Chamber, White Edition">
+            <img class="prod chamber-white" src="../assets/chamber-white-trim.png" alt="Cryo Chamber, White Edition">
           </div>
           <div class="card-body">
             <h3>Cryo Chamber</h3>
@@ -396,7 +400,7 @@
 
         <article class="card" data-cat="wipes">
           <div class="card-media">
-            <img src="../assets/cryo-wipes-sachet-card.png" alt="Cryo Wipes pack" style="width: 104%">
+            <img class="prod wipes" src="../assets/cryo-wipes-trim.png" alt="Cryo Wipes pack">
           </div>
           <div class="card-body">
             <h3>Cryo Wipes</h3>
