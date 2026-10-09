@@ -134,13 +134,14 @@
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 50%); }
     /* Hero copy sized after Based's hero: 360px column, 40px title, 14/20 subhead, 48px controls */
     .hero-copy { position: relative; z-index: 2; width: min(540px, 100%); }
-    .hero-sub, .hero-form { max-width: 540px; }
+    .hero-form { width: var(--title-w, 540px); max-width: 100%; }
     .hero h1 { width: 540px; max-width: 100%; font-size: 40px; font-weight: 500; text-transform: uppercase; letter-spacing: -.02em; }
     /* two lines set to the same width: each line's size is fitted to the title width by script */
     .fit-title .l1, .fit-title .l2 { display: block; white-space: nowrap; width: max-content; }
     .fit-title .l1 { line-height: 1.12; }
-    .fit-title .l2 { line-height: .98; font-weight: 600; letter-spacing: -.03em; }
-    .hero-sub { margin: 16px 0 0; color: #fff; font-size: 18px; line-height: 26px; font-weight: 600; letter-spacing: -.21px; }
+    .fit-title .l2 { line-height: .98; font-weight: 600; letter-spacing: -.065em; }
+    /* one line, fitted to the title width by script; soft grey like Based's hero subhead */
+    .hero-sub { margin: 14px 0 0; color: #a7b0b7; font-size: 15px; line-height: 1.4; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; width: max-content; }
     .hero-form { display: grid; gap: 8px; margin-top: 24px; }
     .hero-form input {
       height: 48px; padding: 0 16px; border: 1px solid rgba(255,255,255,.28); border-radius: 0;
@@ -339,7 +340,7 @@
       .hero-copy { width: 100%; max-width: 340px; margin-inline: auto; }
       .hero h1 { width: 100%; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
       .fit-title .l1, .fit-title .l2 { margin-inline: auto; }
-      .hero-sub, .hero-form { max-width: none; }
+      .hero-form { margin-inline: auto; }
       .hero-sub { display: none; }
       .hero-copy { max-width: 330px; }
       .hero-form { margin-top: 14px; gap: 6px; }
@@ -692,12 +693,21 @@
       var hdr = document.querySelector('.site-header');
       var copy = document.querySelector('.hero-copy');
       var title = document.querySelector('.fit-title');
+      var l1 = title.querySelector('.l1'), l2 = title.querySelector('.l2'), sub = document.querySelector('.hero-sub');
+      function fitTo(el, w, max) {
+        el.style.fontSize = '100px';
+        var size = 100 * w / el.getBoundingClientRect().width;
+        el.style.fontSize = (max ? Math.min(size, max) : size) + 'px';
+      }
       function fitTitle() {
         var w = title.clientWidth;
-        title.querySelectorAll('span').forEach(function (s) {
-          s.style.fontSize = '100px';
-          s.style.fontSize = (100 * w / s.getBoundingClientRect().width) + 'px';
-        });
+        // "IN A WIPE." keeps the size it would have at normal tracking, then tightens;
+        // its narrower width becomes the column width for line 1, the paragraph and the form
+        l2.style.letterSpacing = '-.03em'; fitTo(l2, w); l2.style.letterSpacing = '';
+        var tw = l2.getBoundingClientRect().width;
+        document.documentElement.style.setProperty('--title-w', tw + 'px');
+        fitTo(l1, tw);
+        if (sub && getComputedStyle(sub).display !== 'none') fitTo(sub, tw, 17);
       }
       function setH() {
         fitTitle();
