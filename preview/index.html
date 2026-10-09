@@ -301,13 +301,13 @@
       /* Phone hero: photo fills the frame; short copy sits top-left over the dark mirror, clear of her and the Chamber */
       .hero { min-height: 0; aspect-ratio: 4 / 5; align-items: flex-start; padding-block: 22px 0; }
       .hero picture img { object-fit: cover; object-position: 78% 100%; }
-      .hero::after { background: linear-gradient(90deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,0) 55%); }
+      .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.32) 0%, rgba(0,0,0,.12) 18%, rgba(0,0,0,0) 34%); }
       .hero > .wrap { position: relative; z-index: 2; }
-      .hero-copy { max-width: 44%; }
+      .hero-copy { max-width: 56%; }
       .hero .eyebrow { font-size: 10px; margin-bottom: 10px; }
-      .hero h1 { font-size: clamp(19px, 5.6vw, 26px); line-height: 1.08; }
+      .hero h1 { font-size: clamp(26px, 8.2vw, 36px); line-height: 1.04; text-shadow: 0 1px 14px rgba(0,0,0,.3); }
       .hero p { display: none; }
-      .hero .btn { min-width: 0; margin-top: 16px; padding: 11px 14px; font-size: 11px; }
+      .hero .btn { min-width: 0; margin-top: 18px; padding: 14px 20px; font-size: 13px; }
       .hero .btn .lbl-long { display: none; }
       .hero .btn .lbl-short { display: inline; }
       .stats { grid-template-columns: 1fr 1fr; }
