@@ -1,0 +1,234 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "faq_page_tabs": {
+      "type": "faq-page-tabs",
+      "settings": {
+        "show_mystery_pill": true,
+        "mystery_pill_text": "CLAIM MYSTERY DISCOUNT",
+        "tab_general_label": "General",
+        "tab_shipping_label": "Shipping",
+        "tab_returns_label": "Returns",
+        "heading_general": "General Questions",
+        "heading_shipping": "Shipping Questions",
+        "heading_returns": "Returns Questions",
+        "empty_message": "No questions in this category yet.",
+        "padding_top": 48,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "g01": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "What makes BASED different from every other men's brand?",
+            "answer": "<p>BASED is built around honest formulations, thoughtful design, and products made for everyday use—not disposable hype.</p>"
+          }
+        },
+        "g02": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Are BASED products non-toxic?",
+            "answer": "<p>We formulate without many common irritants and prioritize ingredients chosen for their performance and safety profile. Always check the label if you have known allergies.</p>"
+          }
+        },
+        "g03": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Why does being non-toxic even matter?",
+            "answer": "<p>What you put on your skin matters. Reducing unnecessary harsh ingredients helps support healthier-looking skin and a routine you can stick with.</p>"
+          }
+        },
+        "g04": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Why do your products cost more than drugstore brands?",
+            "answer": "<p>We invest in higher-quality inputs, testing, and packaging. Drugstore pricing often reflects different formulas and scale—we focus on value for the quality you receive.</p>"
+          }
+        },
+        "g05": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Who is BASED for?",
+            "answer": "<p>Anyone who wants straightforward grooming products that work—whether you are new to skincare or refining a long-time routine.</p>"
+          }
+        },
+        "g06": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Are you just another white-labeled Instagram brand?",
+            "answer": "<p>No. We develop our own formulas and partner with manufacturers we trust. Our products are not generic relabels.</p>"
+          }
+        },
+        "g07": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Why is it called BASED?",
+            "answer": "<p>The name reflects our commitment to fundamentals—solid ingredients, clear purpose, and no unnecessary noise.</p>"
+          }
+        },
+        "g08": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "What if I react badly to a product?",
+            "answer": "<p>Stop use immediately and consult a medical professional if needed. Contact us with your order details so we can help.</p>"
+          }
+        },
+        "c01": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Why use Cryo Wipes?",
+            "answer": "<p>Cryo Wipes give you an instant ice-cold shock that wakes you up, depuffs your face, and leaves your skin clean and refreshed. Each wipe is fresh and single-use, making it far more hygienic than using the same towel every day.</p>"
+          }
+        },
+        "c02": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Why do I need a Cryo Chamber?",
+            "answer": "<p>The Cryo Chamber is a small cooling unit that keeps your wipes ultra cold, right above freezing temperatures, while also keeping them moist and soft. Its insulated design prevents the wipes from drying out, and it makes using Cryo Wipes super convenient!</p>"
+          }
+        },
+        "c03": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Why not place wipes in refrigerator?",
+            "answer": "<p>Household refrigerators aren't cold enough to deliver a true near-freezing cold shock. Keeping wipes next to food can introduce odors or contamination, and without an airtight seal, they will dry out and stiffen. It's not convenient to walk to the kitchen every morning.</p>"
+          }
+        },
+        "c04": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "What are the ingredients?",
+            "answer": "<p>Our wipes are formulated with premium ingredients including Aloe Barbadensis Leaf Water, Cucumber Extract, Green Tea Extract, Niacinamide, Vitamin B5, Glycerin, and Witch Hazel Water (Alcohol Free). All ingredients are dermatologist-tested and suitable for sensitive skin. No alcohol, parabens, synthetic fragrance, or dyes.</p>"
+          }
+        },
+        "c05": {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "How many wipes are in each pack?",
+            "answer": "<p>Each pack contains 30 Cryo Wipes. Simply tear open the pack, place the wipes into your Cryo Chamber, and allow them to chill before use.</p>"
+          }
+        },
+        "s01": {
+          "type": "qa_item",
+          "settings": {
+            "category": "shipping",
+            "question": "Where do you ship?",
+            "answer": "<p>We ship to the regions shown at checkout. If your country is not listed, we may not be able to fulfill your order yet.</p>"
+          }
+        },
+        "s02": {
+          "type": "qa_item",
+          "settings": {
+            "category": "shipping",
+            "question": "How long does shipping take?",
+            "answer": "<p>Delivery times vary by location and carrier. You will receive tracking information once your order ships.</p>"
+          }
+        },
+        "s03": {
+          "type": "qa_item",
+          "settings": {
+            "category": "shipping",
+            "question": "Do you ship internationally?",
+            "answer": "<p>International shipping may be available depending on your address. Duties and taxes may apply and are the responsibility of the recipient unless stated otherwise.</p>"
+          }
+        },
+        "s04": {
+          "type": "qa_item",
+          "settings": {
+            "category": "shipping",
+            "question": "How much does shipping cost?",
+            "answer": "<p>Shipping costs are calculated at checkout based on your location, package weight, and selected service.</p>"
+          }
+        },
+        "r01": {
+          "type": "qa_item",
+          "settings": {
+            "category": "returns",
+            "question": "What is your return policy?",
+            "answer": "<p>We want you to be happy with your purchase. Review our return policy page for eligibility windows, condition requirements, and exclusions.</p>"
+          }
+        },
+        "r02": {
+          "type": "qa_item",
+          "settings": {
+            "category": "returns",
+            "question": "How do I start a return?",
+            "answer": "<p>Contact our support team with your order number. We will provide instructions and a return address if your order qualifies.</p>"
+          }
+        },
+        "r03": {
+          "type": "qa_item",
+          "settings": {
+            "category": "returns",
+            "question": "Can I return opened products?",
+            "answer": "<p>Opened items may be eligible only in specific cases (for example, damage or defect). See our policy for details.</p>"
+          }
+        },
+        "r04": {
+          "type": "qa_item",
+          "settings": {
+            "category": "returns",
+            "question": "When will I receive my refund?",
+            "answer": "<p>After we receive and inspect your return, refunds are typically processed within several business days to your original payment method.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "g01",
+        "g02",
+        "g03",
+        "g04",
+        "g05",
+        "g06",
+        "g07",
+        "g08",
+        "c01",
+        "c02",
+        "c03",
+        "c04",
+        "c05",
+        "s01",
+        "s02",
+        "s03",
+        "s04",
+        "r01",
+        "r02",
+        "r03",
+        "r04"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "faq_page_tabs"
+  ]
+}

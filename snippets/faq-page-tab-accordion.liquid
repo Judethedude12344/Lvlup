@@ -1,0 +1,28 @@
+<div class="faq-page-tabs__list">
+  {% liquid
+    assign count = 0
+    for block in section.blocks
+      if block.type == 'qa_item' and block.settings.category == category
+        assign count = count | plus: 1
+      endif
+    endfor
+  %}
+
+  {% if count == 0 %}
+    <p class="faq-page-tabs__empty">{{ section.settings.empty_message | escape }}</p>
+  {% else %}
+    {% for block in section.blocks %}
+      {% if block.type == 'qa_item' and block.settings.category == category %}
+        <details class="faq-page-tabs__details" {{ block.shopify_attributes }}>
+          <summary class="faq-page-tabs__summary">
+            <span>{{ block.settings.question | escape }}</span>
+            <svg class="faq-page-tabs__chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M6 8.5 1.5 3.5h9z"/>
+            </svg>
+          </summary>
+          <div class="faq-page-tabs__answer rte">{{ block.settings.answer }}</div>
+        </details>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>

@@ -1,0 +1,341 @@
+{% assign pid = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  :root {
+    --cryo-grad-a: color-mix(in srgb, {{ block.settings.gradient_bottom }} 78%, {{ block.settings.gradient_top }} 22%);
+    --cryo-grad-b: color-mix(in srgb, {{ block.settings.gradient_top }} 78%, {{ block.settings.gradient_bottom }} 22%);
+    /* Smoothed stops (same two colours) — less banding than a 2-stop blend */
+    --cryo-promo-surface: linear-gradient(
+      0deg,
+      var(--cryo-grad-a) 0%,
+      color-mix(in srgb, var(--cryo-grad-a) 72%, var(--cryo-grad-b) 28%) 38%,
+      color-mix(in srgb, var(--cryo-grad-a) 38%, var(--cryo-grad-b) 62%) 72%,
+      var(--cryo-grad-b) 100%
+    );
+    --cryo-promo-gradient: linear-gradient(
+      112deg,
+      var(--cryo-grad-b) 0%,
+      color-mix(in srgb, var(--cryo-grad-b) 58%, var(--cryo-grad-a) 42%) 42%,
+      color-mix(in srgb, var(--cryo-grad-b) 22%, var(--cryo-grad-a) 78%) 78%,
+      var(--cryo-grad-a) 100%
+    );
+  }
+
+  .cryo-promo-{{ pid }} {
+    align-items: center;
+    background: var(--cryo-promo-surface);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    min-height: 52px;
+    box-sizing: border-box;
+    padding: 8px 16px;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .cryo-promo-inner-{{ pid }} {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .cryo-promo-icon-{{ pid }} {
+    color: {{ block.settings.text_color }};
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.28em;
+    vertical-align: -0.14em;
+    position: relative;
+    top: 0;
+  }
+
+  .cryo-promo-icon-{{ pid }} svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .cryo-promo-copy-{{ pid }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .cryo-promo-primary-{{ pid }} {
+    margin: 0;
+    font-family: {{ block.settings.primary_font.family }}, {{ block.settings.primary_font.fallback_families }};
+    font-weight: {{ block.settings.primary_font.weight }};
+    font-size: {{ block.settings.primary_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .cryo-promo-secondary-{{ pid }} {
+    margin: 0;
+    padding-top: 0.1em;
+    font-family: {{ block.settings.secondary_font.family }}, {{ block.settings.secondary_font.fallback_families }};
+    font-weight: {{ block.settings.secondary_font.weight }};
+    font-size: {{ block.settings.secondary_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.2;
+    opacity: 0.95;
+  }
+
+  .cryo-promo-secondary-{{ pid }} a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .cryo-promo-secondary-{{ pid }} a .cryo-promo-arrow-{{ pid }} {
+    display: inline-block;
+    margin-left: 0.15em;
+    text-decoration: none;
+  }
+
+  .cryo-promo-menu-btn-{{ pid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0;
+    margin: 0;
+    font-family: {{ block.settings.secondary_font.family }}, {{ block.settings.secondary_font.fallback_families }};
+    font-weight: 700;
+    font-size: {{ block.settings.secondary_size | plus: 1 }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    background: none;
+    border: none;
+    vertical-align: baseline;
+  }
+
+  .cryo-promo-menu-btn-{{ pid }}:hover {
+    opacity: 0.92;
+  }
+
+  .cryo-promo-menu-btn-{{ pid }} .cryo-promo-chevron-{{ pid }} {
+    flex-shrink: 0;
+    width: 0.65em;
+    height: 0.65em;
+    margin-top: 0.06em;
+    opacity: 0.95;
+  }
+
+  @media screen and (max-width: 749px) {
+    .cryo-promo-{{ pid }} {
+      min-height: 52px;
+      padding: 8px 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="cryo-promo-{{ pid }}" {{ block.shopify_attributes }}>
+  <div class="cryo-promo-inner-{{ pid }}">
+    <div class="cryo-promo-copy-{{ pid }}">
+      {% if block.settings.primary_text != blank %}
+        <p class="cryo-promo-primary-{{ pid }}">
+          {%- if block.settings.show_icon -%}
+            <span class="cryo-promo-icon-{{ pid }}" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" y1="22.08" x2="12" y2="12"/>
+              </svg>
+            </span>
+          {%- endif -%}
+          {{- block.settings.primary_text -}}
+        </p>
+      {% endif %}
+      {% if block.settings.secondary_text != blank or block.settings.link_label != blank %}
+        <p class="cryo-promo-secondary-{{ pid }}">
+          {% if block.settings.secondary_text != blank %}
+            <span>{{ block.settings.secondary_text }}</span>
+            {% if block.settings.link_label != blank %}
+              <span> | </span>
+            {% endif %}
+          {% endif %}
+          {% if block.settings.link_opens_menu and block.settings.link_label != blank %}
+            <button
+              type="button"
+              class="cryo-promo-menu-btn-{{ pid }}"
+              data-cryo-opens-menu="true"
+              data-fallback-url="{{ block.settings.link_url | default: routes.all_products_collection_url }}"
+              aria-haspopup="true"
+              aria-label="{{ block.settings.link_label | escape }} — {{ 'sections.header.menu' | t }}"
+            >
+              <span>{{ block.settings.link_label | escape }}</span>
+              <svg class="cryo-promo-chevron-{{ pid }}" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M6 8.5 1.5 3.5h9z"/>
+              </svg>
+            </button>
+          {% elsif block.settings.link_label != blank and block.settings.link_url != blank %}
+            <a href="{{ block.settings.link_url }}">
+              {{- block.settings.link_label -}}
+              <span class="cryo-promo-arrow-{{ pid }}" aria-hidden="true">▶</span>
+            </a>
+          {% elsif block.settings.link_label != blank %}
+            <span>{{ block.settings.link_label }}</span>
+          {% endif %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var btn = document.querySelector('.cryo-promo-menu-btn-{{ pid }}[data-cryo-opens-menu]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var headerDrawer = document.querySelector('header-drawer');
+      var summary = document.querySelector('#Details-menu-drawer-container summary');
+      var fallback = btn.getAttribute('data-fallback-url');
+      if (headerDrawer) {
+        var style = window.getComputedStyle(headerDrawer);
+        if (style.display === 'none' || style.visibility === 'hidden') {
+          if (fallback) window.location.href = fallback;
+          return;
+        }
+      }
+      if (summary) {
+        summary.click();
+        return;
+      }
+      if (fallback) window.location.href = fallback;
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cryo promo bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "primary_text",
+      "label": "Primary line",
+      "default": "WELCOME · 30% OFF PRE-ORDERS · FREE SHIPPING ON QUALIFYING ORDERS"
+    },
+    {
+      "type": "text",
+      "id": "secondary_text",
+      "label": "Secondary line (before link)",
+      "default": "Premium cryotherapy wipes — while supplies last"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "SHOP",
+      "info": "With “Open navigation menu” on, this acts like a menu trigger (e.g. SHOP + chevron)."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link",
+      "info": "Used when the menu button is not available (e.g. some desktop layouts), or as a fallback."
+    },
+    {
+      "type": "checkbox",
+      "id": "link_opens_menu",
+      "label": "Open navigation menu (same as hamburger)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "gradient_bottom",
+      "label": "Gradient bottom (darker)",
+      "default": "#2d6f9a"
+    },
+    {
+      "type": "color",
+      "id": "gradient_top",
+      "label": "Gradient top (lighter)",
+      "default": "#58b6d6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "primary_font",
+      "label": "Primary font",
+      "default": "montserrat_n7"
+    },
+    {
+      "type": "range",
+      "id": "primary_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Primary size",
+      "default": 13
+    },
+    {
+      "type": "font_picker",
+      "id": "secondary_font",
+      "label": "Secondary font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "range",
+      "id": "secondary_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Secondary size",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cryo promo bar"
+    }
+  ]
+}
+{% endschema %}

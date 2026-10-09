@@ -1,0 +1,1102 @@
+{% doc %}
+  @prompt
+    Looking to build main top section. This section will have the words THE RUSH OF A COLD PLUNGE. IN A WIPE. Need the words in a wipe to stick out. Also below those heading words put in a smaller font "Premium cryotherapy wipes that wake up your skin and sharpen your mind." Also need a button that sends them to our shop below that simply saying PREORDER. This text and buttons is all going to be in front of a video that I will add in.Make sure this video automaticlaly plays over and over again. I am going to change the opacity on this video, so you can see the text in front. Choose the colors of the text using my themes colors., OK this is going to be tat the top of the website not the header, also cannot see the Heading text, Ok would like to be able to edit fonts and stuff for the text so give me that option
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% liquid
+  assign hero_heading_line1_font = block.settings.heading_font | font_modify: 'weight', 500
+%}
+
+{% style %}
+  {% if hero_heading_line1_font %}
+    {{ hero_heading_line1_font | font_face: font_display: 'swap' }}
+  {% endif %}
+  .ai-video-hero-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.section_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 22px 22px;
+    /* Pull hero up into #MainContent offset (desktop; mobile overrides below with !important) */
+    margin: -68px 0 0;
+    box-sizing: border-box;
+  }
+
+  .ai-video-hero-card-{{ ai_gen_id }} {
+    position: absolute;
+    top: -40px;
+    bottom: 104px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1500px, calc(100% - 98px));
+    max-width: min(1500px, calc(100% - 98px));
+    border-radius: 22px;
+    overflow: hidden;
+    background: #111111;
+  }
+
+  .ai-video-hero-media-{{ ai_gen_id }} {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  /* Mobile: fixed-width contain layer (narrow window clips sides). Desktop overrides below. */
+  .ai-video-hero-media-{{ ai_gen_id }} picture {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+    border-radius: inherit;
+    overflow: visible;
+  }
+
+  .ai-video-hero-media-{{ ai_gen_id }} video,
+  .ai-video-hero-media-{{ ai_gen_id }} img {
+    border-radius: inherit;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: {{ block.settings.hero_media_fixed_width }}px;
+    max-width: none;
+    height: 100%;
+    transform: translateX(-50%);
+    object-fit: contain;
+    object-position: center top;
+    opacity: {{ block.settings.video_opacity | divided_by: 100.0 }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-video-hero-{{ ai_gen_id }} {
+      margin: -62px 0 0;
+    }
+
+    .ai-video-hero-card-{{ ai_gen_id }} {
+      top: -32px;
+      bottom: 104px;
+    }
+
+    .ai-video-hero-media-{{ ai_gen_id }} picture {
+      overflow: hidden;
+    }
+
+    /*
+      Fixed px layer + cover: bitmap scale stays constant when you resize the window;
+      only the card clips (overflow). W/H must be ≥ card so the frame stays full — tune in theme editor.
+    */
+    .ai-video-hero-media-{{ ai_gen_id }} img {
+      left: 50%;
+      top: 50%;
+      width: {{ block.settings.hero_desktop_layer_width }}px;
+      height: {{ block.settings.hero_desktop_layer_height }}px;
+      max-width: none;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      object-position: center {{ block.settings.hero_desktop_vertical_focus }}%;
+    }
+
+    .ai-video-hero-media-{{ ai_gen_id }} video {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: none;
+      object-fit: cover;
+    }
+  }
+
+  .ai-video-hero-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: #171717;
+  }
+
+  .ai-video-hero-shade-{{ ai_gen_id }} {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 42%, rgba(0, 0, 0, 0.35) 70%, rgba(0, 0, 0, 0.15) 100%);
+  }
+
+  .ai-video-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 3;
+    text-align: left;
+    padding: 86px 52px 56px;
+    max-width: 780px;
+    width: 100%;
+  }
+
+  .ai-video-hero-heading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-style: {{ block.settings.heading_font.style }};
+    font-size: {{ block.settings.heading_size | times: 0.72 }}px;
+    line-height: calc({{ block.settings.heading_line_height }} - 0.12);
+    letter-spacing: {{ block.settings.heading_letter_spacing }}px;
+    margin: 0 0 0;
+    color: {{ block.settings.heading_color }};
+    {% if block.settings.heading_uppercase %}
+      text-transform: uppercase;
+    {% endif %}
+  }
+
+  .ai-video-hero-heading-line1-{{ ai_gen_id }} {
+    display: block;
+    line-height: 0.92;
+    letter-spacing: calc({{ block.settings.heading_letter_spacing }}px + 0.06em);
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-style: {{ block.settings.heading_font.style }};
+    /* Match loaded 500 face so it actually looks lighter than “IN A WIPE” / h1 */
+    font-weight: 500;
+  }
+
+  .ai-video-hero-highlight-{{ ai_gen_id }} {
+    display: block;
+    margin-top: -2px;
+    font-family: {{ block.settings.heading_highlight_font.family }}, {{ block.settings.heading_highlight_font.fallback_families }};
+    font-weight: {{ block.settings.heading_highlight_font.weight }};
+    font-style: {{ block.settings.heading_highlight_font.style }};
+    font-size: {{ block.settings.heading_size | times: 0.94 }}px;
+    line-height: 0.88;
+    letter-spacing: calc({{ block.settings.heading_letter_spacing }}px + 0.06em);
+    background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .ai-video-hero-subheading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.subheading_font.family }}, {{ block.settings.subheading_font.fallback_families }};
+    font-weight: {{ block.settings.subheading_font.weight }};
+    font-style: {{ block.settings.subheading_font.style }};
+    font-size: {{ block.settings.subheading_size }}px;
+    line-height: {{ block.settings.subheading_line_height }};
+    letter-spacing: {{ block.settings.subheading_letter_spacing }}px;
+    margin: 0 0 10px;
+    color: #ffffff;
+    max-width: 560px;
+  }
+
+  .ai-video-hero-waitlist-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 460px;
+    margin-left: 0;
+  }
+
+  .ai-video-hero-waitlist-{{ ai_gen_id }} form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .ai-video-hero-waitlist-input-{{ ai_gen_id }} {
+    width: 100%;
+    max-width: 420px;
+    height: 48px;
+    padding: 0 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.92);
+    color: #0b0b0b;
+    font-size: 15px;
+    outline: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  .ai-video-hero-waitlist-input-{{ ai_gen_id }}::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .ai-video-hero-waitlist-input-{{ ai_gen_id }}:focus {
+    border-color: rgba(95, 196, 242, 0.9);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+  }
+
+  .ai-video-hero-button-{{ ai_gen_id }} {
+    font-family: {{ block.settings.button_font.family }}, {{ block.settings.button_font.fallback_families }};
+    font-weight: {{ block.settings.button_font.weight }};
+    font-style: {{ block.settings.button_font.style }};
+    display: flex;
+    position: relative;
+    --instant-border-right: 2px;
+    align-items: center;
+    align-self: stretch;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    column-gap: 8px;
+    row-gap: 8px;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px 24px;
+    background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--cryo-grad-a, #1a4a6e) 72%, var(--cryo-grad-b, #5fc4f2) 28%),
+      color-mix(in srgb, var(--cryo-grad-b, #5fc4f2) 86%, white 14%)
+    );
+    color: #ffffff;
+    text-shadow: none;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: {{ block.settings.button_font_size | times: 1.2 }}px;
+    transition: all 0.3s ease;
+    border: 2px solid hsla(0, 0%, 100%, 0.2);
+    cursor: pointer;
+    {% if block.settings.button_uppercase %}
+      text-transform: uppercase;
+    {% endif %}
+    letter-spacing: {{ block.settings.button_letter_spacing }}px;
+  }
+
+  .ai-video-hero-button-{{ ai_gen_id }}:hover {
+    background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--cryo-grad-a, #1a4a6e) 68%, var(--cryo-grad-b, #5fc4f2) 32%),
+      color-mix(in srgb, var(--cryo-grad-b, #5fc4f2) 90%, white 10%)
+    );
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .ai-video-hero-meta-{{ ai_gen_id }} {
+    margin-top: 14px;
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 14px;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .ai-video-hero-meta-item-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.25;
+  }
+
+  .ai-video-hero-meta-item-{{ ai_gen_id }} > span:not(.ai-video-hero-meta-icon-{{ ai_gen_id }}) {
+    line-height: 1.25;
+  }
+
+  .ai-video-hero-meta-icon-{{ ai_gen_id }} {
+    color: {{ block.settings.highlight_color }};
+    font-size: 1em;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transform: translateY(-0.1em);
+  }
+
+  .ai-video-hero-badge-{{ ai_gen_id }} {
+    border: 1px solid color-mix(in srgb, var(--cryo-grad-a, #1a4a6e) 78%, transparent);
+    display: flex;
+    position: absolute;
+    --instant-border-right: 1px;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 999px;
+    bottom: 24px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    left: auto;
+    padding: 9px 20px;
+    right: 32px;
+    top: auto;
+    width: auto;
+    max-width: calc(100% - 64px);
+    z-index: 4;
+    color: color-mix(in srgb, var(--cryo-grad-b, #5fc4f2) 88%, white 12%);
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .ai-video-hero-badge-dot-{{ ai_gen_id }} {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #2d6f9a 0%, #58b6d6 100%);
+    box-shadow: 0 0 10px rgba(88, 182, 214, 0.55);
+    animation: aiHeroBadgePulse{{ ai_gen_id }} 1.15s ease-in-out infinite;
+  }
+
+  @keyframes aiHeroBadgePulse{{ ai_gen_id }} {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(0.88);
+      filter: brightness(1.15);
+    }
+  }
+
+  .ai-video-hero-badge-time-{{ ai_gen_id }} {
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+    background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-video-hero-{{ ai_gen_id }} {
+      min-height: {{ block.settings.mobile_section_height }}px;
+      width: 100%;
+      max-width: 100%;
+      /* Stronger pull + !important so this wins over base / theme section rules */
+      margin: -66px 0 0 !important;
+      padding: 0 0 12px;
+      overflow: visible;
+      box-sizing: border-box;
+    }
+
+    /* Centered like desktop; lift card further under fixed header on small screens */
+    .ai-video-hero-card-{{ ai_gen_id }} {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 100%;
+      top: -34px !important;
+      bottom: 92px;
+      border-radius: 16px;
+    }
+
+    .ai-video-hero-media-{{ ai_gen_id }} picture {
+      overflow: hidden;
+    }
+
+    .ai-video-hero-media-{{ ai_gen_id }} video,
+    .ai-video-hero-media-{{ ai_gen_id }} img {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: none;
+      object-fit: cover;
+      /* True center crop on mobile (desktop keeps vertical focus slider) */
+      object-position: center center;
+    }
+
+    .ai-video-hero-shade-{{ ai_gen_id }} {
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.68) 48%, rgba(0, 0, 0, 0.45) 100%);
+    }
+
+    .ai-video-hero-content-{{ ai_gen_id }} {
+      padding: 38px 20px 84px;
+      text-align: center;
+    }
+
+    .ai-video-hero-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.5 }}px;
+      line-height: calc({{ block.settings.heading_line_height }} - 0.06);
+      margin-bottom: 0;
+    }
+
+    .ai-video-hero-heading-line1-{{ ai_gen_id }} {
+      font-size: clamp(14px, 4.65vw, {{ block.settings.heading_size | times: 0.5 }}px);
+      line-height: 1.02;
+      letter-spacing: calc({{ block.settings.heading_letter_spacing }}px + 0.07em);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .ai-video-hero-highlight-{{ ai_gen_id }} {
+      font-family: {{ block.settings.heading_highlight_font.family }}, {{ block.settings.heading_highlight_font.fallback_families }};
+      font-weight: {{ block.settings.heading_highlight_font.weight }};
+      font-style: {{ block.settings.heading_highlight_font.style }};
+      font-size: {{ block.settings.heading_size | times: 0.72 }}px;
+      line-height: 0.95;
+      margin-top: 2px;
+      margin-bottom: 0;
+      letter-spacing: calc({{ block.settings.heading_letter_spacing }}px + 0.03em);
+      word-spacing: -0.14em;
+    }
+
+    .ai-video-hero-subheading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheading_size | times: 0.85 }}px;
+      line-height: 1.35;
+      letter-spacing: {{ block.settings.subheading_letter_spacing }}px;
+      margin-top: 2px;
+      margin-bottom: 14px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ai-video-hero-waitlist-{{ ai_gen_id }} {
+      max-width: 100%;
+      width: 100%;
+      margin-top: 0;
+      padding-top: 0;
+      padding-left: 10px;
+      padding-right: 10px;
+      box-sizing: border-box;
+    }
+
+    .ai-video-hero-waitlist-{{ ai_gen_id }} form {
+      align-items: stretch;
+      width: 100%;
+      max-width: min(330px, 100%);
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+      gap: 10px;
+    }
+
+    .ai-video-hero-waitlist-input-{{ ai_gen_id }} {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+      height: 40px;
+      padding: 0 14px;
+      font-size: 14px;
+      border-radius: 10px;
+    }
+
+    .ai-video-hero-button-{{ ai_gen_id }} {
+      font-size: {{ block.settings.button_font_size | times: 0.88 }}px;
+      padding: 14px 16px;
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+      align-self: stretch;
+    }
+
+    .ai-video-hero-meta-{{ ai_gen_id }} {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+      font-size: clamp(7px, 2.1vw, 10px);
+      line-height: 1.25;
+      gap: 6px 8px;
+      max-width: min(330px, calc(100% - 20px));
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ai-video-hero-meta-{{ ai_gen_id }} .ai-video-hero-meta-item-{{ ai_gen_id }} {
+      white-space: nowrap;
+      flex-shrink: 0;
+      align-items: center;
+      line-height: 1.25;
+    }
+
+    .ai-video-hero-meta-icon-{{ ai_gen_id }} {
+      font-size: 1em;
+      transform: translateY(-0.1em);
+    }
+
+    .ai-video-hero-badge-{{ ai_gen_id }} {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      bottom: 16px;
+      width: auto;
+      max-width: min(94%, calc(100% - 20px));
+      text-align: left;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 6px 12px;
+    }
+
+    .ai-video-hero-badge-time-{{ ai_gen_id }} {
+      font-size: clamp(10px, 2.8vw, 12px);
+    }
+
+    .ai-video-hero-badge-dot-{{ ai_gen_id }} {
+      width: 7px;
+      height: 7px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-video-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-video-hero-card-{{ ai_gen_id }}">
+    <div class="ai-video-hero-media-{{ ai_gen_id }}">
+      {% if block.settings.hero_image != blank or block.settings.hero_image_mobile != blank %}
+        <picture>
+          {% if block.settings.hero_image_mobile != blank %}
+            <source
+              media="(max-width: 749px)"
+              srcset="{{ block.settings.hero_image_mobile | image_url: width: 800 }} 800w, {{ block.settings.hero_image_mobile | image_url: width: 1200 }} 1200w, {{ block.settings.hero_image_mobile | image_url: width: 1600 }} 1600w"
+              sizes="100vw"
+            >
+          {% else %}
+            <source media="(max-width: 749px)" srcset="{{ 'cryochamberpic-hero-mobile.png' | asset_url }}">
+          {% endif %}
+
+          {% if block.settings.hero_image != blank %}
+            <source
+              media="(min-width: 750px)"
+              srcset="{{ block.settings.hero_image | image_url: width: 1600 }} 1600w, {{ block.settings.hero_image | image_url: width: 2200 }} 2200w, {{ block.settings.hero_image | image_url: width: 2800 }} 2800w"
+              sizes="100vw"
+            >
+            {{
+              block.settings.hero_image
+              | image_url: width: 2200
+              | image_tag:
+                loading: 'lazy',
+                widths: '1600, 2200, 2800',
+                sizes: '(min-width: 750px) 100vw',
+                alt: block.settings.heading_part_1
+            }}
+          {% else %}
+            <source media="(min-width: 750px)" srcset="{{ 'cryochamberpic-hero.png' | asset_url }}">
+            <img
+              src="{{ 'cryochamberpic-hero.png' | asset_url }}"
+              alt="{{ block.settings.heading_part_1 | default: 'Cryo Chamber' | escape }}"
+              width="1024"
+              height="682"
+              loading="lazy"
+            >
+          {% endif %}
+        </picture>
+      {% elsif block.settings.background_video %}
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        >
+          <source src="{{ block.settings.background_video }}" type="video/mp4">
+        </video>
+      {% else %}
+        <picture>
+          <source media="(max-width: 749px)" srcset="{{ 'cryochamberpic-hero-mobile.png' | asset_url }}">
+          <source media="(min-width: 750px)" srcset="{{ 'cryochamberpic-hero.png' | asset_url }}">
+          <img
+            src="{{ 'cryochamberpic-hero.png' | asset_url }}"
+            alt="{{ block.settings.heading_part_1 | default: 'Cryo Chamber' | escape }}"
+            width="1024"
+            height="682"
+            loading="lazy"
+          >
+        </picture>
+      {% endif %}
+      <div class="ai-video-hero-shade-{{ ai_gen_id }}"></div>
+    </div>
+
+    <div class="ai-video-hero-content-{{ ai_gen_id }}">
+      <h1 class="ai-video-hero-heading-{{ ai_gen_id }}">
+        <span class="ai-video-hero-heading-line1-{{ ai_gen_id }}">
+          {{
+            block.settings.heading_part_1
+            | replace: 'COLD PLUNGE', 'COLD&nbsp;PLUNGE'
+            | replace: 'Cold Plunge', 'Cold&nbsp;Plunge'
+            | replace: 'cold plunge', 'cold&nbsp;plunge'
+            | remove: '.'
+          }}
+        </span>
+        <span class="ai-video-hero-highlight-{{ ai_gen_id }}">{{ block.settings.heading_highlight | remove: '.' }}</span>
+      </h1>
+
+      {% if block.settings.subheading != blank %}
+        <p class="ai-video-hero-subheading-{{ ai_gen_id }}">
+          {{ block.settings.subheading }}
+        </p>
+      {% endif %}
+
+      {% if block.settings.button_text != blank %}
+        <div class="ai-video-hero-waitlist-{{ ai_gen_id }}">
+          {% form 'customer' %}
+            <input type="hidden" name="contact[tags]" value="waitlist">
+            <input
+              type="email"
+              name="contact[email]"
+              class="ai-video-hero-waitlist-input-{{ ai_gen_id }}"
+              value="{{ form.email }}"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              required
+              placeholder="{{ block.settings.email_placeholder }}"
+              {% if form.errors %}aria-invalid="true"{% endif %}
+            >
+            <button type="submit" class="ai-video-hero-button-{{ ai_gen_id }}" name="commit">
+              {{ block.settings.button_text }}
+            </button>
+            {%- if form.posted_successfully? -%}
+              <p style="margin: 10px 0 0; color: {{ block.settings.subheading_color }}; font-size: 14px;">
+                {{ block.settings.success_message }}
+              </p>
+            {%- endif -%}
+          {% endform %}
+        </div>
+      {% endif %}
+
+      <div class="ai-video-hero-meta-{{ ai_gen_id }}">
+        <span class="ai-video-hero-meta-item-{{ ai_gen_id }}">
+          <span class="ai-video-hero-meta-icon-{{ ai_gen_id }}">{{ block.settings.meta_icon_1 }}</span>
+          <span>{{ block.settings.meta_text_1 }}</span>
+        </span>
+        <span class="ai-video-hero-meta-item-{{ ai_gen_id }}">
+          <span class="ai-video-hero-meta-icon-{{ ai_gen_id }}">{{ block.settings.meta_icon_2 }}</span>
+          <span>{{ block.settings.meta_text_2 }}</span>
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="ai-video-hero-badge-{{ ai_gen_id }}"
+      data-hero-countdown="{{ ai_gen_id }}"
+      data-hero-countdown-end="{{ block.settings.countdown_end | escape }}"
+      aria-label="Launch countdown"
+    >
+      <span class="ai-video-hero-badge-dot-{{ ai_gen_id }}" aria-hidden="true"></span>
+      <span class="ai-video-hero-badge-time-{{ ai_gen_id }}" id="ai-hero-countdown-{{ ai_gen_id }}">--d --h --m --s</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var id = {{ ai_gen_id | json }};
+    var root = document.querySelector('[data-hero-countdown="' + id + '"]');
+    if (!root) return;
+    var out = document.getElementById('ai-hero-countdown-' + id);
+    var endRaw = root.getAttribute('data-hero-countdown-end');
+    var end = endRaw ? new Date(endRaw) : new Date('2026-04-30T23:59:59');
+    function pad(n) {
+      return (n < 10 ? '0' : '') + n;
+    }
+    function tick() {
+      if (!out) return;
+      var now = new Date();
+      var ms = end - now;
+      if (ms <= 0) {
+        out.textContent = '0d 00h 00m 00s';
+        return;
+      }
+      var t = Math.floor(ms / 1000);
+      var d = Math.floor(t / 86400);
+      t %= 86400;
+      var h = Math.floor(t / 3600);
+      t %= 3600;
+      var m = Math.floor(t / 60);
+      var s = t % 60;
+      out.textContent = d + 'd ' + pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Video hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Desktop hero image",
+      "info": "Wide image for screens 750px and up. Use a landscape photo; this is separate from the mobile image."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Mobile hero image",
+      "info": "Optional. Portrait or tight crop for screens under 750px. If empty, the theme’s mobile placeholder asset is used."
+    },
+    {
+      "type": "range",
+      "id": "video_opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Video opacity",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "offer_icon",
+      "label": "Offer icon",
+      "default": "🎁"
+    },
+    {
+      "type": "text",
+      "id": "offer_label",
+      "label": "Offer label",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "text",
+      "id": "heading_part_1",
+      "label": "Heading first part",
+      "default": "THE RUSH OF A COLD PLUNGE"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Heading highlight",
+      "default": "IN A WIPE"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_highlight_font",
+      "label": "Highlight font (“in a wipe” line)",
+      "default": "playfair_display_n4",
+      "info": "Separate from the main headline — use a lighter or more decorative font."
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Font (first line)",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 30,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Size",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "min": -4,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": -1.5,
+      "info": "Negative values tighten the headline (white line + “in a wipe”)."
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "label": "Uppercase",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Premium cryotherapy wipes that wake up your skin and sharpen your mind."
+    },
+    {
+      "type": "font_picker",
+      "id": "subheading_font",
+      "label": "Font",
+      "default": "harmonia_sans_n4"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subheading_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.6
+    },
+    {
+      "type": "range",
+      "id": "subheading_letter_spacing",
+      "min": -2,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": -0.5,
+      "info": "Negative values tighten subheading (e.g. “Launching soon”)."
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Text",
+      "default": "Join the Waitlist"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You’re on the waitlist."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link (unused)"
+    },
+    {
+      "type": "font_picker",
+      "id": "button_font",
+      "label": "Font",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_letter_spacing",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "button_uppercase",
+      "label": "Uppercase",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 22
+    },
+    {
+      "type": "header",
+      "content": "Meta row and badge"
+    },
+    {
+      "type": "text",
+      "id": "meta_icon_1",
+      "label": "Meta icon 1",
+      "default": "✦"
+    },
+    {
+      "type": "text",
+      "id": "meta_text_1",
+      "label": "Meta text 1",
+      "default": "Cold-activated cryotherapy wipes"
+    },
+    {
+      "type": "text",
+      "id": "meta_icon_2",
+      "label": "Meta icon 2",
+      "default": "✦"
+    },
+    {
+      "type": "text",
+      "id": "meta_text_2",
+      "label": "Meta text 2",
+      "default": "30 wipes per chamber"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end",
+      "label": "Countdown end (date & time)",
+      "default": "2026-04-30T23:59:59",
+      "info": "ISO-style local time, e.g. 2026-04-30T23:59:59"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "hero_media_fixed_width",
+      "min": 1600,
+      "max": 2800,
+      "step": 50,
+      "unit": "px",
+      "label": "Hero image width (mobile)",
+      "info": "Mobile only: fixed layer width; “contain” keeps the full photo. Narrow window clips the sides.",
+      "default": 2600
+    },
+    {
+      "type": "range",
+      "id": "hero_desktop_layer_width",
+      "min": 1800,
+      "max": 3200,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop image layer width",
+      "info": "Fixed size — does not change when you resize the browser. Keep larger than the hero card (~1500px) so the placeholder always looks full; the card only crops this layer.",
+      "default": 2400
+    },
+    {
+      "type": "range",
+      "id": "hero_desktop_layer_height",
+      "min": 900,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop image layer height",
+      "info": "Fixed height of that layer (not the card). Raise if you see empty bands above/below the photo.",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "hero_desktop_vertical_focus",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Hero image vertical focus",
+      "info": "Used for cover crops on desktop (fixed layer) and mobile. Higher = bias toward the lower part of the photo. 50 is centered.",
+      "default": 58
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "mobile_section_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Mobile height",
+      "default": 600
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video hero"
+    }
+  ]
+}
+{% endschema %}

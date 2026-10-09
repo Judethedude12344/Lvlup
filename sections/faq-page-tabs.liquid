@@ -1,0 +1,290 @@
+{{ 'section-faq-page-tabs.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="faq-page-tabs content-container content-container--full-width"
+  style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="faq-page-tabs__inner">
+    <div class="faq-page-tabs__root" data-faq-tabs-root data-section-id="{{ section.id }}">
+      <div class="faq-page-tabs__bar" role="tablist" aria-label="FAQ categories">
+        <button
+          type="button"
+          class="faq-page-tabs__tab"
+          role="tab"
+          id="tab-general-{{ section.id }}"
+          aria-selected="true"
+          aria-controls="panel-general-{{ section.id }}"
+          data-tab="general"
+        >
+          {{ section.settings.tab_general_label | escape }}
+        </button>
+        <button
+          type="button"
+          class="faq-page-tabs__tab"
+          role="tab"
+          id="tab-shipping-{{ section.id }}"
+          aria-selected="false"
+          aria-controls="panel-shipping-{{ section.id }}"
+          data-tab="shipping"
+        >
+          {{ section.settings.tab_shipping_label | escape }}
+        </button>
+        <button
+          type="button"
+          class="faq-page-tabs__tab"
+          role="tab"
+          id="tab-returns-{{ section.id }}"
+          aria-selected="false"
+          aria-controls="panel-returns-{{ section.id }}"
+          data-tab="returns"
+        >
+          {{ section.settings.tab_returns_label | escape }}
+        </button>
+      </div>
+
+      <div
+        class="faq-page-tabs__panel"
+        id="panel-general-{{ section.id }}"
+        role="tabpanel"
+        aria-labelledby="tab-general-{{ section.id }}"
+        data-panel="general"
+      >
+        <h2 class="faq-page-tabs__heading">{{ section.settings.heading_general | escape }}</h2>
+        {% render 'faq-page-tab-accordion', section: section, category: 'general' %}
+      </div>
+
+      <div
+        class="faq-page-tabs__panel"
+        id="panel-shipping-{{ section.id }}"
+        role="tabpanel"
+        aria-labelledby="tab-shipping-{{ section.id }}"
+        data-panel="shipping"
+        hidden
+      >
+        <h2 class="faq-page-tabs__heading">{{ section.settings.heading_shipping | escape }}</h2>
+        {% render 'faq-page-tab-accordion', section: section, category: 'shipping' %}
+      </div>
+
+      <div
+        class="faq-page-tabs__panel"
+        id="panel-returns-{{ section.id }}"
+        role="tabpanel"
+        aria-labelledby="tab-returns-{{ section.id }}"
+        data-panel="returns"
+        hidden
+      >
+        <h2 class="faq-page-tabs__heading">{{ section.settings.heading_returns | escape }}</h2>
+        {% render 'faq-page-tab-accordion', section: section, category: 'returns' %}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.show_mystery_pill %}
+    <div
+      class="faq-page-tabs__pill"
+      id="faq-mystery-pill-{{ section.id }}"
+      role="status"
+    >
+      <span>{{ section.settings.mystery_pill_text | escape }}</span>
+      <button
+        type="button"
+        class="faq-page-tabs__pill-close"
+        aria-label="{{ 'accessibility.close' | t }}"
+        data-faq-pill-close
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M14 1.4L12.6 0 7 5.6 1.4 0 0 1.4 5.6 7 0 12.6 1.4 14 7 8.4l5.6 5.6 1.4-1.4L8.4 7z"/>
+        </svg>
+      </button>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-faq-tabs-root][data-section-id="{{ section.id }}"]');
+    if (!root) return;
+    var tabs = root.querySelectorAll('[role="tab"]');
+    var panels = root.querySelectorAll('[role="tabpanel"]');
+
+    function activateTab(name) {
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('data-tab') === name;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panels.forEach(function (p) {
+        var match = p.getAttribute('data-panel') === name;
+        if (match) {
+          p.removeAttribute('hidden');
+        } else {
+          p.setAttribute('hidden', '');
+        }
+      });
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        activateTab(tab.getAttribute('data-tab'));
+      });
+    });
+
+    var pill = document.getElementById('faq-mystery-pill-{{ section.id }}');
+    if (pill) {
+      var closeBtn = pill.querySelector('[data-faq-pill-close]');
+      var key = 'faq_mystery_pill_dismissed_{{ section.id }}';
+      try {
+        if (sessionStorage.getItem(key)) pill.setAttribute('hidden', '');
+      } catch (e) {}
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          pill.setAttribute('hidden', '');
+          try {
+            sessionStorage.setItem(key, '1');
+          } catch (e) {}
+        });
+      }
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ — tabs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_mystery_pill",
+      "label": "Show mystery discount pill",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "mystery_pill_text",
+      "label": "Pill text",
+      "default": "CLAIM MYSTERY DISCOUNT"
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "text",
+      "id": "tab_general_label",
+      "label": "General tab label",
+      "default": "General"
+    },
+    {
+      "type": "text",
+      "id": "tab_shipping_label",
+      "label": "Shipping tab label",
+      "default": "Shipping"
+    },
+    {
+      "type": "text",
+      "id": "tab_returns_label",
+      "label": "Returns tab label",
+      "default": "Returns"
+    },
+    {
+      "type": "text",
+      "id": "heading_general",
+      "label": "General heading",
+      "default": "General Questions"
+    },
+    {
+      "type": "text",
+      "id": "heading_shipping",
+      "label": "Shipping heading",
+      "default": "Shipping Questions"
+    },
+    {
+      "type": "text",
+      "id": "heading_returns",
+      "label": "Returns heading",
+      "default": "Returns Questions"
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Empty state message",
+      "default": "No questions in this category yet."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa_item",
+      "name": "Question & answer",
+      "settings": [
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "options": [
+            { "value": "general", "label": "General" },
+            { "value": "shipping", "label": "Shipping" },
+            { "value": "returns", "label": "Returns" }
+          ],
+          "default": "general"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ — tabs",
+      "blocks": [
+        {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "What makes BASED different from every other men’s brand?",
+            "answer": "<p>We focus on clean, effective formulas and transparent sourcing—built for real routines, not trends.</p>"
+          }
+        },
+        {
+          "type": "qa_item",
+          "settings": {
+            "category": "general",
+            "question": "Are BASED products non-toxic?",
+            "answer": "<p>We formulate to avoid common irritants and prioritize ingredients with clear safety profiles.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

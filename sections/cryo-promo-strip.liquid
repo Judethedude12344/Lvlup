@@ -1,0 +1,30 @@
+{% comment %}
+  Renders above {% sections 'header-group' %} in theme.liquid so the promo strip is NOT inside the same
+  section group as the main <header> — fixes inspector showing one banner spanning both bars.
+{% endcomment %}
+{% content_for 'blocks' %}
+
+{% schema %}
+{
+  "name": "Cryo promo strip",
+  "tag": "div",
+  "class": "cryo-promo-strip-section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "cryo_promo_bar"
+    }
+  ],
+  "max_blocks": 1,
+  "presets": [
+    {
+      "name": "Cryo promo strip",
+      "blocks": [
+        {
+          "type": "cryo_promo_bar"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

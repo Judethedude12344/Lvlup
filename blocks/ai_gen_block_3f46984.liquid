@@ -1,0 +1,424 @@
+{% doc %}
+  @prompt
+    A small strip across screen like an announchment bar but with 3 seperate things of text. One being 97% INSTANT COLD SHOCK with the number like popping up from 0. The second text will be 30 SECOND MORNING RITUAL. the last will be 30 WIPES PER CHAMBER. Make the numbers above the actual text. Make the background white, numbers black, percents the same blue as our theme, and text grey underneath., Ok just add the percent label to 30 second morning ritual and 30 wipes per chamber. Make it so i can edit all text incluidng numbers, percents and words underneath. Make sure this section stays horizontal as a divider on mobile and desktop it should never stack. Make all the words, colors, fonts, background editable, Also keep everything the way it is but allow me to edit how fast the numbers go up
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-stats-bar-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px 20px;
+    overflow: hidden;
+  }
+
+  .ai-stats-bar-container-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+  }
+
+  .ai-stats-bar-item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-stats-bar-number-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+
+  .ai-stats-bar-number-{{ ai_gen_id }} {
+    font-size: {{ block.settings.number_size }}px;
+    font-weight: {{ block.settings.number_weight }};
+    color: {{ block.settings.number_color }};
+    line-height: 1;
+    font-family: {{ block.settings.number_font.family }}, {{ block.settings.number_font.fallback_families }};
+  }
+
+  .ai-stats-bar-percent-{{ ai_gen_id }} {
+    font-size: {{ block.settings.percent_size }}px;
+    font-weight: {{ block.settings.percent_weight }};
+    line-height: 1;
+    font-family: {{ block.settings.percent_font.family }}, {{ block.settings.percent_font.fallback_families }};
+    background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .ai-stats-bar-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    color: {{ block.settings.text_color }};
+    line-height: 1.2;
+    font-family: {{ block.settings.text_font.family }}, {{ block.settings.text_font.fallback_families }};
+    text-transform: {{ block.settings.text_transform }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-stats-bar-{{ ai_gen_id }} {
+      margin-top: -96px;
+      padding: 22px 16px {{ block.settings.padding_vertical }}px 16px;
+    }
+
+    .ai-stats-bar-container-{{ ai_gen_id }} {
+      gap: 20px;
+    }
+
+    .ai-stats-bar-number-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.number_size }}px * 0.8);
+    }
+
+    .ai-stats-bar-percent-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.percent_size }}px * 0.8);
+    }
+
+    .ai-stats-bar-text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.text_size }}px * 0.85);
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-stats-bar-{{ ai_gen_id }} {
+      margin-top: -72px;
+      padding: 5px 20px {{ block.settings.padding_vertical }}px 20px;
+    }
+  }
+{% endstyle %}
+
+<stats-bar-{{ ai_gen_id }} class="ai-stats-bar-{{ ai_gen_id }}" data-duration="{{ block.settings.animation_duration }}" {{ block.shopify_attributes }}>
+  <div class="ai-stats-bar-container-{{ ai_gen_id }}">
+    <div class="ai-stats-bar-item-{{ ai_gen_id }}">
+      <div class="ai-stats-bar-number-wrapper-{{ ai_gen_id }}">
+        <span class="ai-stats-bar-number-{{ ai_gen_id }}" data-target="{{ block.settings.stat_1_number }}">0</span>
+        <span class="ai-stats-bar-percent-{{ ai_gen_id }}">{{ block.settings.stat_1_percent }}</span>
+      </div>
+      <div class="ai-stats-bar-text-{{ ai_gen_id }}">{{ block.settings.stat_1_text }}</div>
+    </div>
+
+    <div class="ai-stats-bar-item-{{ ai_gen_id }}">
+      <div class="ai-stats-bar-number-wrapper-{{ ai_gen_id }}">
+        <span class="ai-stats-bar-number-{{ ai_gen_id }}" data-target="{{ block.settings.stat_2_number }}">0</span>
+        <span class="ai-stats-bar-percent-{{ ai_gen_id }}">{{ block.settings.stat_2_percent }}</span>
+      </div>
+      <div class="ai-stats-bar-text-{{ ai_gen_id }}">{{ block.settings.stat_2_text }}</div>
+    </div>
+
+    <div class="ai-stats-bar-item-{{ ai_gen_id }}">
+      <div class="ai-stats-bar-number-wrapper-{{ ai_gen_id }}">
+        <span class="ai-stats-bar-number-{{ ai_gen_id }}" data-target="{{ block.settings.stat_3_number }}">0</span>
+        <span class="ai-stats-bar-percent-{{ ai_gen_id }}">{{ block.settings.stat_3_percent }}</span>
+      </div>
+      <div class="ai-stats-bar-text-{{ ai_gen_id }}">{{ block.settings.stat_3_text }}</div>
+    </div>
+  </div>
+</stats-bar-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class StatsBar{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.animated = false;
+      }
+
+      connectedCallback() {
+        this.setupIntersectionObserver();
+      }
+
+      setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !this.animated) {
+              this.animateNumbers();
+              this.animated = true;
+            }
+          });
+        }, { threshold: 0.5 });
+
+        observer.observe(this);
+      }
+
+      animateNumbers() {
+        const numbers = this.querySelectorAll('.ai-stats-bar-number-{{ ai_gen_id }}');
+        const duration = parseInt(this.getAttribute('data-duration'));
+        
+        numbers.forEach((number) => {
+          const target = parseInt(number.getAttribute('data-target'));
+          const increment = target / (duration / 16);
+          let current = 0;
+
+          const updateNumber = () => {
+            current += increment;
+            if (current < target) {
+              number.textContent = Math.floor(current);
+              requestAnimationFrame(updateNumber);
+            } else {
+              number.textContent = target;
+            }
+          };
+
+          updateNumber();
+        });
+      }
+    }
+
+    customElements.define('stats-bar-{{ ai_gen_id }}', StatsBar{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Stats bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation speed",
+      "min": 500,
+      "max": 3000,
+      "step": 100,
+      "unit": "ms",
+      "default": 1500
+    },
+    {
+      "type": "header",
+      "content": "Stat 1"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_number",
+      "label": "Number",
+      "default": "97"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_percent",
+      "label": "Percent label",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_text",
+      "label": "Text",
+      "default": "INSTANT COLD SHOCK"
+    },
+    {
+      "type": "header",
+      "content": "Stat 2"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_number",
+      "label": "Number",
+      "default": "30"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_percent",
+      "label": "Percent label",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_text",
+      "label": "Text",
+      "default": "SECOND MORNING RITUAL"
+    },
+    {
+      "type": "header",
+      "content": "Stat 3"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_number",
+      "label": "Number",
+      "default": "30"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_percent",
+      "label": "Percent label",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_text",
+      "label": "Text",
+      "default": "WIPES PER CHAMBER"
+    },
+    {
+      "type": "header",
+      "content": "Number style"
+    },
+    {
+      "type": "font_picker",
+      "id": "number_font",
+      "label": "Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "number_size",
+      "label": "Size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "number_weight",
+      "label": "Weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Percent style"
+    },
+    {
+      "type": "font_picker",
+      "id": "percent_font",
+      "label": "Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "percent_size",
+      "label": "Size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "percent_weight",
+      "label": "Weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "percent_color",
+      "label": "Color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "font_picker",
+      "id": "text_font",
+      "label": "Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_weight",
+      "label": "Weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "#808080"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stats bar"
+    }
+  ]
+}
+{% endschema %}

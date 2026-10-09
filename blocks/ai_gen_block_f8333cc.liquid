@@ -1,0 +1,484 @@
+{% doc %}
+  @prompt
+    In this section its going to be basically just like the previous instant cooling technology section. This time the heading will be Premium Skincare Benefits. The little subheading will be EAch wipe delivers an instant cold shock on contact, while deeply cleansing and hydrating your skin. Under this will be bullet points. The first being Material- 100% Viscose Fabrice. Second being Skincare Formula- all naturally derived ingredients. The third being Size- 8x8in, premium thickness. Different from the previous section, we would like to add an image on the right side and the text be on the left. Make all the text font, color, bullet points and image all editable., Ok but the bullet points dont line up. Also lets put the text on the left and image on the right
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-premium-benefits-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_top }}px 0 {{ block.settings.padding_bottom }}px;
+  }
+
+  .ai-premium-benefits-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  .ai-premium-benefits-content-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.content_gap }}px;
+    flex-direction: row;
+  }
+
+  .ai-premium-benefits-text-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .ai-premium-benefits-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+  }
+
+  .ai-premium-benefits-subheading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0 0 {{ block.settings.subheading_spacing }}px;
+    line-height: 1.6;
+    font-family: {{ block.settings.subheading_font.family }}, {{ block.settings.subheading_font.fallback_families }};
+    font-weight: {{ block.settings.subheading_font.weight }};
+  }
+
+  .ai-premium-benefits-list-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.bullet_spacing }}px;
+  }
+
+  .ai-premium-benefits-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background-color: {{ block.settings.bullet_card_background }};
+    border: 1px solid {{ block.settings.bullet_card_border_color }};
+    border-radius: {{ block.settings.bullet_card_radius }}px;
+    padding: {{ block.settings.bullet_card_padding }}px;
+    box-sizing: border-box;
+  }
+
+  .ai-premium-benefits-bullet-{{ ai_gen_id }} {
+    width: {{ block.settings.bullet_size }}px;
+    height: {{ block.settings.bullet_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.bullet_color }};
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .ai-premium-benefits-bullet-text-{{ ai_gen_id }} {
+    flex: 1;
+    font-size: {{ block.settings.bullet_text_size }}px;
+    color: {{ block.settings.bullet_text_color }};
+    line-height: 1.6;
+    font-family: {{ block.settings.bullet_font.family }}, {{ block.settings.bullet_font.fallback_families }};
+    font-weight: {{ block.settings.bullet_font.weight }};
+  }
+
+  .ai-premium-benefits-bullet-text-{{ ai_gen_id }} p {
+    margin: 0;
+  }
+
+  .ai-premium-benefits-image-wrapper-{{ ai_gen_id }} {
+    flex: 1;
+    position: relative;
+  }
+
+  .ai-premium-benefits-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-premium-benefits-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-premium-benefits-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .ai-premium-benefits-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-premium-benefits-content-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+
+    .ai-premium-benefits-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+
+    .ai-premium-benefits-subheading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subheading_size }}px * 0.9);
+    }
+
+    .ai-premium-benefits-bullet-text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.bullet_text_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-premium-benefits-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-premium-benefits-container-{{ ai_gen_id }}">
+    <div class="ai-premium-benefits-content-{{ ai_gen_id }}">
+      <div class="ai-premium-benefits-text-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h2 class="ai-premium-benefits-heading-{{ ai_gen_id }}">
+            {{ block.settings.heading }}
+          </h2>
+        {% endif %}
+
+        {% if block.settings.subheading != blank %}
+          <div class="ai-premium-benefits-subheading-{{ ai_gen_id }}">
+            {{ block.settings.subheading }}
+          </div>
+        {% endif %}
+
+        <ul class="ai-premium-benefits-list-{{ ai_gen_id }}">
+          {% if block.settings.bullet_1 != blank %}
+            <li class="ai-premium-benefits-item-{{ ai_gen_id }}">
+              <span class="ai-premium-benefits-bullet-{{ ai_gen_id }}"></span>
+              <div class="ai-premium-benefits-bullet-text-{{ ai_gen_id }}">
+                {{ block.settings.bullet_1 }}
+              </div>
+            </li>
+          {% endif %}
+
+          {% if block.settings.bullet_2 != blank %}
+            <li class="ai-premium-benefits-item-{{ ai_gen_id }}">
+              <span class="ai-premium-benefits-bullet-{{ ai_gen_id }}"></span>
+              <div class="ai-premium-benefits-bullet-text-{{ ai_gen_id }}">
+                {{ block.settings.bullet_2 }}
+              </div>
+            </li>
+          {% endif %}
+
+          {% if block.settings.bullet_3 != blank %}
+            <li class="ai-premium-benefits-item-{{ ai_gen_id }}">
+              <span class="ai-premium-benefits-bullet-{{ ai_gen_id }}"></span>
+              <div class="ai-premium-benefits-bullet-text-{{ ai_gen_id }}">
+                {{ block.settings.bullet_3 }}
+              </div>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="ai-premium-benefits-image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.image %}
+          <img
+            src="{{ block.settings.image | image_url: width: 1000 }}"
+            alt="{{ block.settings.image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
+            class="ai-premium-benefits-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-premium-benefits-image-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+            <div class="ai-premium-benefits-empty-state-{{ ai_gen_id }}">
+              Next, add an image
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Premium skincare benefits",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Premium Skincare Benefits"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading font",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Each wipe delivers an instant cold shock on contact, while deeply cleansing and hydrating your skin.</p>"
+    },
+    {
+      "type": "font_picker",
+      "id": "subheading_font",
+      "label": "Subheading font",
+      "default": "harmonia_sans_n4"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "subheading_spacing",
+      "label": "Subheading spacing",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Bullet points"
+    },
+    {
+      "type": "richtext",
+      "id": "bullet_1",
+      "label": "Bullet point 1",
+      "default": "<p><strong>Material-</strong> 100% Viscose Fabric</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "bullet_2",
+      "label": "Bullet point 2",
+      "default": "<p><strong>Skincare Formula-</strong> All naturally derived ingredients</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "bullet_3",
+      "label": "Bullet point 3",
+      "default": "<p><strong>Size-</strong> 8x8in, premium thickness</p>"
+    },
+    {
+      "type": "font_picker",
+      "id": "bullet_font",
+      "label": "Bullet text font",
+      "default": "harmonia_sans_n4"
+    },
+    {
+      "type": "range",
+      "id": "bullet_text_size",
+      "label": "Bullet text size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "bullet_text_color",
+      "label": "Bullet text color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "bullet_size",
+      "label": "Bullet dot size",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Bullet dot color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "bullet_spacing",
+      "label": "Space between bullets",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "bullet_card_background",
+      "label": "Bullet card background",
+      "default": "#141E26"
+    },
+    {
+      "type": "color",
+      "id": "bullet_card_border_color",
+      "label": "Bullet card border",
+      "default": "#2a3440"
+    },
+    {
+      "type": "range",
+      "id": "bullet_card_radius",
+      "label": "Bullet card corner radius",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "bullet_card_padding",
+      "label": "Bullet card padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Gap between text and image",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#171717"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium skincare benefits"
+    }
+  ]
+}
+{% endschema %}

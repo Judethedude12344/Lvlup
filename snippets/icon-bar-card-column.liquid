@@ -1,0 +1,91 @@
+{% liquid
+  assign theme_product_img = block.settings.theme_product_image | default: ''
+  if theme_product_img == blank
+    if block.settings.use_theme_cryo_chamber_image
+      assign theme_product_img = 'cryo_dark'
+    elsif block.settings.use_theme_white_chamber_image
+      assign theme_product_img = 'cryo_white'
+    endif
+  endif
+  assign theme_product_img_layout = false
+  if theme_product_img == 'cryo_dark' or theme_product_img == 'cryo_white' or theme_product_img == 'cryo_wipes_sachet'
+    assign theme_product_img_layout = true
+  endif
+  assign theme_cryo_chamber = false
+  if theme_product_img == 'cryo_dark' or theme_product_img == 'cryo_white'
+    assign theme_cryo_chamber = true
+  endif
+%}
+<div class="icon-bar-card icon-bar-card--{{ section.settings.icon_layout }} multicolumn-card center content-container cards-color-scheme-{{ section.id }} color-{{ section.settings.cards_color_scheme }} gradient{{ bg_diff_class }} animate-item animate-item--child{% if theme_product_img_layout %} icon-bar-card--theme-product{% endif %}{% if theme_cryo_chamber %} icon-bar-card--cryo-chamber{% endif %}">
+  <div class="icon-bar-card__icon icon-bar-card__icon--{{ section.settings.icon_size }} text-color-{{ section.settings.icon_color }} flex-shrink-0{% if theme_product_img_layout %} icon-bar-card__icon--theme-product{% endif %}">
+    {%- if theme_product_img == 'cryo_dark' -%}
+      <img
+        src="{{ 'cryo-chamber-no-irritants.png' | asset_url }}"
+        alt="Cryo Chamber"
+        width="400"
+        height="400"
+        loading="lazy"
+        class="icon-bar-card__img-theme-product"
+      >
+    {%- elsif theme_product_img == 'cryo_white' -%}
+      <img
+        src="{{ 'chamber-white-product-card.png' | asset_url }}"
+        alt="Cryo Chamber"
+        width="400"
+        height="400"
+        loading="lazy"
+        class="icon-bar-card__img-theme-product"
+      >
+    {%- elsif theme_product_img == 'cryo_wipes_sachet' -%}
+      <img
+        src="{{ 'cryo-wipes-sachet-card.png' | asset_url }}"
+        alt="Cryo Wipes"
+        width="400"
+        height="400"
+        loading="lazy"
+        class="icon-bar-card__img-theme-product"
+      >
+    {%- elsif block.settings.image != blank -%}
+      <img
+        src="{{ block.settings.image | image_url }}"
+        {% if block.settings.image.alt != blank %}
+          alt="{{ block.settings.image.alt | escape }}"
+        {% else %}
+          role="presentation"
+        {% endif %}
+        height="auto"
+        width="auto"
+        loading="lazy"
+      >
+    {%- else -%}
+      {% render 'material-icon', icon: block.settings.icon, filled: block.settings.filled_icon %}
+    {%- endif -%}
+  </div>
+  {% unless block.settings.title == blank and block.settings.text == blank %}
+    <div class="multicolumn-card__info">
+      {%- if section.settings.product_card_style and block.settings.rating_count != blank -%}
+        <div class="icon-bar-card__rating">
+          <span class="icon-bar-card__stars" aria-hidden="true">★★★★★</span>
+          <span class="icon-bar-card__rating-count">({{ block.settings.rating_count | escape }})</span>
+        </div>
+      {%- endif -%}
+      {%- if block.settings.title != blank -%}
+        <h3>{{ block.settings.title | escape }}</h3>
+      {%- endif -%}
+      {%- if block.settings.text != blank -%}
+        <div class="rte">{{ block.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.product_card_style and block.settings.price != blank -%}
+        <div class="icon-bar-card__price-row">
+          <span class="icon-bar-card__price">{{ block.settings.price | escape }}</span>
+          {%- if block.settings.compare_at_price != blank -%}
+            <span class="icon-bar-card__compare-at">{{ block.settings.compare_at_price | escape }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.product_card_style and block.settings.button_label != blank -%}
+        <a class="icon-bar-card__cta" href="{% if block.settings.button_link != blank %}{{ block.settings.button_link }}{% else %}#{% endif %}">{{ block.settings.button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  {% endunless %}
+</div>

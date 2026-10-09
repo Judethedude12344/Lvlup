@@ -1,0 +1,1364 @@
+{% doc %}
+  @prompt
+    Create a modern "solution" section that follows a comparison/problem section. At the top, include a small eyebrow label that says "THE SOLUTION" suing the exact same font, size, color, and stylying as the previous "THE PROBLEM" label for visual consistency. Below it, add a bold headline reading "Enter Cryo Wipes", With Cryo Wipes highlighted in accent color. The main content should sit inside a dark, rounded feature container with a split layout: text on the left and an image on the right. On the left side, include a list of short benefit statements, each paired with a checkmark icon. The benefits should be displayed in a clean grid or two-column layout on desktop and stack on mobile. On the right side, include a large product or lifestyle image with a cool, icy aesthetic. Everything must be fully editable- text, fonts, colors, icons, images, spacing, and layout. The section must be built using native shopify elements with no flatten ed images, no hard coded colors, and no locked fonts. The section should be fully responsive and reusable., Ok update this secitons layout and structure. I dont wat a simple text and image block. I want a wide, rounded feature container centered on the page with a two column layout. -left side has headline and a grid of short benefit bullets with icons. right side has a large image area that visually fills the right half of the container. The container should feel like a hero style feature card. Keep the solution label styling identical to the problem. Increase spacing, round the corners more, and make the layout feel more premium. Everything must remain fully editable: layout, text, fonts, icons, colors, and images.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-solution-section-{{ ai_gen_id }} {
+    display: block;
+    /* Match top hero card width: min(1500px, calc(100% - 98px)) */
+    width: min(1500px, calc(100% - 98px));
+    max-width: min(1500px, calc(100% - 98px));
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    --ai-solution-eyebrow-grad: linear-gradient(
+      0deg,
+      {{ block.settings.eyebrow_gradient_start }},
+      {{ block.settings.eyebrow_gradient_end }}
+    );
+  }
+
+  .ai-solution-eyebrow-{{ ai_gen_id }} {
+    font-family: {{ block.settings.eyebrow_font.family }}, {{ block.settings.eyebrow_font.fallback_families }};
+    font-weight: {{ block.settings.eyebrow_font.weight }};
+    font-size: {{ block.settings.eyebrow_size }}px;
+    text-transform: {{ block.settings.eyebrow_transform }};
+    letter-spacing: {{ block.settings.eyebrow_spacing }}px;
+    margin-bottom: {{ block.settings.eyebrow_margin }}px;
+    text-align: center;
+    background: var(--ai-solution-eyebrow-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-solution-eyebrow-{{ ai_gen_id }} {
+      line-height: 1;
+    }
+  }
+
+  .ai-solution-hero-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_bg_color }};
+    border-radius: {{ block.settings.card_radius }}px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: {{ block.settings.image_column_width }}% {{ 100 | minus: block.settings.image_column_width }}%;
+    min-height: {{ block.settings.card_min_height }}px;
+    box-shadow: none;
+    margin-top: 0;
+  }
+
+  .ai-solution-content-side-{{ ai_gen_id }} {
+    background-color: #000000;
+    padding: {{ block.settings.content_padding }}px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: {{ block.settings.content_gap }}px;
+  }
+
+  .ai-solution-headline-{{ ai_gen_id }} {
+    font-family: {{ block.settings.headline_font.family }}, {{ block.settings.headline_font.fallback_families }};
+    font-weight: 700;
+    font-size: {{ block.settings.headline_size }}px;
+    color: {{ block.settings.headline_color }};
+    line-height: {{ block.settings.headline_line_height }};
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    /* Flex centers the line optically (gradient + letter-spacing can skew plain text-align) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .ai-solution-headline-accent-{{ ai_gen_id }} {
+    font-weight: 700;
+    background: linear-gradient(
+      0deg,
+      {{ block.settings.eyebrow_gradient_start }},
+      {{ block.settings.eyebrow_gradient_end }}
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @media screen and (min-width: 990px) {
+    .ai-solution-headline-{{ ai_gen_id }} {
+      align-self: stretch;
+    }
+  }
+
+  .ai-solution-benefits-grid-{{ ai_gen_id }} {
+    display: grid;
+    {% if block.settings.benefits_layout == '1-column' %}
+      grid-template-columns: 1fr;
+    {% else %}
+      grid-template-columns: repeat(2, 1fr);
+    {% endif %}
+    gap: {{ block.settings.benefits_gap }}px;
+    margin-top: {{ block.settings.benefits_top_margin }}px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .ai-solution-benefit-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: {{ block.settings.icon_text_gap }}px;
+    width: 100%;
+    max-width: 100%;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .ai-solution-benefit-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    padding: {{ block.settings.icon_padding }}px;
+    box-sizing: content-box;
+    display: block;
+    object-fit: contain;
+  }
+
+  .ai-solution-benefit-text-{{ ai_gen_id }} {
+    font-family: {{ block.settings.benefit_font.family }}, {{ block.settings.benefit_font.fallback_families }};
+    font-weight: {{ block.settings.benefit_font.weight }};
+    font-size: {{ block.settings.benefit_size }}px;
+    color: {{ block.settings.benefit_color }};
+    line-height: {{ block.settings.benefit_line_height }};
+    padding-top: {{ block.settings.benefit_text_offset }}px;
+    text-align: left;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .ai-solution-waitlist-btn-{{ ai_gen_id }} {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+    row-gap: 8px;
+    gap: 8px;
+    margin-top: {{ block.settings.waitlist_button_margin_top }}px;
+    margin-left: auto;
+    margin-right: auto;
+    width: max-content;
+    max-width: 100%;
+    align-self: center;
+    box-sizing: border-box;
+    border: none;
+    cursor: pointer;
+    padding: {{ block.settings.waitlist_button_padding_y }}px {{ block.settings.waitlist_button_padding_x }}px;
+    min-width: min(100%, 304px);
+    border-radius: {{ block.settings.waitlist_button_radius }}px;
+    font-family: {{ block.settings.headline_font.family }}, {{ block.settings.headline_font.fallback_families }};
+    font-weight: {{ block.settings.headline_font.weight }};
+    font-size: {{ block.settings.waitlist_button_font_size }}px;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.waitlist_button_letter_spacing }}px;
+    line-height: 1.2;
+    color: #ffffff;
+    background: linear-gradient(
+      0deg,
+      {{ block.settings.eyebrow_gradient_start }},
+      {{ block.settings.eyebrow_gradient_end }}
+    );
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: center;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+  }
+
+  .ai-solution-waitlist-btn-{{ ai_gen_id }}:hover {
+    opacity: 0.94;
+  }
+
+  .ai-solution-waitlist-btn-{{ ai_gen_id }}:focus-visible {
+    outline: 2px solid {{ block.settings.eyebrow_gradient_end }};
+    outline-offset: 3px;
+  }
+
+  .ai-solution-waitlist-btn-{{ ai_gen_id }}:active {
+    transform: scale(0.99);
+  }
+
+  .ai-solution-image-side-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    background: {{ block.settings.image_bg_color }};
+    min-height: 100%;
+    align-self: stretch;
+  }
+
+  /* Visible photo → black blend: wide ramp (reads on real images), dark enough at the seam to meet the text column */
+  .ai-solution-image-side-{{ ai_gen_id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 48%,
+      rgba(0, 0, 0, 0.05) 52%,
+      rgba(0, 0, 0, 0.1) 56%,
+      rgba(0, 0, 0, 0.16) 60%,
+      rgba(0, 0, 0, 0.22) 64%,
+      rgba(0, 0, 0, 0.29) 68%,
+      rgba(0, 0, 0, 0.36) 71.5%,
+      rgba(0, 0, 0, 0.43) 75%,
+      rgba(0, 0, 0, 0.5) 78%,
+      rgba(0, 0, 0, 0.56) 81%,
+      rgba(0, 0, 0, 0.62) 83.5%,
+      rgba(0, 0, 0, 0.67) 86%,
+      rgba(0, 0, 0, 0.72) 88.5%,
+      rgba(0, 0, 0, 0.77) 91%,
+      rgba(0, 0, 0, 0.82) 93%,
+      rgba(0, 0, 0, 0.86) 94.8%,
+      rgba(0, 0, 0, 0.9) 96.5%,
+      rgba(0, 0, 0, 0.93) 97.8%,
+      rgba(0, 0, 0, 0.96) 99%,
+      #000000 100%
+    );
+  }
+
+  .ai-solution-image-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    object-position:
+      {% case block.settings.image_position %}
+        {% when 'top' %}
+          center top
+        {% when 'bottom' %}
+          center bottom
+        {% when 'right' %}
+          right center
+        {% when 'left' %}
+          left center
+        {% else %}
+          left center
+      {% endcase %};
+  }
+
+  @media screen and (min-width: 990px) {
+    .ai-solution-image-{{ ai_gen_id }} {
+      object-position:
+        {% case block.settings.image_position %}
+          {% when 'top' %}
+            22% top
+          {% when 'bottom' %}
+            22% bottom
+          {% when 'right' %}
+            right center
+          {% when 'left' %}
+            18% center
+          {% else %}
+            22% center
+        {% endcase %};
+    }
+  }
+
+  .ai-solution-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, {{ block.settings.placeholder_color_1 }} 0%, {{ block.settings.placeholder_color_2 }} 100%);
+    position: relative;
+  }
+
+  .ai-solution-image-placeholder-{{ ai_gen_id }} svg {
+    width: 120px;
+    height: 120px;
+    opacity: 0.2;
+    color: #ffffff;
+  }
+
+  .ai-solution-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-solution-hero-card-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      margin-top: 0;
+    }
+
+    .ai-solution-content-side-{{ ai_gen_id }} {
+      padding: {{ block.settings.mobile_content_padding }}px;
+    }
+
+    .ai-solution-image-side-{{ ai_gen_id }} {
+      min-height: {{ block.settings.mobile_image_height }}px;
+      {% if block.settings.mobile_image_first %}
+        order: -1;
+      {% endif %}
+    }
+
+    .ai-solution-image-side-{{ ai_gen_id }}::after {
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 35%,
+        rgba(0, 0, 0, 0.06) 42%,
+        rgba(0, 0, 0, 0.12) 48%,
+        rgba(0, 0, 0, 0.18) 54%,
+        rgba(0, 0, 0, 0.25) 59%,
+        rgba(0, 0, 0, 0.32) 64%,
+        rgba(0, 0, 0, 0.39) 68%,
+        rgba(0, 0, 0, 0.46) 72%,
+        rgba(0, 0, 0, 0.53) 76%,
+        rgba(0, 0, 0, 0.6) 79.5%,
+        rgba(0, 0, 0, 0.66) 83%,
+        rgba(0, 0, 0, 0.72) 86%,
+        rgba(0, 0, 0, 0.78) 88.5%,
+        rgba(0, 0, 0, 0.83) 91%,
+        rgba(0, 0, 0, 0.87) 93%,
+        rgba(0, 0, 0, 0.91) 95%,
+        rgba(0, 0, 0, 0.94) 96.8%,
+        rgba(0, 0, 0, 0.97) 98.5%,
+        #000000 100%
+      );
+    }
+
+    .ai-solution-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size | times: 0.78 }}px;
+    }
+
+    .ai-solution-benefits-grid-{{ ai_gen_id }} {
+      {% if block.settings.mobile_layout == '1-column' %}
+        grid-template-columns: 1fr;
+      {% else %}
+        grid-template-columns: repeat(2, 1fr);
+      {% endif %}
+      gap: {{ block.settings.benefits_gap | times: 0.68 | round }}px;
+    }
+
+    .ai-solution-benefit-item-{{ ai_gen_id }} {
+      gap: {{ block.settings.icon_text_gap | times: 0.72 | round }}px;
+    }
+
+    .ai-solution-benefit-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.74 | round }}px;
+      height: {{ block.settings.icon_size | times: 0.74 | round }}px;
+      padding: {{ block.settings.icon_padding | times: 0.65 | round }}px;
+    }
+
+    .ai-solution-benefit-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.benefit_size | times: 0.85 }}px;
+      line-height: 1.35;
+    }
+
+    .ai-solution-eyebrow-{{ ai_gen_id }} {
+      font-size: {{ block.settings.eyebrow_size | times: 0.9 }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-solution-section-{{ ai_gen_id }} {
+      width: calc(100% - 32px);
+      max-width: calc(100% - 32px);
+      padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    }
+
+    .ai-solution-hero-card-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.mobile_card_radius }}px;
+    }
+
+    /* Match Problem label scale on small screens — fits “THE SOLUTION” on one line */
+    .ai-solution-eyebrow-{{ ai_gen_id }} {
+      font-size: {{ block.settings.eyebrow_size | times: 0.72 }}px;
+      letter-spacing: {{ block.settings.eyebrow_spacing | times: 0.78 }}px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .ai-solution-benefit-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.66 | round }}px;
+      height: {{ block.settings.icon_size | times: 0.66 | round }}px;
+      padding: {{ block.settings.icon_padding | times: 0.55 | round }}px;
+    }
+
+    .ai-solution-benefit-item-{{ ai_gen_id }} {
+      gap: {{ block.settings.icon_text_gap | times: 0.65 | round }}px;
+    }
+
+    .ai-solution-benefit-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.benefit_size | times: 0.56 }}px;
+      line-height: 1.18;
+      letter-spacing: -0.035em;
+    }
+
+    .ai-solution-benefits-grid-{{ ai_gen_id }} {
+      {% if block.settings.mobile_layout == '1-column' %}
+        grid-template-columns: 1fr;
+      {% else %}
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      {% endif %}
+      gap: {{ block.settings.benefits_gap | times: 0.5 | round }}px;
+    }
+
+    .ai-solution-waitlist-btn-{{ ai_gen_id }} {
+      font-size: {{ block.settings.waitlist_button_font_size | times: 0.95 }}px;
+      padding: {{ block.settings.waitlist_button_padding_y | times: 0.92 | round }}px {{ block.settings.waitlist_button_padding_x | times: 0.88 | round }}px;
+      min-width: min(100%, 300px);
+      column-gap: 8px;
+      row-gap: 8px;
+      gap: 8px;
+    }
+
+    /* Wider bitmap + negative margin shifts the visible crop left (translate alone is barely visible inside overflow:hidden + cover) */
+    .ai-solution-image-{{ ai_gen_id }} {
+      width: 126%;
+      max-width: none;
+      margin-left: -13%;
+      object-position: left center;
+    }
+  }
+{% endstyle %}
+
+<solution-section-{{ ai_gen_id }} class="ai-solution-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.eyebrow_text != blank %}
+    <div class="ai-solution-eyebrow-{{ ai_gen_id }}">
+      {{ block.settings.eyebrow_text }}
+    </div>
+  {% endif %}
+
+  <div class="ai-solution-hero-card-{{ ai_gen_id }}">
+    <div class="ai-solution-image-side-{{ ai_gen_id }}">
+      {% if block.settings.solution_image %}
+        <img
+          src="{{ block.settings.solution_image | image_url: width: 1200 }}"
+          alt="{{ block.settings.solution_image.alt | escape }}"
+          class="ai-solution-image-{{ ai_gen_id }}"
+          loading="lazy"
+          width="{{ block.settings.solution_image.width }}"
+          height="{{ block.settings.solution_image.height }}"
+        >
+      {% else %}
+        <img
+          src="{{ 'solution-cryo-left-hero.png' | asset_url }}"
+          alt="Cryo Wipes"
+          class="ai-solution-image-{{ ai_gen_id }}"
+          loading="lazy"
+          width="1600"
+          height="700"
+        >
+      {% endif %}
+    </div>
+
+    <div class="ai-solution-content-side-{{ ai_gen_id }}">
+      {% if block.settings.headline_text != blank or block.settings.headline_before != blank or block.settings.headline_accent != blank or block.settings.headline_after != blank %}
+        <h2 class="ai-solution-headline-{{ ai_gen_id }}">
+          {% if block.settings.headline_before != blank %}{{ block.settings.headline_before }}{% endif %}{% if block.settings.headline_accent != blank %}<span class="ai-solution-headline-accent-{{ ai_gen_id }}">{{ block.settings.headline_accent }}</span>{% endif %}{% if block.settings.headline_after != blank %}{{ block.settings.headline_after }}{% endif %}
+        </h2>
+      {% endif %}
+
+      <div class="ai-solution-benefits-grid-{{ ai_gen_id }}">
+        {% if block.settings.benefit_1 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_1 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.benefit_2 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_2 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.benefit_3 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_3 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.benefit_4 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_4 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.benefit_5 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_5 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.benefit_6 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_6 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.benefit_7 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_7 }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.benefit_8 != blank %}
+          <div class="ai-solution-benefit-item-{{ ai_gen_id }}">
+            <img
+              class="ai-solution-benefit-icon-{{ ai_gen_id }}"
+              src="{{ 'solution-benefit-verified-badge.png' | asset_url }}"
+              alt=""
+              width="{{ block.settings.icon_size }}"
+              height="{{ block.settings.icon_size }}"
+              loading="lazy"
+            >
+            <div class="ai-solution-benefit-text-{{ ai_gen_id }}">{{ block.settings.benefit_8 }}</div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if block.settings.waitlist_button_enable and block.settings.waitlist_button_text != blank %}
+        <button
+          type="button"
+          class="ai-solution-waitlist-btn-{{ ai_gen_id }}"
+          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        >
+          {{ block.settings.waitlist_button_text }}
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</solution-section-{{ ai_gen_id }}>
+
+{% schema %}
+{
+  "name": "Solution section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Eyebrow label"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Text",
+      "default": "THE SOLUTION"
+    },
+    {
+      "type": "font_picker",
+      "id": "eyebrow_font",
+      "label": "Font",
+      "default": "montserrat_n7"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Size",
+      "min": 10,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_gradient_start",
+      "label": "Eyebrow gradient (top)",
+      "default": "#2d6f9a",
+      "info": "Matches THE PROBLEM label when set like the Problem section accent gradient."
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_gradient_end",
+      "label": "Eyebrow gradient (bottom)",
+      "default": "#58b6d6"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color (fallback)",
+      "default": "#5fc4f2",
+      "info": "Not used when gradient is applied."
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_margin",
+      "label": "Space below eyebrow",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 40,
+      "info": "Vertical gap between THE SOLUTION and the feature card below."
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "headline_text",
+      "label": "Full headline",
+      "default": "Cryo Wipes",
+      "info": "For accessibility. Split into parts below for styling."
+    },
+    {
+      "type": "text",
+      "id": "headline_before",
+      "label": "Text before accent",
+      "info": "Leave empty to show only the gradient accent line."
+    },
+    {
+      "type": "text",
+      "id": "headline_accent",
+      "label": "Accented text",
+      "default": "Cryo Wipes"
+    },
+    {
+      "type": "text",
+      "id": "headline_after",
+      "label": "Text after accent"
+    },
+    {
+      "type": "font_picker",
+      "id": "headline_font",
+      "label": "Font",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Size",
+      "min": 24,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "headline_line_height",
+      "label": "Line height",
+      "min": 1,
+      "max": 1.5,
+      "step": 0.1,
+      "default": 1.1
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "header",
+      "content": "Benefits"
+    },
+    {
+      "type": "paragraph",
+      "content": "Benefits render as a simple list (no card boxes)."
+    },
+    {
+      "type": "color",
+      "id": "benefit_box_background",
+      "label": "Benefit card background",
+      "default": "#141E26"
+    },
+    {
+      "type": "color",
+      "id": "benefit_box_border_color",
+      "label": "Benefit card border",
+      "default": "#2a3440"
+    },
+    {
+      "type": "range",
+      "id": "benefit_box_radius",
+      "label": "Benefit card corner radius",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "benefit_box_padding",
+      "label": "Benefit card padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "benefits_top_margin",
+      "label": "Top margin",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "benefit_1",
+      "label": "Benefit 1",
+      "default": "Instant cooling relief"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2",
+      "label": "Benefit 2",
+      "default": "Reduces inflammation"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3",
+      "label": "Benefit 3",
+      "default": "Portable & convenient"
+    },
+    {
+      "type": "text",
+      "id": "benefit_4",
+      "label": "Benefit 4",
+      "default": "No mess, no fuss"
+    },
+    {
+      "type": "text",
+      "id": "benefit_5",
+      "label": "Benefit 5",
+      "default": "Naturally derived ingredients"
+    },
+    {
+      "type": "text",
+      "id": "benefit_6",
+      "label": "Benefit 6",
+      "default": "Works in seconds"
+    },
+    {
+      "type": "text",
+      "id": "benefit_7",
+      "label": "Benefit 7"
+    },
+    {
+      "type": "text",
+      "id": "benefit_8",
+      "label": "Benefit 8"
+    },
+    {
+      "type": "font_picker",
+      "id": "benefit_font",
+      "label": "Font",
+      "default": "harmonia_sans_n4"
+    },
+    {
+      "type": "range",
+      "id": "benefit_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "benefit_line_height",
+      "label": "Line height",
+      "min": 1.2,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "benefit_color",
+      "label": "Text color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "select",
+      "id": "benefits_layout",
+      "label": "Desktop layout",
+      "options": [
+        {
+          "value": "1-column",
+          "label": "1 column"
+        },
+        {
+          "value": "2-column",
+          "label": "2 columns"
+        }
+      ],
+      "default": "2-column"
+    },
+    {
+      "type": "range",
+      "id": "benefits_gap",
+      "label": "Gap between items",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "benefit_text_offset",
+      "label": "Text vertical offset",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Waitlist button"
+    },
+    {
+      "type": "checkbox",
+      "id": "waitlist_button_enable",
+      "label": "Show button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "waitlist_button_text",
+      "label": "Button label",
+      "default": "JOIN THE WAITLIST"
+    },
+    {
+      "type": "paragraph",
+      "content": "Uses the same blue gradient as the eyebrow (Eyebrow gradient colors). Click scrolls to the top of the page."
+    },
+    {
+      "type": "range",
+      "id": "waitlist_button_margin_top",
+      "label": "Space above button",
+      "min": 0,
+      "max": 56,
+      "step": 4,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "waitlist_button_font_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "waitlist_button_padding_y",
+      "label": "Vertical padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "waitlist_button_padding_x",
+      "label": "Horizontal padding",
+      "min": 16,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "waitlist_button_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "waitlist_button_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Benefit icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Size",
+      "min": 20,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color (legacy)",
+      "default": "#5fc4f2",
+      "info": "Not used for the badge image; kept for compatibility."
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Background color",
+      "default": "rgba(95, 196, 242, 0.15)"
+    },
+    {
+      "type": "range",
+      "id": "icon_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "icon_padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "icon_text_gap",
+      "label": "Gap to text",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Hero card container"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Background color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "card_min_height",
+      "label": "Minimum height",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "image_column_width",
+      "label": "Image column width (left)",
+      "min": 28,
+      "max": 58,
+      "step": 2,
+      "unit": "%",
+      "default": 48,
+      "info": "Photo on the left; remaining width is the black content column. Fade blends image into the text side."
+    },
+    {
+      "type": "range",
+      "id": "left_column_width",
+      "label": "Left column width (legacy)",
+      "min": 40,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 50,
+      "info": "Unused in current layout; grid uses “Image column width” instead."
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 30,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Content gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Shadow"
+    },
+    {
+      "type": "range",
+      "id": "shadow_y",
+      "label": "Vertical offset",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "label": "Blur",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "label": "Opacity",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "solution_image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "info": "Horizontal focal point for wide images (e.g. Right keeps the subject on the right in frame).",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "color",
+      "id": "image_bg_color",
+      "label": "Background color",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color_1",
+      "label": "Placeholder gradient start",
+      "default": "#667eea"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color_2",
+      "label": "Placeholder gradient end",
+      "default": "#764ba2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding above section",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 24,
+      "info": "Space between this block and the section above (e.g. the comparison table)."
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding below section",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 16,
+      "info": "Space before the next block (e.g. Cryo Chamber). Lower this to pull them closer."
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 1000,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "label": "Side padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "1-column",
+          "label": "1 column"
+        },
+        {
+          "value": "2-column",
+          "label": "2 columns"
+        }
+      ],
+      "default": "2-column",
+      "info": "Below tablet width, benefits use this layout. Desktop is unchanged."
+    },
+    {
+      "type": "range",
+      "id": "mobile_content_padding",
+      "label": "Content padding",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_height",
+      "label": "Image height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "mobile_card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_side_padding",
+      "label": "Side padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_image_first",
+      "label": "Show image first",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Solution section"
+    }
+  ]
+}
+{% endschema %}

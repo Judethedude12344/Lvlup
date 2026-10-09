@@ -1,0 +1,198 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "multirow_ax7W3D": {
+      "type": "multirow",
+      "blocks": {
+        "row_YbJwyD": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/FullSizeRender_d8e33959-c23f-49a6-9d12-84d736fa6481.jpg",
+            "video_muted_autoplay": true,
+            "caption": "",
+            "title": "THE FOUNDERS",
+            "title_highlight_color": "#6d388b",
+            "text": "<p>We’re Daniel French and Jason Cheung, two best friends who met in high school and have been pushing each other ever since. From the gym, to business ideas, to leveling up our daily routines, we’ve always shared the same values: stay active, strive for more, and build smarter ways to improve everyday life.</p>",
+            "button_label": "",
+            "button_link": "",
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false
+          }
+        },
+        "row_b4L8GE": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-12-02_at_1.59.43_PM.png",
+            "video_muted_autoplay": true,
+            "caption": "",
+            "title": "IDENTIFYING THE PROBLEM",
+            "title_highlight_color": "#6d388b",
+            "text": "<p>Cryo Wipes grew out of that mindset. A shared obsession with performance, clean living, and finding a better way to start the day. What began us trying to escape the messy inconvenient ice water-bowl mornings turned into a product we now use every single day.</p>",
+            "button_label": "",
+            "button_link": "",
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false
+          }
+        },
+        "row_m8LB8r": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/Official_Chamber_wipe_out.png",
+            "video_muted_autoplay": true,
+            "caption": "",
+            "title": "THE SOLUTION: CRYO WIPES",
+            "title_highlight_color": "#6d388b",
+            "text": "<p>We created Cryo Wipes, a premium facial wipe engineered to deliver that cold-plunge sensation in seconds, with all the quality you’d expect from a skincare product. Clean ingredients, no sticky residue, gentle on the face, but firmly built to the mindset of performance and refresh. One wipe, chilled and ready, and you’re alert, clear-headed, and ready for your day.</p>",
+            "button_label": "",
+            "button_link": "",
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false
+          }
+        },
+        "row_kFjKVe": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/start-waking-up-in-a-good-mood-every-morning.webp",
+            "video_muted_autoplay": true,
+            "caption": "",
+            "title": "OUR PHILOSOPHY & LIFESTYLE",
+            "title_highlight_color": "#6d388b",
+            "text": "<p>We believe everyone deserves a simple way to feel awake, refreshed, and motivated,  no matter what your day looks like. Whether you're hitting the gym before sunrise, clocking into a long 9–5, heading to class, recovering from a night out, or squeezing in a workout between meetings, your routine should work <em>for</em> you, not against you.</p>",
+            "button_label": "",
+            "button_link": "",
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false
+          }
+        }
+      },
+      "block_order": [
+        "row_YbJwyD",
+        "row_b4L8GE",
+        "row_m8LB8r",
+        "row_kFjKVe"
+      ],
+      "name": "t:sections.multirow.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "row_color_scheme": "background-1",
+        "section_color_scheme": "background-1",
+        "mobile_full_media_width": false,
+        "mobile_direction": "normal",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#2e2a39",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#ffffff",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d",
+        "custom_section_colors_background": "#ffffff",
+        "custom_section_gradient_background": ""
+      }
+    },
+    "section_divider_tEYaT3": {
+      "type": "section-divider",
+      "name": "Section divider",
+      "settings": {
+        "visibility": "always-display",
+        "shape": "waves_1",
+        "flip_horizontal": false,
+        "flip_vertical": false,
+        "shape_color": "background-2",
+        "custom_shape_color": "#dd1d1d",
+        "background_color": "background-1",
+        "custom_background_color": "#ffffff",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_YgEX37": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_4LDPJq": {
+          "type": "heading",
+          "settings": {
+            "title": "JOIN US!",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h0"
+          }
+        },
+        "text_QPBPM7": {
+          "type": "text",
+          "settings": {
+            "text": "<p>This isn’t just a skincare product, it’s a mindset. If you demand more from your morning routine, if you crave the feeling of being alive and alert, if you believe every day should start with a “refresh” button, WELCOME! Join us. Let’s build the cold-shock ritual together.</p>"
+          }
+        },
+        "button_JLy68g": {
+          "type": "button",
+          "settings": {
+            "button_label": "",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_4LDPJq",
+        "text_QPBPM7",
+        "button_JLy68g"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "full_width": true,
+        "color_scheme": "inverse",
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    }
+  },
+  "order": [
+    "multirow_ax7W3D",
+    "section_divider_tEYaT3",
+    "main",
+    "rich_text_YgEX37"
+  ]
+}

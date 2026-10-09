@@ -1,0 +1,38 @@
+<nav class="header__inline-menu">
+  <ul class="list-menu list-menu--inline" role="list">
+    <li>
+      <a
+        href="{{ section.settings.simple_nav_about_url | default: '/pages/about' }}"
+        class="header__menu-item header__menu-item--main list-menu__item link link--text focus-inset"
+        {% if request.page_type == 'page' and page.handle == 'about' %}
+          aria-current="page"
+        {% endif %}
+      >
+        <span
+          {% if section.settings.highlight_active_link and request.page_type == 'page' and page.handle == 'about' %}
+            class="header__active-menu-item-v2 color-{{ section.settings.highlighted_link_color_scheme }}"
+          {% endif %}
+        >
+          {{- section.settings.simple_nav_about_label | escape -}}
+        </span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="{{ section.settings.simple_nav_contact_url | default: '/pages/contact' }}"
+        class="header__menu-item header__menu-item--main list-menu__item link link--text focus-inset"
+        {% if request.page_type == 'page' and page.handle == 'contact' %}
+          aria-current="page"
+        {% endif %}
+      >
+        <span
+          {% if section.settings.highlight_active_link and request.page_type == 'page' and page.handle == 'contact' %}
+            class="header__active-menu-item-v2 color-{{ section.settings.highlighted_link_color_scheme }}"
+          {% endif %}
+        >
+          {{- section.settings.simple_nav_contact_label | escape -}}
+        </span>
+      </a>
+    </li>
+  </ul>
+</nav>

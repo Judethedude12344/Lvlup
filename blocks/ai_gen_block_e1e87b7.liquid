@@ -1,0 +1,247 @@
+{% doc %}
+  @prompt
+    Just a seperation line with a header that reads "Premium skincare benefits in all caps". Make it so spcaing, format, text size, text font and everything else is editable.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-separator-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding-top: {{ block.settings.spacing_top }}px;
+    padding-bottom: {{ block.settings.spacing_bottom }}px;
+  }
+
+  .ai-separator-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: {{ block.settings.alignment }};
+    gap: {{ block.settings.gap }}px;
+  }
+
+  .ai-separator-header-{{ ai_gen_id }} {
+    font-family: {{ block.settings.header_font.family }}, {{ block.settings.header_font.fallback_families }};
+    font-weight: {{ block.settings.header_font.weight }};
+    font-size: {{ block.settings.header_size }}px;
+    color: {{ block.settings.header_color }};
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.letter_spacing }}px;
+    line-height: {{ block.settings.line_height }};
+  }
+
+  .ai-separator-line-{{ ai_gen_id }} {
+    width: {{ block.settings.line_width }}%;
+    height: {{ block.settings.line_thickness }}px;
+    background-color: {{ block.settings.line_color }};
+    border-radius: {{ block.settings.line_border_radius }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-separator-header-{{ ai_gen_id }} {
+      font-size: {{ block.settings.header_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-separator-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-separator-container-{{ ai_gen_id }}">
+    {% if block.settings.header_position == 'top' %}
+      {% if block.settings.header_text != blank %}
+        <h2 class="ai-separator-header-{{ ai_gen_id }}">{{ block.settings.header_text }}</h2>
+      {% endif %}
+      <div class="ai-separator-line-{{ ai_gen_id }}"></div>
+    {% else %}
+      <div class="ai-separator-line-{{ ai_gen_id }}"></div>
+      {% if block.settings.header_text != blank %}
+        <h2 class="ai-separator-header-{{ ai_gen_id }}">{{ block.settings.header_text }}</h2>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Separator with header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header text"
+    },
+    {
+      "type": "text",
+      "id": "header_text",
+      "label": "Header text",
+      "default": "PREMIUM SKINCARE BENEFITS"
+    },
+    {
+      "type": "select",
+      "id": "header_position",
+      "label": "Header position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Above line"
+        },
+        {
+          "value": "bottom",
+          "label": "Below line"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "font_picker",
+      "id": "header_font",
+      "label": "Header font",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "header_size",
+      "label": "Header size",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "header_color",
+      "label": "Header color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.3
+    },
+    {
+      "type": "header",
+      "content": "Separator line"
+    },
+    {
+      "type": "range",
+      "id": "line_width",
+      "label": "Line width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Line thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "line_border_radius",
+      "label": "Line border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between header and line",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Separator with header"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

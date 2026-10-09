@@ -1,0 +1,994 @@
+{% doc %}
+  @prompt
+    This is going to be a new section with the header being INSTANT COOLING TECHNOLOGY. Right under this is a spot to add an image to the left and text on the right. The text on the right will have the heading Cryo Chamber Technology. A little subheading will read Its sleek, modern design fits perfectly on your bathroom countertop for easy daily use. Then under these will be bullet points. The first one being Built-In cooling system- colder than standard refrigerator temperatures. The second being Airtight seal- preseerves texture and moisture of wipes. The last bullet point being precise temperature control- keeps wipes just above freezing point. Make every line of text editable and create this using theme colors., Ok make it so i can change the fonts, text color and everything
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign cryo_mode = block.settings.cryo_section_mode | default: 'full' %}
+
+{% style %}
+  .ai-cooling-tech-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: calc({{ block.settings.section_padding }}px * 0.04) 0 {{ block.settings.section_padding }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  /* Match Solution card width: min(1500px, calc(100% - 98px)) */
+  .ai-cooling-tech-container-{{ ai_gen_id }} {
+    width: min(1500px, calc(100% - 98px));
+    max-width: min(1500px, calc(100% - 98px));
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .ai-cooling-tech-ticker-{{ ai_gen_id }} {
+    --ai-ticker-gap: clamp(72px, 7.5vw, 132px);
+    /* Icon–label gap inside each chip (gradient text icons need real width — see .ticker-icon rules) */
+    --ai-ticker-icon-gap: calc(var(--ai-ticker-gap) * 0.08);
+    width: 100%;
+    margin: 0 0 {{ block.settings.ticker_bottom_spacing }}px;
+    background: {{ block.settings.ticker_background }};
+  }
+
+  /* Only this layer clips; keeps overflow separate from bar background (marquee viewport pattern). */
+  .ai-cooling-tech-ticker-viewport-{{ ai_gen_id }} {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    container-type: inline-size;
+    container-name: ai-ticker-vp-{{ ai_gen_id }};
+  }
+
+  /*
+    Animate inner wrapper, not the flex row — Safari/iOS is happier (flex + transform on same node glitches).
+    Two groups inside track; -50% = one group width when inner width = 2× group.
+  */
+  .ai-cooling-tech-ticker-inner-{{ ai_gen_id }} {
+    display: block;
+    width: max-content;
+    min-height: 1.5em;
+    transform: translate3d(0, 0, 0);
+    animation: ai-cooling-tech-ticker-{{ ai_gen_id }} {{ block.settings.ticker_speed }}s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ai-cooling-tech-ticker-inner-{{ ai_gen_id }} {
+      animation: none !important;
+      transform: none !important;
+      will-change: auto;
+    }
+  }
+
+  .ai-cooling-tech-ticker-track-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0;
+    width: max-content;
+  }
+
+  .ai-cooling-tech-ticker-group-{{ ai_gen_id }} {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--ai-ticker-gap);
+    padding: 12px 0;
+    padding-inline-end: var(--ai-ticker-gap);
+    white-space: nowrap;
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    /* Short copy: each loop segment at least viewport-wide so -50% stays meaningful (checklist §5). */
+    min-width: 100cqw;
+  }
+
+  .ai-cooling-tech-ticker-item-{{ ai_gen_id }} {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--ai-ticker-icon-gap);
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    min-width: max-content;
+    font-family: {{ block.settings.ticker_font.family }}, {{ block.settings.ticker_font.fallback_families }};
+    font-weight: 400;
+    font-style: {{ block.settings.ticker_font.style }};
+    font-size: {{ block.settings.ticker_text_size }}px;
+    letter-spacing: {{ block.settings.ticker_letter_spacing }}px;
+    text-transform: {{ block.settings.ticker_transform }};
+    color: {{ block.settings.ticker_text_color }};
+    line-height: 1.25;
+  }
+
+  .ai-cooling-tech-ticker-icon-{{ ai_gen_id }} {
+    font-size: calc({{ block.settings.ticker_icon_size }}px * 1.65);
+    line-height: 1;
+    flex-shrink: 0;
+    background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform: none;
+    /* background-clip:text + transparent fill often computes 0×0 width in flex; reserve a real box so gap/margins apply */
+    box-sizing: content-box;
+    min-width: 1.15em;
+    width: 1.15em;
+    height: 1.15em;
+  }
+
+  .ai-cooling-tech-ticker-text-{{ ai_gen_id }} {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  @keyframes ai-cooling-tech-ticker-{{ ai_gen_id }} {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+
+  .ai-cooling-tech-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-cooling-tech-main-heading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.main_heading_font.family }}, {{ block.settings.main_heading_font.fallback_families }};
+    font-weight: {{ block.settings.main_heading_font.weight }};
+    font-style: {{ block.settings.main_heading_font.style }};
+    font-size: {{ block.settings.main_heading_size }}px;
+    margin: 0;
+    letter-spacing: {{ block.settings.main_heading_letter_spacing }}px;
+    text-transform: {{ block.settings.main_heading_transform }};
+    background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .ai-cooling-tech-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.content_gap }}px;
+    align-items: center;
+  }
+
+  .ai-cooling-tech-image-wrapper-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-cooling-tech-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-cooling-tech-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-cooling-tech-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-cooling-tech-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-cooling-tech-text-wrapper-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-cooling-tech-subheading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+    font-style: {{ block.settings.body_font.style }};
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0 0 {{ block.settings.text_spacing }}px;
+    line-height: {{ block.settings.body_line_height }};
+    letter-spacing: {{ block.settings.body_letter_spacing }}px;
+  }
+
+  .ai-cooling-tech-bullets-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.bullet_spacing }}px;
+  }
+
+  .ai-cooling-tech-bullet-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background-color: {{ block.settings.bullet_card_background }};
+    border: 1px solid {{ block.settings.bullet_card_border_color }};
+    border-radius: {{ block.settings.bullet_card_radius }}px;
+    padding: {{ block.settings.bullet_card_padding }}px;
+    box-sizing: border-box;
+  }
+
+  .ai-cooling-tech-bullet-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.bullet_icon_size }}px;
+    height: {{ block.settings.bullet_icon_size }}px;
+    background-color: {{ block.settings.bullet_icon_color }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+  }
+
+  .ai-cooling-tech-bullet-icon-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    fill: {{ block.settings.bullet_icon_check_color }};
+  }
+
+  .ai-cooling-tech-bullet-content-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .ai-cooling-tech-bullet-title-{{ ai_gen_id }} {
+    font-family: {{ block.settings.bullet_title_font.family }}, {{ block.settings.bullet_title_font.fallback_families }};
+    font-weight: {{ block.settings.bullet_title_font.weight }};
+    font-style: {{ block.settings.bullet_title_font.style }};
+    font-size: {{ block.settings.bullet_title_size }}px;
+    color: {{ block.settings.bullet_title_color }};
+    margin: 0 0 4px;
+    letter-spacing: {{ block.settings.bullet_title_letter_spacing }}px;
+  }
+
+  .ai-cooling-tech-bullet-text-{{ ai_gen_id }} {
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    font-weight: {{ block.settings.body_font.weight }};
+    font-style: {{ block.settings.body_font.style }};
+    font-size: {{ block.settings.bullet_text_size }}px;
+    color: {{ block.settings.bullet_text_color }};
+    margin: 0;
+    line-height: {{ block.settings.body_line_height }};
+    letter-spacing: {{ block.settings.body_letter_spacing }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-cooling-tech-container-{{ ai_gen_id }} {
+      width: calc(100% - 32px);
+      max-width: calc(100% - 32px);
+    }
+
+    .ai-cooling-tech-ticker-{{ ai_gen_id }} {
+      --ai-ticker-gap: clamp(52px, 6.5vw, 84px);
+    }
+
+    .ai-cooling-tech-ticker-group-{{ ai_gen_id }} {
+      padding: 10px 0;
+    }
+
+    .ai-cooling-tech-ticker-item-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.ticker_text_size }}px * 0.9);
+    }
+
+    .ai-cooling-tech-ticker-icon-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.ticker_icon_size }}px * 1.45);
+    }
+
+    .ai-cooling-tech-content-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+
+    .ai-cooling-tech-main-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.main_heading_size }}px * 0.7);
+    }
+
+    .ai-cooling-tech-subheading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subheading_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<cooling-technology-{{ ai_gen_id }}
+  class="ai-cooling-tech-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-cooling-tech-container-{{ ai_gen_id }}">
+    {% if cryo_mode == 'full' or cryo_mode == 'ticker_only' %}
+    {% if block.settings.enable_ticker %}
+      {% capture ticker_items %}
+        {% if block.settings.ticker_text_1 != blank %}
+          <span class="ai-cooling-tech-ticker-item-{{ ai_gen_id }}">
+            <span class="ai-cooling-tech-ticker-icon-{{ ai_gen_id }}" aria-hidden="true">{{ block.settings.ticker_icon }}</span>
+            <span class="ai-cooling-tech-ticker-text-{{ ai_gen_id }}">{{ block.settings.ticker_text_1 }}</span>
+          </span>
+        {% endif %}
+        {% if block.settings.ticker_text_2 != blank %}
+          <span class="ai-cooling-tech-ticker-item-{{ ai_gen_id }}">
+            <span class="ai-cooling-tech-ticker-icon-{{ ai_gen_id }}" aria-hidden="true">{{ block.settings.ticker_icon }}</span>
+            <span class="ai-cooling-tech-ticker-text-{{ ai_gen_id }}">{{ block.settings.ticker_text_2 }}</span>
+          </span>
+        {% endif %}
+        {% if block.settings.ticker_text_3 != blank %}
+          <span class="ai-cooling-tech-ticker-item-{{ ai_gen_id }}">
+            <span class="ai-cooling-tech-ticker-icon-{{ ai_gen_id }}" aria-hidden="true">{{ block.settings.ticker_icon }}</span>
+            <span class="ai-cooling-tech-ticker-text-{{ ai_gen_id }}">{{ block.settings.ticker_text_3 }}</span>
+          </span>
+        {% endif %}
+      {% endcapture %}
+      <div class="ai-cooling-tech-ticker-{{ ai_gen_id }}" aria-label="Brand highlights">
+        <div class="ai-cooling-tech-ticker-viewport-{{ ai_gen_id }}">
+          <div class="ai-cooling-tech-ticker-inner-{{ ai_gen_id }}">
+            <div class="ai-cooling-tech-ticker-track-{{ ai_gen_id }}">
+              <div class="ai-cooling-tech-ticker-group-{{ ai_gen_id }}">
+                {{ ticker_items }}
+              </div>
+              <div class="ai-cooling-tech-ticker-group-{{ ai_gen_id }}" aria-hidden="true">
+                {{ ticker_items }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% endif %}
+
+    {% if cryo_mode == 'full' or cryo_mode == 'main_only' %}
+    {% if block.settings.main_heading != blank %}
+      <div class="ai-cooling-tech-header-{{ ai_gen_id }}">
+        <h2 class="ai-cooling-tech-main-heading-{{ ai_gen_id }}">{{ block.settings.main_heading }}</h2>
+      </div>
+    {% endif %}
+
+    <div class="ai-cooling-tech-content-{{ ai_gen_id }}">
+      <div class="ai-cooling-tech-image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.image %}
+          <img
+            src="{{ block.settings.image | image_url: width: 1000 }}"
+            alt="{{ block.settings.image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
+            class="ai-cooling-tech-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-cooling-tech-image-placeholder-{{ ai_gen_id }}">
+            {{ 'product-1' | placeholder_svg_tag }}
+            <div class="ai-cooling-tech-empty-state-{{ ai_gen_id }}">
+              Add an image
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-cooling-tech-text-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.subheading != blank %}
+          <p class="ai-cooling-tech-subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+        {% endif %}
+
+        <ul class="ai-cooling-tech-bullets-{{ ai_gen_id }}">
+          {% if block.settings.bullet_1_title != blank %}
+            <li class="ai-cooling-tech-bullet-{{ ai_gen_id }}">
+              <div class="ai-cooling-tech-bullet-icon-{{ ai_gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
+              </div>
+              <div class="ai-cooling-tech-bullet-content-{{ ai_gen_id }}">
+                <div class="ai-cooling-tech-bullet-title-{{ ai_gen_id }}">{{ block.settings.bullet_1_title }}</div>
+                {% if block.settings.bullet_1_text != blank %}
+                  <p class="ai-cooling-tech-bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_1_text }}</p>
+                {% endif %}
+              </div>
+            </li>
+          {% endif %}
+
+          {% if block.settings.bullet_2_title != blank %}
+            <li class="ai-cooling-tech-bullet-{{ ai_gen_id }}">
+              <div class="ai-cooling-tech-bullet-icon-{{ ai_gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
+              </div>
+              <div class="ai-cooling-tech-bullet-content-{{ ai_gen_id }}">
+                <div class="ai-cooling-tech-bullet-title-{{ ai_gen_id }}">{{ block.settings.bullet_2_title }}</div>
+                {% if block.settings.bullet_2_text != blank %}
+                  <p class="ai-cooling-tech-bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_2_text }}</p>
+                {% endif %}
+              </div>
+            </li>
+          {% endif %}
+
+          {% if block.settings.bullet_3_title != blank %}
+            <li class="ai-cooling-tech-bullet-{{ ai_gen_id }}">
+              <div class="ai-cooling-tech-bullet-icon-{{ ai_gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
+              </div>
+              <div class="ai-cooling-tech-bullet-content-{{ ai_gen_id }}">
+                <div class="ai-cooling-tech-bullet-title-{{ ai_gen_id }}">{{ block.settings.bullet_3_title }}</div>
+                {% if block.settings.bullet_3_text != blank %}
+                  <p class="ai-cooling-tech-bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_3_text }}</p>
+                {% endif %}
+              </div>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</cooling-technology-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CoolingTechnology{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('cooling-technology-{{ ai_gen_id }}', CoolingTechnology{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cooling technology",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "cryo_section_mode",
+      "label": "What this block shows",
+      "options": [
+        { "value": "full", "label": "Ticker + Cryo Chamber (default)" },
+        { "value": "ticker_only", "label": "Moving ticker only" },
+        { "value": "main_only", "label": "Cryo Chamber content only (no ticker)" }
+      ],
+      "default": "full",
+      "info": "Use “Ticker only” in one block, then “Content only” in another when a section (e.g. ingredients) sits between them on the page."
+    },
+    {
+      "type": "header",
+      "content": "Moving ticker (above heading)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_ticker",
+      "label": "Enable ticker",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "ticker_text_1",
+      "label": "Ticker text 1",
+      "default": "Paraben-free, Sulfate-free, Phthalate-free"
+    },
+    {
+      "type": "text",
+      "id": "ticker_text_2",
+      "label": "Ticker text 2",
+      "default": "Non-Toxic, Endocrine Safe Formulas"
+    },
+    {
+      "type": "text",
+      "id": "ticker_text_3",
+      "label": "Ticker text 3",
+      "default": "Formulated & Filled in USA"
+    },
+    {
+      "type": "text",
+      "id": "ticker_icon",
+      "label": "Ticker icon",
+      "default": "◍"
+    },
+    {
+      "type": "font_picker",
+      "id": "ticker_font",
+      "label": "Ticker font",
+      "default": "montserrat_n6"
+    },
+    {
+      "type": "range",
+      "id": "ticker_text_size",
+      "label": "Ticker text size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "ticker_icon_size",
+      "label": "Ticker icon size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "ticker_letter_spacing",
+      "label": "Ticker letter spacing",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "unit": "px",
+      "default": 0.2
+    },
+    {
+      "type": "select",
+      "id": "ticker_transform",
+      "label": "Ticker text transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color",
+      "id": "ticker_text_color",
+      "label": "Ticker text color",
+      "default": "#e4e9f0"
+    },
+    {
+      "type": "color",
+      "id": "ticker_background",
+      "label": "Ticker background",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "ticker_border_color",
+      "label": "Ticker border color",
+      "default": "#2a3440"
+    },
+    {
+      "type": "range",
+      "id": "ticker_speed",
+      "label": "Ticker speed (seconds)",
+      "min": 8,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "ticker_bottom_spacing",
+      "label": "Space below ticker",
+      "min": 8,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Main heading"
+    },
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Main heading",
+      "default": "The Cryo Chamber",
+      "info": "Uses the theme blue gradient (same as hero “in a wipe” highlight)."
+    },
+    {
+      "type": "font_picker",
+      "id": "main_heading_font",
+      "label": "Font",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "main_heading_size",
+      "label": "Size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "main_heading_color",
+      "label": "Color (fallback)",
+      "default": "#5fc4f2",
+      "info": "Not used while gradient is applied; kept for accessibility overrides."
+    },
+    {
+      "type": "range",
+      "id": "main_heading_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0.5
+    },
+    {
+      "type": "select",
+      "id": "main_heading_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "label": "Spacing below",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Text content"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Its sleek, modern design fits perfectly on your bathroom countertop for easy daily use."
+    },
+    {
+      "type": "header",
+      "content": "Bullet point 1"
+    },
+    {
+      "type": "text",
+      "id": "bullet_1_title",
+      "label": "Title",
+      "default": "Built-in cooling system"
+    },
+    {
+      "type": "text",
+      "id": "bullet_1_text",
+      "label": "Description",
+      "default": "Colder than standard refrigerator temperatures"
+    },
+    {
+      "type": "header",
+      "content": "Bullet point 2"
+    },
+    {
+      "type": "text",
+      "id": "bullet_2_title",
+      "label": "Title",
+      "default": "Airtight seal"
+    },
+    {
+      "type": "text",
+      "id": "bullet_2_text",
+      "label": "Description",
+      "default": "Preserves texture and moisture of wipes"
+    },
+    {
+      "type": "header",
+      "content": "Bullet point 3"
+    },
+    {
+      "type": "text",
+      "id": "bullet_3_title",
+      "label": "Title",
+      "default": "Precise temperature control"
+    },
+    {
+      "type": "text",
+      "id": "bullet_3_text",
+      "label": "Description",
+      "default": "Keeps wipes just above freezing point"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Gap between image and text",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "label": "Spacing between text elements",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "bullet_spacing",
+      "label": "Spacing between bullets",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Body text style"
+    },
+    {
+      "type": "font_picker",
+      "id": "body_font",
+      "label": "Font",
+      "default": "harmonia_sans_n4"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "bullet_text_size",
+      "label": "Bullet description size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "bullet_text_color",
+      "label": "Bullet description color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "label": "Line height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.6
+    },
+    {
+      "type": "range",
+      "id": "body_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 2,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Bullet title style"
+    },
+    {
+      "type": "font_picker",
+      "id": "bullet_title_font",
+      "label": "Font",
+      "default": "harmonia_sans_n6"
+    },
+    {
+      "type": "range",
+      "id": "bullet_title_size",
+      "label": "Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "bullet_title_color",
+      "label": "Color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "bullet_title_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 2,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Bullet cards"
+    },
+    {
+      "type": "color",
+      "id": "bullet_card_background",
+      "label": "Card background",
+      "default": "#141E26"
+    },
+    {
+      "type": "color",
+      "id": "bullet_card_border_color",
+      "label": "Card border",
+      "default": "#2a3440"
+    },
+    {
+      "type": "range",
+      "id": "bullet_card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "bullet_card_padding",
+      "label": "Card padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "bullet_icon_color",
+      "label": "Bullet icon background",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "color",
+      "id": "bullet_icon_check_color",
+      "label": "Bullet icon checkmark",
+      "default": "#171717"
+    },
+    {
+      "type": "header",
+      "content": "Bullet icon"
+    },
+    {
+      "type": "range",
+      "id": "bullet_icon_size",
+      "label": "Icon size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cooling technology"
+    }
+  ]
+}
+{% endschema %}

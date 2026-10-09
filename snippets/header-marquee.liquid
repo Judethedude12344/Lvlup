@@ -1,0 +1,160 @@
+{% comment %}
+  Inline marquee above <header>: two identical flex groups, one uniform gap between every phrase
+  (A, B, A, B…) so rhythm doesn’t alternate small vs large gaps. -50% loop on the animated inner.
+{% endcomment %}
+{% liquid
+  assign hm_p1 = section.settings.header_marquee_phrase_1 | default: section.settings.header_marquee_text
+  assign hm_p2 = section.settings.header_marquee_phrase_2
+  assign hm_has_content = false
+  if hm_p1 != blank or hm_p2 != blank
+    assign hm_has_content = true
+  endif
+%}
+{% if section.settings.show_header_marquee and hm_has_content %}
+  {% liquid
+    assign hm_duration = section.settings.header_marquee_duration | default: 26
+    # 4× cooling ticker seconds: same keyframe % but header strip width ≠ page ticker, so px/s matched
+    assign hm_anim_sec = hm_duration | times: 4
+    assign hm_mobile_gap = 72
+    assign hm_desktop_gap = 100
+    assign hm_mobile_pt = 8
+    assign hm_mobile_pb = 8
+    assign hm_desktop_pt = 9
+    assign hm_desktop_pb = 9
+    assign is_rtl = false
+    if settings.enable_rtl == true
+      assign is_rtl = true
+    elsif settings.rtl_enabled_languages != blank
+      assign lang_array_trim = settings.rtl_enabled_languages | replace: ' ', '' | split: ','
+      if lang_array_trim contains localization.language.iso_code
+        assign is_rtl = true
+      endif
+    endif
+  %}
+  {%- style -%}
+    .header-marquee-{{ section.id }} {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+      background: var(--cryo-promo-surface, var(--cryo-promo-gradient));
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      padding-top: {{ hm_mobile_pt }}px;
+      padding-bottom: {{ hm_mobile_pb }}px;
+      min-height: 46px;
+      box-sizing: border-box;
+      --hm-gap: {{ hm_mobile_gap }}px;
+    }
+    .header-marquee-{{ section.id }} .header-marquee__viewport {
+      overflow: hidden;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      min-height: 0;
+    }
+    .header-marquee-{{ section.id }} .header-marquee__inner {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      width: max-content;
+      transform: translate3d(0, 0, 0);
+      animation: headerMarqueeMob{{ section.id }} {{ hm_anim_sec }}s linear infinite normal;
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .header-marquee-{{ section.id }} .header-marquee__group {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      flex-shrink: 0;
+      gap: var(--hm-gap);
+      box-sizing: border-box;
+    }
+    .header-marquee-{{ section.id }} .header-marquee__phrase {
+      margin: 0;
+      flex: 0 0 auto;
+      font-size: clamp(1.3rem, 2.8vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      line-height: 1.2;
+      color: #ffffff;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    }
+    @media screen and (min-width: 750px) {
+      .header-marquee-{{ section.id }} {
+        padding-top: {{ hm_desktop_pt }}px;
+        padding-bottom: {{ hm_desktop_pb }}px;
+        --hm-gap: {{ hm_desktop_gap }}px;
+      }
+      .header-marquee-{{ section.id }} .header-marquee__inner {
+        animation-name: headerMarqueeDesk{{ section.id }};
+        animation-duration: {{ hm_anim_sec }}s;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .header-marquee-{{ section.id }} .header-marquee__inner {
+        animation: none !important;
+        transform: none !important;
+        will-change: auto;
+      }
+    }
+    @keyframes headerMarqueeMob{{ section.id }} {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d({% if is_rtl %}50%{% else %}-50%{% endif %}, 0, 0);
+      }
+    }
+    @keyframes headerMarqueeDesk{{ section.id }} {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d({% if is_rtl %}50%{% else %}-50%{% endif %}, 0, 0);
+      }
+    }
+  {%- endstyle -%}
+  <span class="visually-hidden">
+    {%- if hm_p1 != blank -%}
+      {{- hm_p1 | escape -}}
+    {%- endif -%}
+    {%- if hm_p1 != blank and hm_p2 != blank -%}
+      {{ ' ' }}
+    {%- endif -%}
+    {%- if hm_p2 != blank -%}
+      {{- hm_p2 | escape -}}
+    {%- endif -%}
+  </span>
+  <div class="header-marquee-{{ section.id }}" aria-hidden="true">
+    <div class="header-marquee__viewport">
+      <div class="header-marquee__inner">
+        <div class="header-marquee__group">
+          {% for i in (1..12) %}
+            {% if hm_p1 != blank %}
+              <span class="header-marquee__phrase">{{ hm_p1 | escape }}</span>
+            {% endif %}
+            {% if hm_p2 != blank %}
+              <span class="header-marquee__phrase">{{ hm_p2 | escape }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="header-marquee__group" aria-hidden="true">
+          {% for i in (1..12) %}
+            {% if hm_p1 != blank %}
+              <span class="header-marquee__phrase">{{ hm_p1 | escape }}</span>
+            {% endif %}
+            {% if hm_p2 != blank %}
+              <span class="header-marquee__phrase">{{ hm_p2 | escape }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

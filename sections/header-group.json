@@ -1,0 +1,146 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "2c2ec774-3430-481f-b927-e9c035b9d24e": {
+      "type": "horizontal-ticker",
+      "disabled": true,
+      "blocks": {
+        "horizontal_ticker_waitlist_msg": {
+          "type": "text",
+          "settings": {
+            "title": "JOIN THE WAITLIST! GET EARLY ACCESS!"
+          }
+        }
+      },
+      "block_order": [
+        "horizontal_ticker_waitlist_msg"
+      ],
+      "settings": {
+        "visibility": "always-display",
+        "speed": 2.5,
+        "direction": "normal",
+        "stop_on_hover": false,
+        "mobile_spacing": 60,
+        "desktop_spacing": 100,
+        "color_scheme": "custom",
+        "mobile_text_size": 16,
+        "desktop_text_size": 16,
+        "italic_text": false,
+        "uppercase_text": false,
+        "bold_text": false,
+        "mobile_image_height": 26,
+        "desktop_image_height": 40,
+        "mobile_reviews_width": 300,
+        "desktop_reviews_width": 400,
+        "hidden_products": "",
+        "enable_specific_display": false,
+        "displayed_products": "",
+        "mobile_padding_top": 12,
+        "mobile_padding_bottom": 12,
+        "desktop_padding_top": 12,
+        "desktop_padding_bottom": 12,
+        "custom_colors_background": "#171717",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#eaeaea"
+      }
+    },
+    "fe1c8c67-b84c-4466-a515-70df3134c1c0": {
+      "type": "announcement-bar",
+      "blocks": {
+        "sections--21450414096679__fe1c8c67-b84c-4466-a515-70df3134c1c0-announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "text_alignment": "center",
+            "mobile_text_size": 16,
+            "desktop_text_size": 20,
+            "icon": "storefront",
+            "filled_icon": false,
+            "mobile_icon_size": 20,
+            "desktop_icon_size": 26,
+            "desktop_layout": "horizontal",
+            "mobile_layout": "horizontal",
+            "hidden_products": "",
+            "enable_specific_display": false,
+            "displayed_products": ""
+          }
+        }
+      },
+      "block_order": [
+        "sections--21450414096679__fe1c8c67-b84c-4466-a515-70df3134c1c0-announcement-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "columns_desktop": 1,
+        "columns_mobile": 1,
+        "desktop_spacing": 28,
+        "mobile_spacing": 16,
+        "show_separator": false,
+        "color_scheme": "accent-1",
+        "slider_mobile": true,
+        "slider_desktop": false,
+        "type": "loop",
+        "autoplay": false,
+        "autoplay_speed": 3,
+        "hidden_products": "",
+        "enable_specific_display": false,
+        "displayed_products": "",
+        "padding_top": 16,
+        "padding_bottom": 16,
+        "custom_colors_background": "#dd1d1d",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#ffffff"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "show_header_marquee": true,
+        "header_marquee_phrase_1": "JOIN THE WAITLIST",
+        "header_marquee_phrase_2": "GET EARLY ACCESS",
+        "header_marquee_duration": 26,
+        "sticky_header_type": "always",
+        "show_line_separator": false,
+        "color_scheme": "background-1",
+        "logo_link": "/",
+        "logo_position": "middle-center",
+        "menu": "main-menu",
+        "use_simple_nav": true,
+        "simple_nav_about_label": "About us",
+        "simple_nav_about_url": "/pages/about",
+        "simple_nav_contact_label": "Contact",
+        "simple_nav_contact_url": "/pages/contact",
+        "menu_type_desktop": "dropdown",
+        "highlight_active_link": true,
+        "highlighted_link_color_scheme": "background-1",
+        "products_mega_menu_links": "",
+        "products_mega_menu_display_collection_products": true,
+        "products_mega_menu_display_collection_images": true,
+        "products_mega_menu_display_collection_images_on_mobile": true,
+        "mobile_menu_title": "Menu",
+        "secondary_menu": "",
+        "menu_color_scheme": "background-1",
+        "mobile_logo_position": "center",
+        "display_search": false,
+        "margin_bottom": 0,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "2c2ec774-3430-481f-b927-e9c035b9d24e",
+    "fe1c8c67-b84c-4466-a515-70df3134c1c0",
+    "header"
+  ]
+}

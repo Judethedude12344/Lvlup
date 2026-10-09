@@ -1,0 +1,421 @@
+/**
+ * Editorial / DTC brand layer — dark #171717 base, minimal chrome.
+ * Loads after base.css; complements theme color settings.
+ */
+
+:root {
+  --brand-page: #171717;
+  --brand-elevated: #141e26;
+  --brand-border-subtle: rgba(255, 255, 255, 0.08);
+  --brand-text-muted: #a0aec0;
+  --brand-accent: #5fc4f2;
+  --cryo-grad-a: #2d6f9a;
+  --cryo-grad-b: #58b6d6;
+  /* Same vertical blend as cryo_promo_bar (top strip); used by header marquee when promo section is off */
+  --cryo-promo-surface: linear-gradient(
+    0deg,
+    var(--cryo-grad-a) 0%,
+    color-mix(in srgb, var(--cryo-grad-a) 72%, var(--cryo-grad-b) 28%) 38%,
+    color-mix(in srgb, var(--cryo-grad-a) 38%, var(--cryo-grad-b) 62%) 72%,
+    var(--cryo-grad-b) 100%
+  );
+  /* Fallback when promo block isn’t rendered; matches smoothed cryo_promo_bar logic */
+  --cryo-promo-gradient: linear-gradient(
+    112deg,
+    var(--cryo-grad-b) 0%,
+    color-mix(in srgb, var(--cryo-grad-b) 58%, var(--cryo-grad-a) 42%) 42%,
+    color-mix(in srgb, var(--cryo-grad-b) 22%, var(--cryo-grad-a) 78%) 78%,
+    var(--cryo-grad-a) 100%
+  );
+  --instant-text-color-gradient: linear-gradient(0deg, #2d6f9a, #58b6d6);
+}
+
+html {
+  background-color: var(--brand-page);
+}
+
+body.editorial-brand.gradient {
+  background-color: var(--brand-page) !important;
+  background-image: none !important;
+  letter-spacing: 0.01em;
+}
+
+/* Header: no bottom rule (theme “line separator” + editorial border both off) */
+.editorial-brand .header-wrapper,
+.shopify-section-group-header-group .header-wrapper {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Primary actions: less “deal site”, more premium */
+.editorial-brand .button.button--primary,
+.editorial-brand .button.button--secondary,
+.editorial-brand .shopify-challenge__button,
+.editorial-brand button[name="add"],
+.editorial-brand .product-form__submit {
+  border-width: 1px !important;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.editorial-brand .button.button--primary:hover,
+.editorial-brand .button.button--secondary:hover {
+  transform: translateY(-1px);
+}
+
+/* Product grid: editorial cards */
+.editorial-brand .card,
+.editorial-brand .product-card-wrapper .card,
+.editorial-brand .collection-product-card {
+  border: 1px solid var(--brand-border-subtle);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* Price & type: calmer */
+.price,
+.price-item {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Links */
+.link,
+.customer a {
+  text-underline-offset: 0.2em;
+}
+
+/* Splide / sliders: less aggressive pagination */
+.splide__pagination__page {
+  opacity: 0.35;
+}
+
+.splide__pagination__page.is-active {
+  opacity: 1;
+}
+
+/*
+ * Header group is fixed to the top; scrolling promo copy lives in header-marquee (snippets/header-marquee.liquid).
+ * --header-group-height is set in theme.liquid. --cryo-promo-height is kept at 0 when the separate promo section is unused.
+ */
+.shopify-section-group-header-group {
+  position: fixed;
+  top: var(--cryo-promo-height, 0);
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.shopify-section-group-header-group > .shopify-section {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  flex: 0 0 auto;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  width: 100%;
+  min-height: 0;
+  max-height: none;
+}
+
+.shopify-section-group-header-group > .shopify-section:not(.section-header) {
+  order: 0;
+  position: relative;
+  display: block;
+  height: auto !important;
+  align-self: flex-start;
+}
+
+.shopify-section-group-header-group > .shopify-section.section-header,
+.shopify-section-group-header-group > .shopify-section.section-header.shopify-section-header-sticky {
+  order: 1;
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  z-index: auto;
+  transition: none !important;
+  align-self: flex-start;
+  display: block;
+  height: auto !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  border-top: none;
+  background-color: rgb(var(--color-background));
+}
+
+body.editorial-brand .shopify-section-group-header-group > .shopify-section.section-header {
+  background-color: var(--brand-page);
+}
+
+.shopify-section-group-header-group sticky-header,
+.shopify-section-group-header-group .header-wrapper {
+  display: block;
+  width: 100%;
+  flex: 0 0 auto;
+  height: auto !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* One vertical center line: menu · wordmark · icons share the same cross-axis alignment */
+.shopify-section-group-header-group .header {
+  align-items: center !important;
+  padding-top: 0.95rem !important;
+  padding-bottom: 0.72rem !important;
+  padding-left: clamp(0.9rem, 2.2vw, 1.8rem) !important;
+  padding-right: clamp(0.9rem, 2.2vw, 1.8rem) !important;
+  row-gap: 0 !important;
+  column-gap: inherit;
+}
+
+@media screen and (min-width: 990px) {
+  .shopify-section-group-header-group .header {
+    width: min(1360px, calc(100% - 116px)) !important;
+    max-width: min(1360px, calc(100% - 116px)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1.8rem !important;
+    padding-right: 1.8rem !important;
+  }
+}
+
+.shopify-section-group-header-group .header > header-drawer,
+.shopify-section-group-header-group .header > details-modal,
+.shopify-section-group-header-group .header > .header__inline-menu,
+.shopify-section-group-header-group .header > .header__heading,
+.shopify-section-group-header-group .header > .header__icons {
+  align-self: center !important;
+}
+
+.shopify-section-group-header-group header-drawer {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 989px) {
+  .shopify-section-group-header-group header-drawer {
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+/* Same links as center nav — hide redundant hamburger when inline menu is shown (Dawn ≥990px) */
+@media screen and (min-width: 990px) {
+  .shopify-section-group-header-group .header:not(.drawer-menu) header-drawer {
+    display: none !important;
+  }
+}
+
+.shopify-section-group-header-group .header__inline-menu {
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+  align-self: center !important;
+  align-items: center !important;
+}
+
+@media screen and (min-width: 990px) {
+  .shopify-section-group-header-group .header__inline-menu {
+    display: flex !important;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  /* Inset bar — not as narrow as the old 130px frame, not flush to the viewport */
+  .shopify-section-group-header-group .header {
+    width: calc(100% - 56px) !important;
+    max-width: calc(100% - 56px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .shopify-section-group-header-group .header__inline-menu {
+    display: none !important;
+  }
+
+  .shopify-section-group-header-group header-drawer {
+    margin-left: -0.85rem !important;
+  }
+
+  .shopify-section-group-header-group .header__icon--menu {
+    margin-left: 0 !important;
+  }
+
+  .shopify-section-group-header-group .header__icon--account {
+    margin-right: 0.35rem !important;
+  }
+
+  .shopify-section-group-header-group .header__icon--cart {
+    margin-right: -1.4rem !important;
+  }
+
+  /* Keep account icon visible on mobile even when theme adds .small-hide */
+  .shopify-section-group-header-group .header__icons .header__icon--account.small-hide {
+    display: flex !important;
+  }
+}
+
+.shopify-section-group-header-group .list-menu__item--link {
+  padding-top: 0.45rem !important;
+  padding-bottom: 0.45rem !important;
+  padding-left: 0.35rem !important;
+  padding-right: 0.35rem !important;
+  line-height: 1.25 !important;
+}
+
+.shopify-section-group-header-group .header__menu-item--main {
+  padding-top: 0.45rem !important;
+  padding-bottom: 0.45rem !important;
+  padding-left: 0.35rem !important;
+  padding-right: 0.35rem !important;
+  line-height: 1.25 !important;
+}
+
+.shopify-section-group-header-group summary.list-menu__item {
+  padding-top: 0.45rem !important;
+  padding-bottom: 0.45rem !important;
+}
+
+.shopify-section-group-header-group .header__icons {
+  align-items: center !important;
+  padding: 0 0.15rem !important;
+}
+
+@media screen and (max-width: 989px) {
+  .shopify-section-group-header-group .header__icons {
+    padding-left: 0 !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
+.shopify-section-group-header-group .header__icon {
+  padding: 0.45rem !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Primary nav + drawer labels: full white (theme uses rgba foreground + accent on hover) */
+.shopify-section-group-header-group .header__inline-menu .header__menu-item--main {
+  color: #ffffff !important;
+}
+
+.shopify-section-group-header-group .header__inline-menu .header__menu-item--main:hover,
+.shopify-section-group-header-group .header__inline-menu .header__menu-item--main:focus-visible {
+  color: #ffffff !important;
+}
+
+.shopify-section-group-header-group .header__inline-menu .header__menu-item--main .header__active-menu-item,
+.shopify-section-group-header-group .header__inline-menu .header__menu-item--main .header__active-menu-item-v2 {
+  color: inherit !important;
+}
+
+.shopify-section-group-header-group .menu-drawer__menu-item {
+  color: #ffffff !important;
+}
+
+.shopify-section-group-header-group .menu-drawer__menu-item:hover,
+.shopify-section-group-header-group .menu-drawer__menu-item:focus-visible {
+  color: #ffffff !important;
+}
+
+/* Header bar icons: search, account, cart (SVGs use currentColor) */
+.shopify-section-group-header-group .header .header__icon {
+  color: #ffffff !important;
+}
+
+.shopify-section-group-header-group .header .header__icon:hover,
+.shopify-section-group-header-group .header .header__icon:focus-visible {
+  color: #ffffff !important;
+}
+
+.shopify-section-group-header-group .header .header__icon--cart svg circle,
+.shopify-section-group-header-group .header .header__icon--cart svg polyline,
+.shopify-section-group-header-group .header .header__icon--cart svg line,
+.shopify-section-group-header-group .header .header__icon--cart svg path {
+  color: #ffffff !important;
+}
+
+/*
+ * Logo link uses .ratio + .media from base.css — .ratio must stay display:flex or the
+ * aspect-ratio box + absolutely positioned img collapse. Never set display on .header__heading-link.
+ * Spacing: outer .header / .header__heading padding only; .header__heading-link.media already has padding:0 in base.
+ */
+.shopify-section-group-header-group .header__heading {
+  margin: 0 !important;
+  padding: 0.7rem 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+.shopify-section-group-header-group .header--middle-center .header__heading,
+.shopify-section-group-header-group .header--top-center .header__heading {
+  justify-content: center !important;
+}
+
+.shopify-section-group-header-group .header__heading-link {
+  margin: 0 !important;
+}
+
+/* Text wordmark (replaces logo image): “Cryo” uses same gradient as promo bar */
+/* Base theme sets line-height: 0 on .header__heading / .header > .header__heading-link for image logos */
+.header__heading:has(.header__heading-wordmark) {
+  line-height: 1.15 !important;
+}
+
+.header > .header__heading-link.header__heading-wordmark,
+.header .header__heading-link.header__heading-wordmark {
+  line-height: 1.15 !important;
+}
+
+.header__heading-link.header__heading-wordmark {
+  padding: 0.15rem 0 !important;
+}
+
+.header__heading-link.header__heading-wordmark .header__wordmark {
+  display: inline-block;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.header__wordmark-cryo {
+  background: var(--instant-text-color-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.header__wordmark-rest {
+  color: #ffffff;
+}
+
+/* Push page content below fixed promo + header (fallback until JS measures) */
+#MainContent.content-for-layout {
+  padding-top: var(--header-group-height, 112px);
+}
+
+#MainContent.content-for-layout:focus {
+  scroll-margin-top: var(--header-group-height, 112px);
+}
+
+/* Footer */
+.editorial-brand .footer {
+  border-top: 1px solid var(--brand-border-subtle);
+}
+
+/* Reduce “deal” visual noise on badges where theme allows */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}

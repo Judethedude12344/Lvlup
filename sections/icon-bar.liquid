@@ -1,0 +1,1443 @@
+{%- liquid
+  assign has_mobile_slider = false
+  assign has_desktop_slider = false
+  if section.settings.slider_mobile
+    assign has_mobile_slider = true
+  endif
+  if section.settings.slider_desktop
+    assign has_desktop_slider = true
+  endif
+  assign static_grid = false
+  if has_desktop_slider == false and has_mobile_slider == false
+    assign static_grid = true
+  endif
+  assign product_card_cta_font_px = 12
+  if section.settings.boxed_cards and section.settings.product_card_style
+    assign product_card_cta_font_px = section.settings.product_card_title_size | times: 0.9 | round
+    if product_card_cta_font_px < 12
+      assign product_card_cta_font_px = 12
+    endif
+  endif
+-%}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .color-scheme-{{ section.id }}.color-custom {
+    --color-background: {{ section.settings.custom_colors_background.red }}, {{ section.settings.custom_colors_background.green }}, {{ section.settings.custom_colors_background.blue }};
+    --gradient-background: {% if section.settings.custom_gradient_background != blank %}{{ section.settings.custom_gradient_background }}{% else %}{{ section.settings.custom_colors_background }}{% endif %};
+    {% if section.settings.custom_image_background != blank %}
+      {% # theme-check-disable %}
+      --gradient-background: url('{{ section.settings.custom_image_background | img_url: 'master' }}') center center / cover no-repeat;
+      {% # theme-check-enable %}
+    {% endif %}
+    --color-foreground: {{ section.settings.custom_colors_text.red }}, {{ section.settings.custom_colors_text.green }}, {{ section.settings.custom_colors_text.blue }};
+  }
+  {% if section.settings.custom_mobile_image_background != blank %}
+    @media screen and (max-width: 740px) {
+      .color-scheme-{{ section.id }}.color-custom {
+        {% # theme-check-disable %}
+        --gradient-background: url('{{ section.settings.custom_mobile_image_background | img_url: 'master' }}') center center / cover no-repeat;
+        {% # theme-check-enable %}
+      }
+    }
+  {% endif %}
+
+  .cards-color-scheme-{{ section.id }}.color-custom {
+    --color-background: {{ section.settings.custom_cards_colors_background.red }}, {{ section.settings.custom_cards_colors_background.green }}, {{ section.settings.custom_cards_colors_background.blue }};
+    --gradient-background: {% if section.settings.custom_cards_gradient_background != blank %}{{ section.settings.custom_cards_gradient_background }}{% else %}{{ section.settings.custom_cards_colors_background }}{% endif %};
+    --color-foreground: {{ section.settings.custom_cards_colors_text.red }}, {{ section.settings.custom_cards_colors_text.green }}, {{ section.settings.custom_cards_colors_text.blue }};
+  }
+
+  {% if section.settings.boxed_cards %}
+    .icon-bar.icon-bar--boxed-{{ section.id }} .icon-bar-card.content-container {
+      border-radius: 1.125rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.75rem 1.5rem 2rem;
+      box-sizing: border-box;
+      min-height: 100%;
+      background: {{ section.settings.boxed_card_background }} !important;
+      --gradient-background: {{ section.settings.boxed_card_background }} !important;
+      box-shadow: none;
+    }
+    .icon-bar.icon-bar--boxed-{{ section.id }} .icon-bar-card.content-container:after {
+      display: none;
+    }
+    .icon-bar.icon-bar--boxed-{{ section.id }} .icon-bar-card h3 {
+      color: {{ section.settings.boxed_card_title_color }} !important;
+    }
+    .icon-bar.icon-bar--boxed-{{ section.id }} .icon-bar-card .rte,
+    .icon-bar.icon-bar--boxed-{{ section.id }} .icon-bar-card .rte p {
+      color: {{ section.settings.boxed_card_text_color }};
+    }
+    .icon-bar.icon-bar--boxed-{{ section.id }} .splide__slide > .splide__slide__container {
+      height: 100%;
+    }
+    .icon-bar.icon-bar--boxed-{{ section.id }} .icon-bar-static-grid__cell {
+      height: 100%;
+      min-height: 0;
+    }
+    .icon-bar.icon-bar--boxed-{{ section.id }} .icon-bar-card--vertical {
+      align-items: center;
+      text-align: center;
+    }
+  {% endif %}
+
+  {% if section.settings.boxed_cards and section.settings.product_card_style %}
+    {% if section.settings.product_card_title_font != blank %}
+      {{ section.settings.product_card_title_font | font_face: font_display: 'swap' }}
+    {% endif %}
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card.content-container {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.25rem 1.25rem 1.35rem;
+      background:
+        radial-gradient(
+          ellipse 125% 68% at 50% 100%,
+          color-mix(in srgb, var(--brand-page, #171717) 86%, #ffffff 14%) 0%,
+          color-mix(in srgb, var(--brand-page, #171717) 94%, #ffffff 6%) 48%,
+          transparent 72%
+        ),
+        linear-gradient(
+          180deg,
+          var(--brand-page, #171717) 0%,
+          var(--brand-page, #171717) 14%,
+          color-mix(in srgb, var(--brand-page, #171717) 97%, #ffffff 3%) 30%,
+          color-mix(in srgb, var(--brand-page, #171717) 93%, #ffffff 7%) 44%,
+          color-mix(in srgb, var(--brand-page, #171717) 89%, #ffffff 11%) 58%,
+          color-mix(in srgb, var(--brand-page, #171717) 85%, #ffffff 15%) 74%,
+          color-mix(in srgb, var(--brand-page, #171717) 92%, #ffffff 8%) 90%,
+          var(--brand-page, #171717) 100%
+        ) !important;
+      --gradient-background:
+        radial-gradient(
+          ellipse 125% 68% at 50% 100%,
+          color-mix(in srgb, var(--brand-page, #171717) 86%, #ffffff 14%) 0%,
+          color-mix(in srgb, var(--brand-page, #171717) 94%, #ffffff 6%) 48%,
+          transparent 72%
+        ),
+        linear-gradient(
+          180deg,
+          var(--brand-page, #171717) 0%,
+          var(--brand-page, #171717) 14%,
+          color-mix(in srgb, var(--brand-page, #171717) 97%, #ffffff 3%) 30%,
+          color-mix(in srgb, var(--brand-page, #171717) 93%, #ffffff 7%) 44%,
+          color-mix(in srgb, var(--brand-page, #171717) 89%, #ffffff 11%) 58%,
+          color-mix(in srgb, var(--brand-page, #171717) 85%, #ffffff 15%) 74%,
+          color-mix(in srgb, var(--brand-page, #171717) 92%, #ffffff 8%) 90%,
+          var(--brand-page, #171717) 100%
+        ) !important;
+      align-items: stretch;
+      text-align: left;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--vertical {
+      align-items: stretch;
+      text-align: left;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 7.5rem;
+      margin-bottom: 0.75rem;
+      padding: 0.5rem 0 0.25rem;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon img {
+      max-height: 140px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon .material-icon {
+      font-size: clamp(2.75rem, 6vw, 4rem);
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1em;
+      min-height: 1em;
+      overflow: visible;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .multicolumn-card__info {
+      width: 100%;
+      text-align: left;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card h3 {
+      font-family: {{ section.settings.product_card_title_font.family }}, {{ section.settings.product_card_title_font.fallback_families }} !important;
+      font-weight: {{ section.settings.product_card_title_font.weight }} !important;
+      font-style: {{ section.settings.product_card_title_font.style }} !important;
+      font-size: {{ section.settings.product_card_title_size }}px !important;
+      letter-spacing: 0.04em;
+      line-height: 1.25;
+      margin: 0 !important;
+      color: {{ section.settings.boxed_card_title_color }} !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card .rte,
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card .rte p {
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.45;
+      margin: 0;
+      color: {{ section.settings.boxed_card_text_color }};
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__cta {
+      display: block;
+      width: 100%;
+      margin-top: auto;
+      text-decoration: none;
+      text-align: center;
+      font-family: {{ section.settings.product_card_title_font.family }}, {{ section.settings.product_card_title_font.fallback_families }} !important;
+      font-weight: {{ section.settings.product_card_title_font.weight }} !important;
+      font-style: {{ section.settings.product_card_title_font.style }} !important;
+      font-size: {{ product_card_cta_font_px }}px !important;
+      letter-spacing: 0.06em !important;
+      text-transform: uppercase;
+      color: #ffffff !important;
+      background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+      border: none;
+      border-radius: 6px;
+      padding: 1.2rem 1.25rem;
+      box-sizing: border-box;
+      transition: opacity 0.2s ease, filter 0.2s ease;
+      box-shadow: none !important;
+      filter: none;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__cta:hover {
+      opacity: 0.95;
+      filter: brightness(1.06);
+      box-shadow: none !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0 0 0.25rem;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__stars {
+      color: {{ section.settings.product_card_button_bg }};
+      font-size: 0.85rem;
+      line-height: 1;
+      letter-spacing: 0.05em;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__rating-count {
+      font-size: 0.75rem;
+      color: {{ section.settings.boxed_card_text_color }};
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__price-row {
+      margin-top: 0.35rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__price {
+      font-weight: 700;
+      color: {{ section.settings.product_card_button_bg }};
+      font-size: 0.95rem;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__compare-at {
+      font-size: 0.8rem;
+      color: {{ section.settings.boxed_card_text_color }};
+      text-decoration: line-through;
+    }
+  {% endif %}
+  {% if static_grid %}
+    #shopify-section-{{ section.id }} .icon-bar--static-grid.animate-section.animate--hidden .icon-bar-static-grid .animate-item {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+    }
+    .icon-bar-static-grid--{{ section.id }} {
+      display: grid;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      gap: var(--gap-mobile);
+      grid-template-columns: repeat(var(--columns-mobile), minmax(0, 1fr));
+    }
+    @media screen and (min-width: 750px) {
+      .icon-bar-static-grid--{{ section.id }} {
+        gap: var(--gap-desktop);
+        {% if section.blocks.size == 3 %}
+          grid-template-columns: repeat(3, minmax(0, 30rem));
+          justify-content: center;
+          width: 100%;
+          max-width: min(100%, 98rem);
+          margin-left: auto;
+          margin-right: auto;
+        {% elsif section.blocks.size == 2 and section.settings.product_card_style %}
+          grid-template-columns: repeat(2, minmax(0, 30rem));
+          justify-content: center;
+          width: 100%;
+          max-width: min(100%, 68rem);
+          margin-left: auto;
+          margin-right: auto;
+        {% else %}
+          grid-template-columns: repeat(var(--columns-desktop), minmax(0, 1fr));
+        {% endif %}
+      }
+    }
+  {% endif %}
+  {% if section.settings.boxed_cards and section.settings.product_card_style and static_grid and section.blocks.size >= 2 and section.blocks.size <= 3 %}
+    /* Pull product-card icon bar closer to the heading section above (same bg reads as one band) */
+    #shopify-section-{{ section.id }} {
+      margin-top: -1.75rem;
+    }
+    @media screen and (min-width: 750px) {
+      #shopify-section-{{ section.id }} {
+        margin-top: -2.5rem;
+      }
+    }
+    #shopify-section-{{ section.id }} .icon-bar.icon-bar--product-cards .title-wrapper-with-link {
+      margin-bottom: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .icon-bar.icon-bar--product-cards .multicolumn-text {
+      margin-bottom: 0.15rem !important;
+    }
+    #shopify-section-{{ section.id }} .icon-bar.icon-bar--product-cards .icon-bar-static-grid {
+      margin-top: -3.5rem;
+    }
+    @media screen and (min-width: 750px) {
+      #shopify-section-{{ section.id }} .icon-bar.icon-bar--product-cards .icon-bar-static-grid {
+        margin-top: -6.75rem;
+      }
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card.content-container {
+      min-height: 44rem;
+      padding: 1.75rem 0.65rem 0.55rem !important;
+      border-radius: 14px !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: none !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon {
+      min-height: 20rem !important;
+      margin-bottom: 0 !important;
+      flex-shrink: 0;
+      padding: 4.5rem 0.75rem 0.35rem !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .multicolumn-card__info {
+      margin-top: auto !important;
+      flex: 0 1 auto !important;
+      gap: 0.22rem !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      transform: translateY(-0.8rem);
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .multicolumn-card__info > * {
+      margin-top: 0 !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon img {
+      display: block;
+      max-height: 360px !important;
+      width: auto !important;
+      height: auto !important;
+      max-width: 100% !important;
+      object-fit: contain !important;
+      object-position: center bottom !important;
+      transform: translateY(2.55rem) !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon .material-icon {
+      font-size: clamp(3rem, 8vw, 4.5rem) !important;
+      line-height: 1 !important;
+      min-width: 1em !important;
+      min-height: 1em !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card.icon-bar-card--theme-product.content-container {
+      overflow: visible !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .icon-bar-card__icon--theme-product {
+      min-height: 20rem !important;
+      padding: 1.35rem 0 0.25rem !important;
+      overflow: visible !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .icon-bar-card__icon--theme-product .icon-bar-card__img-theme-product {
+      max-height: none !important;
+      max-width: none !important;
+      width: 122% !important;
+      height: auto !important;
+      margin-left: -11% !important;
+      margin-right: -11% !important;
+      object-fit: contain !important;
+      object-position: center bottom !important;
+      transform: translateY(3.95rem) scale(1.32) !important;
+      transform-origin: center bottom !important;
+    }
+    /* Cryo Chamber (dark/white) only: slightly smaller product art than wipes */
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--cryo-chamber.icon-bar-card--theme-product .icon-bar-card__icon--theme-product .icon-bar-card__img-theme-product {
+      width: 116% !important;
+      margin-left: -8% !important;
+      margin-right: -8% !important;
+      transform: translateY(3.95rem) scale(1.24) !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product h3 {
+      font-size: {{ section.settings.product_card_title_size | plus: 2 }}px !important;
+      letter-spacing: 0.03em !important;
+    }
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .rte,
+    .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .rte p {
+      font-size: 1.3rem !important;
+      font-weight: 500 !important;
+      background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent !important;
+      -webkit-text-fill-color: transparent;
+    }
+    #shopify-section-{{ section.id }} .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__cta {
+      margin-top: 0.32rem !important;
+      margin-left: -1.05rem !important;
+      margin-right: -1.05rem !important;
+      width: calc(100% + 2.1rem) !important;
+      max-width: none !important;
+      padding: 1.2rem 0.85rem !important;
+      font-size: {{ product_card_cta_font_px }}px !important;
+      border-radius: 5px !important;
+      box-sizing: border-box !important;
+      box-shadow: none !important;
+      filter: none;
+    }
+    @media screen and (min-width: 750px) {
+      /* Slightly shorter cards on desktop: less forced card height + vertical padding only (fonts, CTA, img max-height unchanged) */
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card.content-container {
+        min-height: 39rem !important;
+        padding: 1.45rem 0.65rem 0.5rem !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon:not(.icon-bar-card__icon--theme-product) {
+        padding: 4rem 0.75rem 0.32rem !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .multicolumn-card__info {
+        transform: translateY(-0.55rem);
+      }
+      /* Match COMING SOON button inset (see .icon-bar-card__cta negative margins above). */
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product h3 {
+        margin-left: -1.05rem !important;
+        width: calc(100% + 1.05rem) !important;
+        box-sizing: border-box !important;
+        text-align: left !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .rte {
+        margin-left: -1.05rem !important;
+        width: calc(100% + 1.05rem) !important;
+        box-sizing: border-box !important;
+        text-align: left !important;
+      }
+      #shopify-section-{{ section.id }} .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__cta {
+        letter-spacing: 0.5px !important;
+      }
+    }
+    @media screen and (max-width: 749px) {
+      {% if section.blocks.size == 3 %}
+      #shopify-section-{{ section.id }} .icon-bar-static-grid--{{ section.id }} {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: clamp(4px, 1.2vw, 10px) !important;
+        align-items: stretch;
+      }
+      {% elsif section.blocks.size == 2 %}
+      #shopify-section-{{ section.id }} .icon-bar-static-grid--{{ section.id }} {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: clamp(6px, 2vw, 12px) !important;
+        align-items: stretch;
+      }
+      {% endif %}
+      #shopify-section-{{ section.id }} .icon-bar-static-grid--{{ section.id }} .icon-bar-static-grid__cell {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        min-height: 0;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card.content-container {
+        flex: 1 1 auto !important;
+        min-height: clamp(24rem, 62vw, 32rem) !important;
+        width: 100% !important;
+        align-self: stretch !important;
+        padding: 0.45rem 0.08rem 0.35rem !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon {
+        min-height: clamp(11rem, 34vw, 15rem) !important;
+        padding: 1.35rem 0.05rem 0.1rem !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .icon-bar-card__icon--theme-product {
+        min-height: clamp(11rem, 34vw, 15rem) !important;
+        padding: 1rem 0 0.06rem !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .icon-bar-card__icon--theme-product .icon-bar-card__img-theme-product {
+        width: 118% !important;
+        max-height: none !important;
+        margin-left: -9% !important;
+        margin-right: -9% !important;
+        transform: translateY(2.1rem) scale(1.2) !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--cryo-chamber.icon-bar-card--theme-product .icon-bar-card__icon--theme-product .icon-bar-card__img-theme-product {
+        width: 112% !important;
+        margin-left: -6% !important;
+        margin-right: -6% !important;
+        transform: translateY(2.1rem) scale(1.14) !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__icon img:not(.icon-bar-card__img-theme-product) {
+        max-height: min(200px, 48vw) !important;
+        transform: translateY(1.35rem) !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .multicolumn-card__info {
+        transform: translateY(-0.4rem) !important;
+        align-items: stretch !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product h3 {
+        font-size: clamp(11px, 3.15vw, 14px) !important;
+        letter-spacing: 0.03em !important;
+        margin-left: -0.55rem !important;
+        text-align: left !important;
+        width: calc(100% + 0.55rem) !important;
+        box-sizing: border-box !important;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .rte,
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .rte p {
+        font-size: clamp(9.5px, 2.65vw, 11.5px) !important;
+        font-weight: 500 !important;
+        background: var(--instant-text-color-gradient, linear-gradient(0deg, #2d6f9a, #58b6d6));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent;
+      }
+      .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card--theme-product .rte {
+        margin-left: -0.55rem !important;
+        text-align: left !important;
+        width: calc(100% + 0.55rem) !important;
+        box-sizing: border-box !important;
+      }
+      #shopify-section-{{ section.id }} .icon-bar.icon-bar--product-cards.icon-bar--boxed-{{ section.id }} .icon-bar-card__cta {
+        font-size: clamp(10px, 3vw, 13px) !important;
+        padding: 0.65rem 0.12rem !important;
+        min-height: 2.75rem !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-top: 0.34rem !important;
+        margin-left: -0.55rem !important;
+        margin-right: -0.55rem !important;
+        width: calc(100% + 1.1rem) !important;
+        letter-spacing: 0.4px !important;
+        box-shadow: none !important;
+        filter: none;
+      }
+    }
+  {% endif %}
+{%- endstyle -%}
+
+<div class="icon-bar multicolumn animate-section animate--hidden color-scheme-{{ section.id }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %} content-for-grouping {{ section.settings.visibility }}{% if section.settings.boxed_cards %} icon-bar--boxed-{{ section.id }}{% endif %}{% if section.settings.boxed_cards and section.settings.product_card_style %} icon-bar--product-cards{% endif %}{% if static_grid %} icon-bar--static-grid{% endif %}" data-mobile-columns="{{ section.settings.columns_mobile }}">
+  {% if section.settings.display_id %}
+    <copy-button class='section-id-btn button' data-content="#shopify-section-{{ section.id }}" data-success="false">
+      <span class="copy-text">Click to copy section ID</span>
+      <span class="copy-success">ID copied successfully!</span>
+    </copy-button>
+  {% endif %}
+  {%- liquid
+    assign bg_diff_class = ' multicolumn--same-bgs'
+    unless section.settings.color_scheme == section.settings.cards_color_scheme
+      assign bg_diff_class = ' multicolumn--diff-bgs'
+    endunless
+    if section.settings.color_scheme == 'custom' and section.settings.cards_color_scheme == 'custom'
+      unless section.settings.custom_colors_background == section.settings.custom_cards_colors_background
+        assign bg_diff_class = ' multicolumn--diff-bgs'
+      endunless
+    endif
+  -%}
+  <div class="page-width{% if section.settings.desktop_full_page %} desktop-full-page{% endif %}{% if has_mobile_slider %} mobile-full-page{% endif %} section-{{ section.id }}-padding isolate" style="--columns-desktop: {{ section.settings.columns_desktop }};--columns-mobile: {{ section.settings.columns_mobile }};--gap-desktop:{{ section.settings.desktop_spacing }}px;--gap-mobile:{{ section.settings.mobile_spacing }}px;">
+    {% assign content_index = 0 %}
+    {% unless section.settings.title == blank and section.settings.text == blank %}
+      <div class='animate-item animate-item--child index-0'>
+        {%- unless section.settings.title == blank -%}
+          {% assign content_index = 1 %}
+          <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin{% if section.settings.text != blank %} multicolumn-title-with-text{% endif %}">
+            <h2 class="title {{ section.settings.heading_size }} title-with-highlight" style='--hightlight-color:{{ section.settings.title_highlight_color }}'>
+              {{ section.settings.title }}
+            </h2>
+          </div>
+        {%- endunless -%}
+        {% if section.settings.text != blank %}
+          {% assign content_index = 1 %}
+          <div class="multicolumn-text">
+            {{ section.settings.text }}
+          </div>
+        {% endif %}
+      </div>
+    {% endunless %}
+    {% if static_grid %}
+      <div class="icon-bar-static-grid icon-bar-static-grid--{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <div class="icon-bar-static-grid__cell" style="--index:{{ forloop.index0 | plus: content_index }};" {{ block.shopify_attributes }}>
+            {% render 'icon-bar-card-column', block: block, section: section, bg_diff_class: bg_diff_class %}
+          </div>
+        {%- endfor -%}
+      </div>
+    {% else %}
+      {% if has_mobile_slider or has_desktop_slider %}
+        <splide-component
+          data-type='{{ section.settings.type }}'
+          data-autoplay='{{ section.settings.autoplay }}'
+          data-autoplay-speed='{{ section.settings.autoplay_speed }}'
+          data-arrows-color="{{ section.settings.arrows_color_scheme }}"
+          data-dots-color="{{ section.settings.dots_color_scheme }}"
+          data-slides-desktop="{{ section.settings.columns_desktop }}"
+          data-per-move-desktop='{{ section.settings.per_move_desktop }}'
+          data-gap-desktop='{{ section.settings.desktop_spacing }}'
+          data-side-padding-desktop='{{ section.settings.desktop_side_padding }}'
+          data-padding-calc-desktop='{{ section.settings.desktop_padding_calc }}'
+          data-slides-mobile="{{ section.settings.columns_mobile }}"
+          data-gap-mobile='15'
+          {% if section.settings.enable_mobile_preview %}
+            data-side-padding-mobile='24'
+          {% else %}
+            data-side-padding-mobile='15'
+          {% endif %}
+          {% if has_desktop_slider == false %}
+            data-destroy-desktop="true"
+          {% elsif has_mobile_slider == false %}
+            data-destroy-mobile="true"
+          {% endif %}
+        >
+      {% endif %}
+        <div 
+          class='splide splide--desktop-dots-{{ section.settings.desktop_dots_position }} splide--mobile-dots-{{ section.settings.mobile_dots_position }} splide--desktop-arrows-{{ section.settings.desktop_arrows_position }} splide--desktop-arrows-outside splide--mobile-arrows-{{ section.settings.mobile_arrows_position }}{% if section.settings.transparent_arrows %} splide--transparent-arrows{% endif %}{% if section.settings.vertical-alignment == 'center' %} splide--vertically-centered{% endif %}{% if has_desktop_slider == false %} splide--destroy-desktop{% endif %}{% if has_mobile_slider == false %} splide--destroy-mobile{% endif %}' 
+          {% if section.settings.desktop_adaptive_height and section.settings.slides_desktop == 1 and has_desktop_slider %}
+            data-desktop-adaptive-height="true"
+          {% endif %}
+          {% if section.settings.mobile_adaptive_height and has_mobile_slider %}
+            data-mobile-adaptive-height="true"
+          {% endif %}
+        >
+          <div class="splide__track">
+            <ul class="splide__list">
+              {%- for block in section.blocks -%}
+                <li class="splide__slide">
+                  <div class="splide__slide__container" style="--index:{{ forloop.index0 | plus: content_index }};" {{ block.shopify_attributes }}>
+                    {% render 'icon-bar-card-column', block: block, section: section, bg_diff_class: bg_diff_class %}
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          <div class='splide__dots-and-arrows'>
+            <ul class="splide__pagination"></ul>
+            <div class="splide__arrows"></div>
+          </div>
+        </div>
+      {% if has_mobile_slider or has_desktop_slider %}
+        </splide-component>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Icon Bar",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "display_id",
+      "label": "Display section ID",
+      "info": "ID is used in the Sections group section to merge 2 sections. ID can also be put inside any button link and the button will scroll to this section.",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "options": [
+        {
+          "value": "desktop-hidden",
+          "label": "Mobile only"
+        },
+        {
+          "value": "mobile-hidden",
+          "label": "Desktop only"
+        },
+        {
+          "value": "always-display",
+          "label": "All devices"
+        }
+      ],
+      "label": "Display on",
+      "default": "always-display"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Icon bar",
+      "label": "Heading",
+      "info": "Bold certain words to highlight them with a different color."
+    },
+    {
+      "type": "color",
+      "id": "title_highlight_color",
+      "label": "Heading highlight color",
+      "default": "#6D388B"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme",
+      "info": "Custom color scheme is edited at the bottom of section settings."
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "select",
+      "id": "icon_layout",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "Horizontal"
+        },
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        }
+      ],
+      "default": "vertical",
+      "label": "Icon layout"
+    },
+    {
+      "type": "select",
+      "id": "icon_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium",
+      "label": "Icon Size"
+    },
+    {
+      "type": "select",
+      "id": "icon_color",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "text",
+          "label": "Text"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Icon color"
+    },
+    {
+      "type": "checkbox",
+      "id": "boxed_cards",
+      "label": "Style columns as card boxes",
+      "default": false,
+      "info": "Adds a contrasting background, border, rounded corners, and padding around each image and text block."
+    },
+    {
+      "type": "color",
+      "id": "boxed_card_background",
+      "label": "Card box background",
+      "default": "#141E26"
+    },
+    {
+      "type": "color",
+      "id": "boxed_card_title_color",
+      "label": "Card box heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "boxed_card_text_color",
+      "label": "Card box text color",
+      "default": "#CBD5E0"
+    },
+    {
+      "type": "header",
+      "content": "Product-style cards (dark + accent)"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_card_style",
+      "label": "Enable product-style layout",
+      "default": false,
+      "info": "Left-aligned copy, image on top, optional gradient CTA. Requires “Style columns as card boxes” above."
+    },
+    {
+      "type": "color",
+      "id": "product_card_surface",
+      "label": "Card surface color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "product_card_button_bg",
+      "label": "Button accent (gradient base)",
+      "default": "#2d6f9a"
+    },
+    {
+      "type": "font_picker",
+      "id": "product_card_title_font",
+      "label": "Product card title font",
+      "default": "montserrat_n5",
+      "info": "Default is Montserrat Medium — slightly bolder than Regular, lighter than Semibold."
+    },
+    {
+      "type": "range",
+      "id": "product_card_title_size",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 18,
+      "label": "Product card title size"
+    },
+    {
+      "type": "select",
+      "id": "cards_color_scheme",
+      "options": [
+        {
+          "value": "bg-overlay",
+          "label": "Light overlay"
+        },
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "background-1",
+      "label": "Cards color scheme",
+      "info": "Custom color scheme is edited at the bottom of section settings."
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "paragraph",
+      "content": "ATTENTION: ONLY in the theme editor, pagination dots might duplicate after changing section settings. To overcome this, simply click Save. This has NO EFFECT on the published website."
+    },
+    {
+      "type": "select",
+      "id": "type",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Classic"
+        },
+        {
+          "value": "loop",
+          "label": "Infinite"
+        }
+      ],
+      "default": "slide",
+      "label": "Type"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 1,
+      "max": 15,
+      "step": 0.5,
+      "default": 5,
+      "unit": "sec",
+      "label": "Autoplay speed"
+    },
+    {
+      "type": "select",
+      "id": "arrows_color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "default": "inverse",
+      "label": "Arrows color scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_arrows",
+      "label": "Transparent arrows",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "dots_color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Text"
+        }
+      ],
+      "default": "inverse",
+      "label": "Dots color"
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_full_page",
+      "label": "Full page width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "Columns desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_desktop",
+      "label": "Enable desktop slider",
+      "default": false,
+      "info": "The settings bellow are applied if this option is checked"
+    },
+    {
+      "type": "range",
+      "id": "per_move_desktop",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1,
+      "label": "Slides to scroll on one move"
+    },
+    {
+      "type": "range",
+      "id": "desktop_spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_side_padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Preview of prev & next slide",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_padding_calc",
+      "label": "Disable empty preview on first & last slide",
+      "default": true,
+      "info": "Moves the first slide to the left edge adn last one to the right if Preview value is enabled. Visible if type is set to Slider."
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_adaptive_height",
+      "label": "Adaptive height",
+      "default": false,
+      "info": "Only available if Slides per page is set to 1."
+    },
+    {
+      "type": "select",
+      "id": "desktop_dots_position",
+      "options": [
+        {
+          "value": "hidden",
+          "label": "Hidden"
+        },
+        {
+          "value": "under",
+          "label": "Under the slider"
+        }
+      ],
+      "default": "under",
+      "label": "Dots position"
+    },
+    {
+      "type": "select",
+      "id": "desktop_arrows_position",
+      "options": [
+        {
+          "value": "hidden",
+          "label": "Hidden"
+        },
+        {
+          "value": "under",
+          "label": "Under the slider"
+        },
+        {
+          "value": "sides",
+          "label": "On sides of the slider"
+        }
+      ],
+      "default": "sides",
+      "label": "Arrows position"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.multicolumn.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.multicolumn.settings.columns_mobile.options__2.label"
+        }
+      ],
+      "default": "1",
+      "label": "t:sections.multicolumn.settings.columns_mobile.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_mobile",
+      "label": "Enable mobile slider",
+      "default": true,
+      "info": "The settings bellow are applied if this option is checked"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile_preview",
+      "label": "Preview of prev & next slides",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_adaptive_height",
+      "label": "Adaptive height",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "mobile_dots_position",
+      "options": [
+        {
+          "value": "hidden",
+          "label": "Hidden"
+        },
+        {
+          "value": "under",
+          "label": "Under the slider"
+        }
+      ],
+      "default": "under",
+      "label": "Dots position"
+    },
+    {
+      "type": "select",
+      "id": "mobile_arrows_position",
+      "options": [
+        {
+          "value": "hidden",
+          "label": "Hidden"
+        },
+        {
+          "value": "under",
+          "label": "Under the slider"
+        },
+        {
+          "value": "sides",
+          "label": "On sides of the slider"
+        }
+      ],
+      "default": "under",
+      "label": "Arrows position"
+    },
+    {
+      "type": "range",
+      "id": "mobile_spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile spacing",
+      "default": 38,
+      "info": "Gap between cards when the mobile slider is off (grid layout)."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Custom color scheme",
+      "info": "Applied if Color scheme setting is set to Custom."
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_background",
+      "default": "#FFFFFF",
+      "label": "Background color"
+    },
+    {
+      "type": "color_background",
+      "id": "custom_gradient_background",
+      "label": "Gradient background",
+      "info": "If added, replaces Background color when applicable."
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_image_background",
+      "label": "Image background"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_mobile_image_background",
+      "label": "Mobile image background",
+      "info": "If empty, the Image background will also be applied to mobile devices"
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_text",
+      "default": "#2E2A39",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Custom cards color scheme",
+      "info": "Applied if Cards color scheme setting is set to Custom."
+    },
+    {
+      "type": "color",
+      "id": "custom_cards_colors_background",
+      "default": "#F3F3F3",
+      "label": "Background color"
+    },
+    {
+      "type": "color_background",
+      "id": "custom_cards_gradient_background",
+      "label": "Gradient background",
+      "info": "If added, replaces Background color when applicable."
+    },
+    {
+      "type": "color",
+      "id": "custom_cards_colors_text",
+      "default": "#2E2A39",
+      "label": "Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Icon",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "default": "check_circle",
+          "label": "Icon",
+          "info": "[View all available icons](https:\/\/fonts.google.com\/icons?icon.set=Material+Symbols&icon.platform=web)."
+        },
+        {
+          "type": "checkbox",
+          "id": "filled_icon",
+          "default": false,
+          "label": "Filled icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom icon"
+        },
+        {
+          "type": "select",
+          "id": "theme_product_image",
+          "label": "Theme product image",
+          "default": "",
+          "options": [
+            {
+              "value": "",
+              "label": "None — use custom image or icon"
+            },
+            {
+              "value": "cryo_dark",
+              "label": "Cryo Chamber (dark, theme PNG)"
+            },
+            {
+              "value": "cryo_white",
+              "label": "Cryo Chamber (white, theme PNG)"
+            },
+            {
+              "value": "cryo_wipes_sachet",
+              "label": "Cryo Wipes sachet (theme PNG)"
+            }
+          ],
+          "info": "Built-in PNG from the theme assets. When set, it overrides the custom image above. Use this if the checkboxes below do not save reliably."
+        },
+        {
+          "type": "checkbox",
+          "id": "use_theme_cryo_chamber_image",
+          "label": "Cryo Chamber image (theme asset)",
+          "default": false,
+          "info": "Uses the theme’s Cryo Chamber artwork instead of the custom image. Fixed height so the card size stays consistent."
+        },
+        {
+          "type": "checkbox",
+          "id": "use_theme_white_chamber_image",
+          "label": "White chamber product image (theme asset)",
+          "default": false,
+          "info": "Uses the theme’s white chamber product photo instead of the custom image above."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Icon",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Pair text with an icon to focus on your chosen product, collection, or blog post<p>",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "COMING SOON",
+          "info": "Shown only when Product-style layout is enabled. Leave blank to hide the button."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "rating_count",
+          "label": "Review count (optional)",
+          "info": "e.g. 2,417 — shows stars when filled. Product-style layout only."
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price (optional)",
+          "info": "Shown in gold when product-style layout is on."
+        },
+        {
+          "type": "text",
+          "id": "compare_at_price",
+          "label": "Compare-at price (optional)",
+          "info": "Struck-through grey, next to price."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon Bar",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

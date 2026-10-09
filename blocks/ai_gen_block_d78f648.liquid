@@ -1,0 +1,1013 @@
+{% doc %}
+  @prompt
+    Problem section with optional label, headline with accent, subtext, and a three-column comparison table (Cryo Wipes vs other methods). Brand accents use the theme blue gradient; editable gradient stops, copy, and spacing.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign brand_col_tint_alpha = block.settings.table_brand_column_tint_opacity | times: 0.01 %}
+{% assign brand_col_tint_hex = block.settings.table_brand_column_tint %}
+{% if brand_col_tint_hex != blank %}
+  {% assign brand_col_tint_r = brand_col_tint_hex | color_extract: 'red' %}
+  {% assign brand_col_tint_g = brand_col_tint_hex | color_extract: 'green' %}
+  {% assign brand_col_tint_b = brand_col_tint_hex | color_extract: 'blue' %}
+{% else %}
+  {% assign brand_col_tint_r = 91 %}
+  {% assign brand_col_tint_g = 125 %}
+  {% assign brand_col_tint_b = 158 %}
+{% endif %}
+
+{% style %}
+  .ai-problem-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.section_background }};
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    --ai-problem-accent-grad: linear-gradient(
+      0deg,
+      {{ block.settings.accent_gradient_start }},
+      {{ block.settings.accent_gradient_end }}
+    );
+  }
+
+  .ai-problem-container-{{ ai_gen_id }} {
+    width: min({{ block.settings.container_max_width }}px, calc(100% - {{ block.settings.container_horizontal_inset }}px));
+    max-width: min({{ block.settings.container_max_width }}px, calc(100% - {{ block.settings.container_horizontal_inset }}px));
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+
+  .ai-problem-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-problem-label-{{ ai_gen_id }} {
+    font-family: {{ block.settings.label_font.family }}, {{ block.settings.label_font.fallback_families }};
+    font-weight: {{ block.settings.label_font.weight }};
+    font-size: {{ block.settings.label_font_size }}px;
+    line-height: 1;
+    letter-spacing: {{ block.settings.label_letter_spacing }}px;
+    text-transform: uppercase;
+    margin: 0 0 {{ block.settings.label_spacing }}px;
+    background: var(--ai-problem-accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .ai-problem-headline-{{ ai_gen_id }} {
+    font-family: {{ block.settings.headline_font.family }}, {{ block.settings.headline_font.fallback_families }};
+    font-weight: 400;
+    font-size: {{ block.settings.headline_font_size }}px;
+    line-height: {{ block.settings.headline_line_height }};
+    letter-spacing: -0.04em;
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 {{ block.settings.headline_spacing }}px;
+  }
+
+  .ai-problem-headline-accent-{{ ai_gen_id }} {
+    font-weight: 400;
+    color: {{ block.settings.headline_accent_color }};
+  }
+
+  .ai-problem-headline-br-mobile-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-problem-subtext-{{ ai_gen_id }} {
+    font-family: {{ block.settings.subtext_font.family }}, {{ block.settings.subtext_font.fallback_families }};
+    font-weight: {{ block.settings.subtext_font.weight }};
+    font-size: {{ block.settings.subtext_font_size }}px;
+    line-height: {{ block.settings.subtext_line_height }};
+    color: {{ block.settings.subtext_color }};
+    max-width: {{ block.settings.subtext_max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-problem-table-wrap-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.cards_top_spacing }}px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ai-problem-table-{{ ai_gen_id }} {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: none;
+    background: transparent;
+  }
+
+  .ai-problem-table-{{ ai_gen_id }} th,
+  .ai-problem-table-{{ ai_gen_id }} td {
+    vertical-align: middle;
+    padding: {{ block.settings.table_cell_padding_y }}px {{ block.settings.table_cell_padding_x }}px;
+    border: none;
+    border-bottom: 1px solid {{ block.settings.table_border_color }};
+    border-right: 1px solid {{ block.settings.table_border_color }};
+  }
+
+  .ai-problem-table-{{ ai_gen_id }} th:nth-child(1),
+  .ai-problem-table-{{ ai_gen_id }} td:nth-child(1),
+  .ai-problem-table-{{ ai_gen_id }} th:nth-child(3),
+  .ai-problem-table-{{ ai_gen_id }} td:nth-child(3) {
+    background-color: transparent;
+  }
+
+  /* Flat subtle tint; only header + last row use gradients to soften table edges. */
+  .ai-problem-table-{{ ai_gen_id }} th:nth-child(2),
+  .ai-problem-table-{{ ai_gen_id }} td:nth-child(2) {
+    background-color: rgba({{ brand_col_tint_r }}, {{ brand_col_tint_g }}, {{ brand_col_tint_b }}, {{ brand_col_tint_alpha }});
+  }
+
+  .ai-problem-table-{{ ai_gen_id }} thead th:nth-child(2) {
+    background: linear-gradient(
+      180deg,
+      rgba({{ brand_col_tint_r }}, {{ brand_col_tint_g }}, {{ brand_col_tint_b }}, 0) 0%,
+      rgba({{ brand_col_tint_r }}, {{ brand_col_tint_g }}, {{ brand_col_tint_b }}, 0) 20%,
+      rgba({{ brand_col_tint_r }}, {{ brand_col_tint_g }}, {{ brand_col_tint_b }}, {{ brand_col_tint_alpha }}) 100%
+    );
+  }
+
+  .ai-problem-table-{{ ai_gen_id }} tbody tr:last-child td:nth-child(2) {
+    background: linear-gradient(
+      180deg,
+      rgba({{ brand_col_tint_r }}, {{ brand_col_tint_g }}, {{ brand_col_tint_b }}, {{ brand_col_tint_alpha }}) 0%,
+      rgba({{ brand_col_tint_r }}, {{ brand_col_tint_g }}, {{ brand_col_tint_b }}, {{ brand_col_tint_alpha }}) 52%,
+      rgba({{ brand_col_tint_r }}, {{ brand_col_tint_g }}, {{ brand_col_tint_b }}, 0) 100%
+    );
+  }
+
+  .ai-problem-table-{{ ai_gen_id }} th:last-child,
+  .ai-problem-table-{{ ai_gen_id }} td:last-child {
+    border-right: none;
+  }
+
+  .ai-problem-table-{{ ai_gen_id }} tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .ai-problem-table-corner-{{ ai_gen_id }} {
+    text-align: left;
+    width: {{ block.settings.table_first_col_percent }}%;
+    font-family: {{ block.settings.table_corner_font.family }}, {{ block.settings.table_corner_font.fallback_families }};
+    font-weight: {{ block.settings.table_corner_font.weight }};
+    font-size: {{ block.settings.table_corner_font_size }}px;
+    line-height: 1.35;
+    color: {{ block.settings.table_left_prefix_color }};
+  }
+
+  .ai-problem-table-gradient-text-{{ ai_gen_id }} {
+    background: var(--ai-problem-accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .ai-problem-table-corner-brand-{{ ai_gen_id }} {
+    display: block;
+    margin-top: 0;
+    font-size: {{ block.settings.table_corner_brand_font_size }}px;
+    font-weight: {{ block.settings.table_corner_brand_weight }};
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .ai-problem-table-brand-head-{{ ai_gen_id }} {
+    text-align: center;
+    font-family: {{ block.settings.brand_column_font.family }}, {{ block.settings.brand_column_font.fallback_families }};
+    font-weight: {{ block.settings.brand_column_font.weight }};
+    font-size: {{ block.settings.brand_column_font_size }}px;
+    letter-spacing: 0.06em;
+    line-height: 1.08;
+  }
+
+  .ai-problem-table-others-head-{{ ai_gen_id }} {
+    text-align: center;
+    font-family: {{ block.settings.others_column_font.family }}, {{ block.settings.others_column_font.fallback_families }};
+    font-weight: {{ block.settings.others_column_font.weight }};
+    font-size: {{ block.settings.others_column_font_size }}px;
+    color: {{ block.settings.others_column_color }};
+    line-height: 1.08;
+  }
+
+  .ai-problem-table-others-head-inner-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .ai-problem-table-feature-{{ ai_gen_id }} {
+    text-align: left;
+    font-family: {{ block.settings.feature_row_font.family }}, {{ block.settings.feature_row_font.fallback_families }};
+    font-weight: {{ block.settings.feature_row_font.weight }};
+    font-size: {{ block.settings.feature_row_font_size }}px;
+    line-height: {{ block.settings.feature_row_line_height }};
+    color: {{ block.settings.feature_row_color }};
+  }
+
+  .ai-problem-table-icon-cell-{{ ai_gen_id }} {
+    text-align: center;
+    width: auto;
+  }
+
+  .ai-problem-table-icon-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ block.settings.icon_circle_size }}px;
+    height: {{ block.settings.icon_circle_size }}px;
+    border-radius: 50%;
+  }
+
+  .ai-problem-table-icon-{{ ai_gen_id }}--yes {
+    background: var(--ai-problem-accent-grad);
+    color: {{ block.settings.check_mark_color }};
+  }
+
+  .ai-problem-table-icon-{{ ai_gen_id }}--no {
+    background-color: {{ block.settings.x_circle_color }};
+    color: {{ block.settings.section_background }};
+  }
+
+  .ai-problem-table-icon-{{ ai_gen_id }} svg {
+    width: 55%;
+    height: 55%;
+    display: block;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-problem-table-corner-{{ ai_gen_id }} {
+      line-height: 1.2;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-problem-section-{{ ai_gen_id }} {
+      padding-top: {{ block.settings.section_padding_top_mobile }}px;
+    }
+
+    /* Same width rule as hero image card: calc(100% - 32px) on mobile */
+    .ai-problem-container-{{ ai_gen_id }} {
+      width: min({{ block.settings.container_max_width }}px, calc(100% - {{ block.settings.container_horizontal_inset_mobile }}px));
+      max-width: min({{ block.settings.container_max_width }}px, calc(100% - {{ block.settings.container_horizontal_inset_mobile }}px));
+    }
+
+    .ai-problem-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_font_size | times: 0.72 }}px;
+      line-height: 1.2;
+    }
+
+    /* Second line: full accent phrase; keep “Fails You” from splitting */
+    .ai-problem-headline-accent-{{ ai_gen_id }} {
+      display: block;
+      margin-top: 0.12em;
+      white-space: nowrap;
+    }
+
+    .ai-problem-headline-br-mobile-{{ ai_gen_id }} {
+      display: block;
+    }
+
+    .ai-problem-label-{{ ai_gen_id }} {
+      font-size: {{ block.settings.label_font_size | times: 0.72 }}px;
+      letter-spacing: {{ block.settings.label_letter_spacing | times: 0.78 }}px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .ai-problem-subtext-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtext_font_size | times: 0.82 }}px;
+    }
+
+    .ai-problem-table-{{ ai_gen_id }} {
+      min-width: 100%;
+    }
+
+    .ai-problem-table-corner-{{ ai_gen_id }} {
+      font-size: {{ block.settings.table_corner_font_size | times: 0.9 }}px;
+      line-height: 1.2;
+    }
+
+    .ai-problem-table-corner-brand-{{ ai_gen_id }} {
+      margin-top: 2px;
+      line-height: 1.15;
+      font-size: {{ block.settings.table_corner_brand_font_size | times: 0.92 }}px;
+    }
+
+    .ai-problem-table-brand-head-{{ ai_gen_id }} {
+      line-height: 1;
+      font-size: {{ block.settings.brand_column_font_size | times: 0.92 }}px;
+    }
+
+    .ai-problem-table-others-head-{{ ai_gen_id }} {
+      line-height: 1;
+      font-size: {{ block.settings.others_column_font_size | times: 0.92 }}px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .ai-problem-table-feature-{{ ai_gen_id }} {
+      font-size: {{ block.settings.feature_row_font_size | times: 0.92 }}px;
+    }
+  }
+{% endstyle %}
+
+<problem-section-{{ ai_gen_id }} class="ai-problem-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-problem-container-{{ ai_gen_id }}">
+    <div class="ai-problem-header-{{ ai_gen_id }}">
+      {% if block.settings.label != blank %}
+        <div class="ai-problem-label-{{ ai_gen_id }}">{{ block.settings.label }}</div>
+      {% endif %}
+
+      {% if block.settings.headline != blank %}
+        <h2 class="ai-problem-headline-{{ ai_gen_id }}">
+          {% assign headline_parts = block.settings.headline | split: block.settings.headline_accent_text %}
+          {% if headline_parts.size > 1 %}
+            {% assign before_accent = headline_parts[0] %}
+            {% assign break_word = block.settings.headline_mobile_break_before | strip %}
+            {% if break_word != blank and before_accent contains break_word %}
+              {% assign br_parts = before_accent | split: break_word %}
+              {{ br_parts[0] }}<br class="ai-problem-headline-br-mobile-{{ ai_gen_id }}">{{ break_word }}{{ br_parts[1] }}<span class="ai-problem-headline-accent-{{ ai_gen_id }}">{{ block.settings.headline_accent_text }}</span>{{ headline_parts[1] }}
+            {% else %}
+              {{ before_accent }}<span class="ai-problem-headline-accent-{{ ai_gen_id }}">{{ block.settings.headline_accent_text }}</span>{{ headline_parts[1] }}
+            {% endif %}
+          {% else %}
+            {{ block.settings.headline }}
+          {% endif %}
+        </h2>
+      {% endif %}
+
+      {% if block.settings.subtext != blank %}
+        <p class="ai-problem-subtext-{{ ai_gen_id }}">{{ block.settings.subtext }}</p>
+      {% endif %}
+    </div>
+
+    <div class="ai-problem-table-wrap-{{ ai_gen_id }}">
+      <table class="ai-problem-table-{{ ai_gen_id }}">
+        <caption class="visually-hidden">
+          {{ block.settings.table_left_prefix }}
+          {{ block.settings.table_left_brand }}.
+          {{ block.settings.brand_column_heading }}
+          vs
+          {{ block.settings.others_column_heading }}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col" class="ai-problem-table-corner-{{ ai_gen_id }}">
+              {% if block.settings.table_left_prefix != blank %}
+                <span>{{ block.settings.table_left_prefix }}</span>
+              {% endif %}
+              {% if block.settings.table_left_brand != blank %}
+                <span class="ai-problem-table-corner-brand-{{ ai_gen_id }} ai-problem-table-gradient-text-{{ ai_gen_id }}">{{ block.settings.table_left_brand }}</span>
+              {% endif %}
+            </th>
+            <th scope="col" class="ai-problem-table-brand-head-{{ ai_gen_id }}">
+              <span class="ai-problem-table-gradient-text-{{ ai_gen_id }}">{{ block.settings.brand_column_heading }}</span>
+            </th>
+            <th scope="col" class="ai-problem-table-others-head-{{ ai_gen_id }}">
+              <span class="ai-problem-table-others-head-inner-{{ ai_gen_id }}">{{ block.settings.others_column_heading }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in (1..6) %}
+            {% liquid
+              assign row_key = 'feature_row_' | append: i
+              assign row_text = block.settings[row_key]
+            %}
+            {% if row_text != blank %}
+              <tr>
+                <td class="ai-problem-table-feature-{{ ai_gen_id }}">{{ row_text }}</td>
+                <td class="ai-problem-table-icon-cell-{{ ai_gen_id }}">
+                  <span class="ai-problem-table-icon-{{ ai_gen_id }} ai-problem-table-icon-{{ ai_gen_id }}--yes" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </span>
+                </td>
+                <td class="ai-problem-table-icon-cell-{{ ai_gen_id }}">
+                  <span class="ai-problem-table-icon-{{ ai_gen_id }} ai-problem-table-icon-{{ ai_gen_id }}--no" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</problem-section-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProblemSection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define('problem-section-{{ ai_gen_id }}', ProblemSection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Problem section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Background color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "label": "Max width (caps like hero image)",
+      "min": 800,
+      "max": 1800,
+      "step": 10,
+      "unit": "px",
+      "default": 1500,
+      "info": "Stops growing past this width on large screens. Use 1500 to match the top hero card."
+    },
+    {
+      "type": "range",
+      "id": "container_horizontal_inset",
+      "label": "Side inset — desktop (100% − inset)",
+      "min": 40,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 98,
+      "info": "Default 98 matches the desktop hero card."
+    },
+    {
+      "type": "range",
+      "id": "container_horizontal_inset_mobile",
+      "label": "Side inset — mobile (100% − inset)",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 32,
+      "info": "Default 32 matches the top hero image card on mobile (calc(100% - 32px))."
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top_mobile",
+      "label": "Top padding (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20,
+      "info": "Space below the stats bar — use a smaller value to sit closer to the percentages (similar gap as hero → stats)."
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Label"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label text",
+      "default": "THE PROBLEM"
+    },
+    {
+      "type": "font_picker",
+      "id": "label_font",
+      "label": "Font",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "label_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color (fallback)",
+      "default": "#5fc4f2",
+      "info": "The label uses the same blue gradient as the table brand accents (gradient top/bottom in Comparison table). This color is kept for accessibility overrides only."
+    },
+    {
+      "type": "range",
+      "id": "label_spacing",
+      "label": "Space below label (to headline)",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline text",
+      "default": "Traditional Cold Therapy Fails You"
+    },
+    {
+      "type": "text",
+      "id": "headline_accent_text",
+      "label": "Accent text",
+      "default": "Fails You",
+      "info": "This text will be highlighted in the accent color"
+    },
+    {
+      "type": "text",
+      "id": "headline_mobile_break_before",
+      "label": "Mobile line break before word",
+      "default": "Therapy",
+      "info": "On small screens, inserts a line break before this word in the headline (before the accent). Example: “Traditional Cold” on line 1, “Therapy Fails You” on line 2. Clear to disable."
+    },
+    {
+      "type": "font_picker",
+      "id": "headline_font",
+      "label": "Font",
+      "default": "inter_n7"
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size",
+      "label": "Font size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "headline_line_height",
+      "label": "Line height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "headline_accent_color",
+      "label": "Accent color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "range",
+      "id": "headline_spacing",
+      "label": "Space below headline (to subtext)",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Subtext"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Current solutions are expensive, inconvenient, and impractical for daily use."
+    },
+    {
+      "type": "font_picker",
+      "id": "subtext_font",
+      "label": "Font",
+      "default": "harmonia_sans_n4"
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size",
+      "label": "Font size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtext_line_height",
+      "label": "Line height",
+      "min": 1.2,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.6
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "subtext_max_width",
+      "label": "Max width",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "label": "Header bottom spacing",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Comparison table"
+    },
+    {
+      "type": "range",
+      "id": "cards_top_spacing",
+      "label": "Space above table",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "color",
+      "id": "table_background",
+      "label": "Side columns background (legacy)",
+      "default": "#141414",
+      "info": "Columns 1 and 3 use a transparent background so the section color shows through."
+    },
+    {
+      "type": "color",
+      "id": "table_brand_column_tint",
+      "label": "Middle column glow color",
+      "default": "#5b7d9e",
+      "info": "Muted blue wash on the middle column. Not a full-column gradient — only the header and last row fade at the table edges."
+    },
+    {
+      "type": "range",
+      "id": "table_brand_column_tint_opacity",
+      "label": "Middle column glow strength",
+      "min": 2,
+      "max": 18,
+      "step": 1,
+      "unit": "%",
+      "default": 7,
+      "info": "Keep low for a subtle wash. Header fades toward the top of the table; last row fades toward the bottom."
+    },
+    {
+      "type": "color",
+      "id": "table_border_color",
+      "label": "Inner grid lines",
+      "default": "#2a2a2a",
+      "info": "Thin lines only — no outer table border."
+    },
+    {
+      "type": "range",
+      "id": "table_cell_padding_y",
+      "label": "Cell padding (vertical)",
+      "min": 10,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "table_cell_padding_x",
+      "label": "Cell padding (horizontal)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "table_first_col_percent",
+      "label": "First column width",
+      "min": 35,
+      "max": 55,
+      "step": 1,
+      "unit": "%",
+      "default": 46
+    },
+    {
+      "type": "header",
+      "content": "Table — corner (Why choose …)"
+    },
+    {
+      "type": "text",
+      "id": "table_left_prefix",
+      "label": "First line",
+      "default": "Why choose"
+    },
+    {
+      "type": "text",
+      "id": "table_left_brand",
+      "label": "Second line (brand)",
+      "default": "CRYO WIPES?"
+    },
+    {
+      "type": "font_picker",
+      "id": "table_corner_font",
+      "label": "Font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "range",
+      "id": "table_corner_font_size",
+      "label": "Font size (Why choose line)",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "table_corner_brand_font_size",
+      "label": "Font size (brand line only)",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "info": "Applies to the second line only (e.g. CRYO WIPES?), not “Why choose”."
+    },
+    {
+      "type": "select",
+      "id": "table_corner_brand_weight",
+      "label": "Brand line weight",
+      "options": [
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "color",
+      "id": "table_left_prefix_color",
+      "label": "First line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Table — brand gradient (text & check icons)"
+    },
+    {
+      "type": "color",
+      "id": "accent_gradient_start",
+      "label": "Gradient top",
+      "default": "#2d6f9a",
+      "info": "Matches hero / editorial blue gradient when set to #2d6f9a → #58b6d6"
+    },
+    {
+      "type": "color",
+      "id": "accent_gradient_end",
+      "label": "Gradient bottom",
+      "default": "#58b6d6"
+    },
+    {
+      "type": "header",
+      "content": "Table — column headers"
+    },
+    {
+      "type": "text",
+      "id": "brand_column_heading",
+      "label": "Brand column title",
+      "default": "CRYO WIPES"
+    },
+    {
+      "type": "font_picker",
+      "id": "brand_column_font",
+      "label": "Brand column font",
+      "default": "montserrat_n7"
+    },
+    {
+      "type": "range",
+      "id": "brand_column_font_size",
+      "label": "Brand column font size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "others_column_heading",
+      "label": "Other methods column title",
+      "default": "Other methods"
+    },
+    {
+      "type": "font_picker",
+      "id": "others_column_font",
+      "label": "Other methods column font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "range",
+      "id": "others_column_font_size",
+      "label": "Other methods column font size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "color",
+      "id": "others_column_color",
+      "label": "Other methods column color",
+      "default": "#ffffff",
+      "info": "Header title for column 3."
+    },
+    {
+      "type": "header",
+      "content": "Table — comparison rows"
+    },
+    {
+      "type": "paragraph",
+      "content": "Each row should state what Cryo Wipes offers. The Cryo column shows a check for that benefit; Other methods shows an X when they don’t (e.g. others are time-consuming or expensive — Cryo is quick and affordable)."
+    },
+    {
+      "type": "font_picker",
+      "id": "feature_row_font",
+      "label": "Font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "range",
+      "id": "feature_row_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "feature_row_line_height",
+      "label": "Line height",
+      "min": 1.2,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "feature_row_color",
+      "label": "Text color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "text",
+      "id": "feature_row_1",
+      "label": "Row 1",
+      "default": "Quick & convenient",
+      "info": "Benefit Cryo offers (vs time-consuming routines elsewhere)"
+    },
+    {
+      "type": "text",
+      "id": "feature_row_2",
+      "label": "Row 2",
+      "default": "Affordable for daily use",
+      "info": "vs expensive alternatives"
+    },
+    {
+      "type": "text",
+      "id": "feature_row_3",
+      "label": "Row 3",
+      "default": "Clean & mess-free",
+      "info": "vs messy bowls, splashing, etc."
+    },
+    {
+      "type": "text",
+      "id": "feature_row_4",
+      "label": "Row 4",
+      "default": "No freezer storage",
+      "info": "vs ice rollers / packs that need the freezer"
+    },
+    {
+      "type": "text",
+      "id": "feature_row_5",
+      "label": "Row 5",
+      "default": "Consistent cooling",
+      "info": "vs inconsistent cold from taps or rollers"
+    },
+    {
+      "type": "text",
+      "id": "feature_row_6",
+      "label": "Row 6",
+      "default": "Water-wise & fast",
+      "info": "vs wasting water and time at the sink"
+    },
+    {
+      "type": "header",
+      "content": "Table — icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_circle_size",
+      "label": "Icon circle size",
+      "min": 22,
+      "max": 44,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "check_mark_color",
+      "label": "Check mark (on gradient)",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "x_circle_color",
+      "label": "X circle background (other methods)",
+      "default": "#dedede",
+      "info": "Light grey fill; a bit darker than white reads cleaner. The X uses the section background color."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Problem section"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1001 @@
+{% doc %}
+  @prompt
+    I want to create a before and after slider section but i am able to have multiple before and after sliders and users can scroll to see the others , can you add the arrows for the middle line of the before and after photos. arrows to slide back and forth and also you forgot the after label. Make me able to customaize the before and after labels also. Make the whole picture from a circle instead of a square,  the before and after labels should be small and be on the outside of the circle. top left and top right of the circle is where the labels should be, the before and after images when i upload are on the wrong side of the circles, make the before and after labels closer to the picture. make option where we can change the color of the words and background color, make the labels background be the same exact shape , make the before and after buttons not touch the top of the section padding,  Also make it where if user drags the photos to scroll, they can do that easily  want the option to have arrows on the sides and the bottom so people are able to scroll to see the other photos, for the navigation bar, also make me an option where i can choose different style of the arrow placement for example at the bottom of the section with the left and right arrows and the ... in the middle and i can customize the arrows background and arrow size, Make the before photo align with the after photo., make me option to choose either the side navigation bar or the bottom. Add a title section. that will go at the top. The drag and slide to see other pictures on the screen is not fluid. Make the drag and scroll fluid and can go back and forth seeing different pictures. make the before and after labels go on the outside of pictures. The before will be on top left side of the picture. the after label goes top right of the after picture. Make it so each before after picture is full sized and when you drag it just reveals before or after full sized picture., Ok make it so the size of the sliders are much smaller so 3 fit on the screen, Ok, make the side arrows on the outside of the circles. and add arrow on the slider. Also make it semi transparent.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-ba-slider-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-ba-slider-title-{{ ai_gen_id }} {
+    text-align: center;
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size }}px;
+  }
+
+  .ai-ba-slider-container-{{ ai_gen_id }} {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: visible;
+    padding: 0 {{ block.settings.nav_arrow_size | plus: 20 }}px;
+  }
+
+  .ai-ba-slider-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: grab;
+    user-select: none;
+    overflow: hidden;
+  }
+
+  .ai-ba-slider-wrapper-{{ ai_gen_id }}.dragging {
+    cursor: grabbing;
+    transition: none;
+  }
+
+  .ai-ba-slider-item-{{ ai_gen_id }} {
+    flex: 0 0 33.333%;
+    position: relative;
+    padding: 0 {{ block.settings.item_spacing }}px;
+  }
+
+  .ai-ba-comparison-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 50%;
+    aspect-ratio: 1;
+  }
+
+  .ai-ba-image-container-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-ba-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-ba-after-container-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .ai-ba-after-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-ba-divider-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: {{ block.settings.divider_width }}px;
+    height: 100%;
+    background-color: {{ block.settings.divider_color }};
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    z-index: 3;
+  }
+
+  .ai-ba-handle-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: {{ block.settings.handle_size }}px;
+    height: {{ block.settings.handle_size }}px;
+    background-color: {{ block.settings.handle_bg_color }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .ai-ba-arrow-{{ ai_gen_id }} {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  .ai-ba-arrow-left-{{ ai_gen_id }} {
+    left: 25%;
+    border-width: {{ block.settings.arrow_size }}px {{ block.settings.arrow_size }}px {{ block.settings.arrow_size }}px 0;
+    border-color: transparent {{ block.settings.arrow_color }} transparent transparent;
+  }
+
+  .ai-ba-arrow-right-{{ ai_gen_id }} {
+    right: 25%;
+    border-width: {{ block.settings.arrow_size }}px 0 {{ block.settings.arrow_size }}px {{ block.settings.arrow_size }}px;
+    border-color: transparent transparent transparent {{ block.settings.arrow_color }};
+  }
+
+  .ai-ba-label-{{ ai_gen_id }} {
+    position: absolute;
+    z-index: 2;
+    padding: {{ block.settings.label_padding_y }}px {{ block.settings.label_padding_x }}px;
+    background-color: {{ block.settings.label_bg_color }};
+    color: {{ block.settings.label_text_color }};
+    font-size: {{ block.settings.label_font_size }}px;
+    font-weight: 600;
+    border-radius: {{ block.settings.label_border_radius }}px;
+    pointer-events: none;
+  }
+
+  .ai-ba-label-before-{{ ai_gen_id }} {
+    top: {{ block.settings.label_offset }}px;
+    left: {{ block.settings.label_offset }}px;
+  }
+
+  .ai-ba-label-after-{{ ai_gen_id }} {
+    top: {{ block.settings.label_offset }}px;
+    right: {{ block.settings.label_offset }}px;
+  }
+
+  .ai-ba-nav-arrows-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: calc(100% + {{ block.settings.nav_arrow_size | times: 2 | plus: 40 }}px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .ai-ba-nav-arrow-{{ ai_gen_id }} {
+    width: {{ block.settings.nav_arrow_size }}px;
+    height: {{ block.settings.nav_arrow_size }}px;
+    background-color: {{ block.settings.nav_arrow_bg }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: {{ block.settings.nav_arrow_opacity | divided_by: 100.0 }};
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .ai-ba-nav-arrow-{{ ai_gen_id }}:hover {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  .ai-ba-nav-arrow-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    fill: {{ block.settings.nav_arrow_color }};
+  }
+
+  .ai-ba-pagination-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: {{ block.settings.pagination_spacing }}px;
+    margin-top: {{ block.settings.pagination_margin }}px;
+  }
+
+  .ai-ba-pagination-bottom-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: {{ block.settings.pagination_margin }}px;
+  }
+
+  .ai-ba-pagination-bottom-{{ ai_gen_id }} .ai-ba-nav-arrow-{{ ai_gen_id }} {
+    position: static;
+  }
+
+  .ai-ba-dot-{{ ai_gen_id }} {
+    width: {{ block.settings.dot_size }}px;
+    height: {{ block.settings.dot_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_inactive_color }};
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-ba-dot-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.dot_active_color }};
+    transform: scale(1.5);
+  }
+
+  .ai-ba-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #f4f4f4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-ba-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+  }
+
+  .ai-ba-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  {% if block.settings.nav_style == 'side' %}
+    .ai-ba-pagination-bottom-{{ ai_gen_id }} {
+      display: none;
+    }
+  {% else %}
+    .ai-ba-nav-arrows-{{ ai_gen_id }} {
+      display: none;
+    }
+  {% endif %}
+
+  @media screen and (max-width: 989px) {
+    .ai-ba-slider-item-{{ ai_gen_id }} {
+      flex: 0 0 50%;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-ba-slider-item-{{ ai_gen_id }} {
+      flex: 0 0 100%;
+    }
+
+    .ai-ba-slider-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.8);
+    }
+
+    .ai-ba-label-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.label_font_size }}px * 0.85);
+      padding: calc({{ block.settings.label_padding_y }}px * 0.8) calc({{ block.settings.label_padding_x }}px * 0.8);
+    }
+
+    .ai-ba-handle-{{ ai_gen_id }} {
+      width: calc({{ block.settings.handle_size }}px * 0.8);
+      height: calc({{ block.settings.handle_size }}px * 0.8);
+    }
+
+    .ai-ba-nav-arrows-{{ ai_gen_id }} {
+      width: calc(100% + {{ block.settings.nav_arrow_size | times: 1.6 | plus: 32 }}px);
+    }
+  }
+{% endstyle %}
+
+<before-after-slider-{{ ai_gen_id }} class="ai-ba-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.title != blank %}
+    <h2 class="ai-ba-slider-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+  {% endif %}
+
+  <div class="ai-ba-slider-container-{{ ai_gen_id }}">
+    <div class="ai-ba-slider-wrapper-{{ ai_gen_id }}" data-slider-wrapper>
+      {% for i in (1..5) %}
+        {% liquid
+          assign before_key = 'before_image_' | append: i
+          assign after_key = 'after_image_' | append: i
+          assign before_image = block.settings[before_key]
+          assign after_image = block.settings[after_key]
+        %}
+
+        <div class="ai-ba-slider-item-{{ ai_gen_id }}" data-slide-index="{{ forloop.index0 }}">
+          {% if before_image != blank or after_image != blank %}
+            <div class="ai-ba-comparison-{{ ai_gen_id }}" data-comparison>
+              <div class="ai-ba-image-container-{{ ai_gen_id }}">
+                {% if before_image != blank %}
+                  <img
+                    src="{{ before_image | image_url: width: 1200 }}"
+                    alt="{{ block.settings.before_label }}"
+                    class="ai-ba-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                    width="{{ before_image.width }}"
+                    height="{{ before_image.height }}"
+                  >
+                {% else %}
+                  <div class="ai-ba-placeholder-{{ ai_gen_id }}">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+                <div class="ai-ba-label-{{ ai_gen_id }} ai-ba-label-before-{{ ai_gen_id }}">
+                  {{ block.settings.before_label }}
+                </div>
+              </div>
+
+              <div class="ai-ba-after-container-{{ ai_gen_id }}" data-after-container>
+                {% if after_image != blank %}
+                  <img
+                    src="{{ after_image | image_url: width: 1200 }}"
+                    alt="{{ block.settings.after_label }}"
+                    class="ai-ba-after-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="ai-ba-placeholder-{{ ai_gen_id }}">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+                <div class="ai-ba-label-{{ ai_gen_id }} ai-ba-label-after-{{ ai_gen_id }}">
+                  {{ block.settings.after_label }}
+                </div>
+              </div>
+
+              <div class="ai-ba-divider-{{ ai_gen_id }}" data-divider>
+                <div class="ai-ba-handle-{{ ai_gen_id }}">
+                  <div class="ai-ba-arrow-{{ ai_gen_id }} ai-ba-arrow-left-{{ ai_gen_id }}"></div>
+                  <div class="ai-ba-arrow-{{ ai_gen_id }} ai-ba-arrow-right-{{ ai_gen_id }}"></div>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="ai-ba-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+              <div class="ai-ba-empty-state-{{ ai_gen_id }}">
+                Add before and after images for slide {{ i }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="ai-ba-nav-arrows-{{ ai_gen_id }}">
+      <button class="ai-ba-nav-arrow-{{ ai_gen_id }}" data-prev aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      <button class="ai-ba-nav-arrow-{{ ai_gen_id }}" data-next aria-label="Next slide">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ai-ba-pagination-bottom-{{ ai_gen_id }}">
+      <button class="ai-ba-nav-arrow-{{ ai_gen_id }}" data-prev aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      <div class="ai-ba-pagination-{{ ai_gen_id }}" data-pagination></div>
+      <button class="ai-ba-nav-arrow-{{ ai_gen_id }}" data-next aria-label="Next slide">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</before-after-slider-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class BeforeAfterSlider{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentSlide = 0;
+        this.totalSlides = 5;
+        this.isDragging = false;
+        this.startX = 0;
+        this.currentTranslate = 0;
+        this.prevTranslate = 0;
+        this.animationID = 0;
+        this.slideWidth = 0;
+        this.slidesPerView = 3;
+      }
+
+      connectedCallback() {
+        this.wrapper = this.querySelector('[data-slider-wrapper]');
+        this.slides = this.querySelectorAll('.ai-ba-slider-item-{{ ai_gen_id }}');
+        this.prevButtons = this.querySelectorAll('[data-prev]');
+        this.nextButtons = this.querySelectorAll('[data-next]');
+        this.paginationContainer = this.querySelector('[data-pagination]');
+
+        this.initComparisons();
+        this.initSlider();
+        this.createPagination();
+        this.setupEventListeners();
+        this.updateSlidesPerView();
+      }
+
+      updateSlidesPerView() {
+        const width = window.innerWidth;
+        if (width <= 749) {
+          this.slidesPerView = 1;
+        } else if (width <= 989) {
+          this.slidesPerView = 2;
+        } else {
+          this.slidesPerView = 3;
+        }
+      }
+
+      initComparisons() {
+        this.querySelectorAll('[data-comparison]').forEach((comparison) => {
+          const divider = comparison.querySelector('[data-divider]');
+          const afterContainer = comparison.querySelector('[data-after-container]');
+          let isDragging = false;
+
+          const updatePosition = (clientX) => {
+            const rect = comparison.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            afterContainer.style.width = `${100 - percentage}%`;
+            divider.style.left = `${percentage}%`;
+          };
+
+          const startDrag = (e) => {
+            isDragging = true;
+            comparison.style.cursor = 'ew-resize';
+            e.preventDefault();
+          };
+
+          const drag = (e) => {
+            if (!isDragging) return;
+            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            updatePosition(clientX);
+          };
+
+          const stopDrag = () => {
+            isDragging = false;
+            comparison.style.cursor = 'default';
+          };
+
+          divider.addEventListener('mousedown', startDrag);
+          divider.addEventListener('touchstart', startDrag);
+          document.addEventListener('mousemove', drag);
+          document.addEventListener('touchmove', drag);
+          document.addEventListener('mouseup', stopDrag);
+          document.addEventListener('touchend', stopDrag);
+        });
+      }
+
+      initSlider() {
+        this.slideWidth = this.wrapper.offsetWidth / this.slidesPerView;
+        this.updateSlidePosition();
+      }
+
+      setupEventListeners() {
+        this.prevButtons.forEach(btn => {
+          btn.addEventListener('click', () => this.prevSlide());
+        });
+
+        this.nextButtons.forEach(btn => {
+          btn.addEventListener('click', () => this.nextSlide());
+        });
+
+        this.wrapper.addEventListener('mousedown', this.touchStart.bind(this));
+        this.wrapper.addEventListener('touchstart', this.touchStart.bind(this));
+        this.wrapper.addEventListener('mousemove', this.touchMove.bind(this));
+        this.wrapper.addEventListener('touchmove', this.touchMove.bind(this));
+        this.wrapper.addEventListener('mouseup', this.touchEnd.bind(this));
+        this.wrapper.addEventListener('touchend', this.touchEnd.bind(this));
+        this.wrapper.addEventListener('mouseleave', this.touchEnd.bind(this));
+
+        window.addEventListener('resize', () => {
+          this.updateSlidesPerView();
+          this.slideWidth = this.wrapper.offsetWidth / this.slidesPerView;
+          this.updateSlidePosition();
+        });
+      }
+
+      touchStart(e) {
+        this.isDragging = true;
+        this.startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        this.animationID = requestAnimationFrame(this.animation.bind(this));
+        this.wrapper.classList.add('dragging');
+      }
+
+      touchMove(e) {
+        if (!this.isDragging) return;
+        const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const diff = currentX - this.startX;
+        this.currentTranslate = this.prevTranslate + diff;
+      }
+
+      touchEnd() {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        cancelAnimationFrame(this.animationID);
+        this.wrapper.classList.remove('dragging');
+
+        const movedBy = this.currentTranslate - this.prevTranslate;
+        const maxSlide = this.totalSlides - this.slidesPerView;
+        
+        if (movedBy < -50 && this.currentSlide < maxSlide) {
+          this.currentSlide++;
+        }
+        
+        if (movedBy > 50 && this.currentSlide > 0) {
+          this.currentSlide--;
+        }
+
+        this.updateSlidePosition();
+        this.updatePagination();
+      }
+
+      animation() {
+        this.wrapper.style.transform = `translateX(${this.currentTranslate}px)`;
+        if (this.isDragging) {
+          requestAnimationFrame(this.animation.bind(this));
+        }
+      }
+
+      updateSlidePosition() {
+        this.currentTranslate = -this.currentSlide * this.slideWidth;
+        this.prevTranslate = this.currentTranslate;
+        this.wrapper.style.transform = `translateX(${this.currentTranslate}px)`;
+      }
+
+      prevSlide() {
+        if (this.currentSlide > 0) {
+          this.currentSlide--;
+          this.updateSlidePosition();
+          this.updatePagination();
+        }
+      }
+
+      nextSlide() {
+        const maxSlide = this.totalSlides - this.slidesPerView;
+        if (this.currentSlide < maxSlide) {
+          this.currentSlide++;
+          this.updateSlidePosition();
+          this.updatePagination();
+        }
+      }
+
+      createPagination() {
+        this.paginationContainer.innerHTML = '';
+        for (let i = 0; i < this.totalSlides; i++) {
+          const dot = document.createElement('div');
+          dot.classList.add('ai-ba-dot-{{ ai_gen_id }}');
+          if (i === 0) dot.classList.add('active');
+          dot.addEventListener('click', () => {
+            const maxSlide = this.totalSlides - this.slidesPerView;
+            this.currentSlide = Math.min(i, maxSlide);
+            this.updateSlidePosition();
+            this.updatePagination();
+          });
+          this.paginationContainer.appendChild(dot);
+        }
+      }
+
+      updatePagination() {
+        const dots = this.paginationContainer.querySelectorAll('.ai-ba-dot-{{ ai_gen_id }}');
+        dots.forEach((dot, index) => {
+          if (index === this.currentSlide) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    customElements.define('before-after-slider-{{ ai_gen_id }}', BeforeAfterSlider{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Before after slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Title spacing",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 200,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Item spacing",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Before label",
+      "default": "Before"
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "After label",
+      "default": "After"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "label_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "label_bg_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "label_padding_y",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "label_padding_x",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "label_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "label_offset",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Offset from edge",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Divider"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "label": "Width",
+      "default": 3
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Handle"
+    },
+    {
+      "type": "range",
+      "id": "handle_size",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Size",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "handle_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "label": "Arrow size",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "select",
+      "id": "nav_style",
+      "label": "Navigation style",
+      "options": [
+        {
+          "value": "side",
+          "label": "Side arrows"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom arrows with dots"
+        }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "range",
+      "id": "nav_arrow_size",
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "unit": "px",
+      "label": "Arrow button size",
+      "default": 45
+    },
+    {
+      "type": "color",
+      "id": "nav_arrow_bg",
+      "label": "Arrow background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "nav_arrow_opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Arrow opacity",
+      "default": 70
+    },
+    {
+      "type": "header",
+      "content": "Pagination dots"
+    },
+    {
+      "type": "range",
+      "id": "dot_size",
+      "min": 6,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Dot size",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Active dot color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "dot_inactive_color",
+      "label": "Inactive dot color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "range",
+      "id": "pagination_spacing",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Spacing between dots",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "pagination_margin",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Slide 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image_1",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image_1",
+      "label": "After image"
+    },
+    {
+      "type": "header",
+      "content": "Slide 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image_2",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image_2",
+      "label": "After image"
+    },
+    {
+      "type": "header",
+      "content": "Slide 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image_3",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image_3",
+      "label": "After image"
+    },
+    {
+      "type": "header",
+      "content": "Slide 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image_4",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image_4",
+      "label": "After image"
+    },
+    {
+      "type": "header",
+      "content": "Slide 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image_5",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image_5",
+      "label": "After image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before after slider"
+    }
+  ]
+}
+{% endschema %}

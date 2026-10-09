@@ -1,0 +1,263 @@
+{% doc %}
+  @prompt
+    A small strip across screen like an announchment bar but with 3 seperate things of text. One being 97% INSTANT COLD SHOCK with the number like popping up from 0. The second text will be 30 SECOND MORNING RITUAL. the last will be 30 WIPES PER CHAMBER. Make the numbers above the actual text. Make the background white, numbers black, percents the same blue as our theme, and text grey underneath., Ok just add the percent label to 30 second morning ritual and 30 wipes per chamber
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-stats-bar-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px 20px;
+  }
+
+  .ai-stats-bar-container-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+  }
+
+  .ai-stats-item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+  }
+
+  .ai-stats-number-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .ai-stats-number-{{ ai_gen_id }} {
+    font-size: {{ block.settings.number_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.number_color }};
+    line-height: 1;
+  }
+
+  .ai-stats-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.number_size | times: 0.6 }}px;
+    font-weight: 700;
+    color: {{ block.settings.percent_color }};
+    line-height: 1;
+    margin-left: 2px;
+  }
+
+  .ai-stats-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-stats-bar-container-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ai-stats-number-{{ ai_gen_id }} {
+      font-size: {{ block.settings.number_size | times: 0.8 }}px;
+    }
+
+    .ai-stats-label-{{ ai_gen_id }} {
+      font-size: {{ block.settings.number_size | times: 0.5 }}px;
+    }
+
+    .ai-stats-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<stats-bar-{{ ai_gen_id }}
+  class="ai-stats-bar-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-stats-bar-container-{{ ai_gen_id }}">
+    <div class="ai-stats-item-{{ ai_gen_id }}">
+      <div class="ai-stats-number-wrapper-{{ ai_gen_id }}">
+        <span class="ai-stats-number-{{ ai_gen_id }}" data-target="97" data-stat="1">0</span>
+        <span class="ai-stats-label-{{ ai_gen_id }}">%</span>
+      </div>
+      <div class="ai-stats-text-{{ ai_gen_id }}">{{ block.settings.stat_1_text }}</div>
+    </div>
+
+    <div class="ai-stats-item-{{ ai_gen_id }}">
+      <div class="ai-stats-number-wrapper-{{ ai_gen_id }}">
+        <span class="ai-stats-number-{{ ai_gen_id }}" data-target="30" data-stat="2">0</span>
+        <span class="ai-stats-label-{{ ai_gen_id }}">s</span>
+      </div>
+      <div class="ai-stats-text-{{ ai_gen_id }}">{{ block.settings.stat_2_text }}</div>
+    </div>
+
+    <div class="ai-stats-item-{{ ai_gen_id }}">
+      <div class="ai-stats-number-wrapper-{{ ai_gen_id }}">
+        <span class="ai-stats-number-{{ ai_gen_id }}" data-target="30" data-stat="3">0</span>
+        <span class="ai-stats-label-{{ ai_gen_id }}">x</span>
+      </div>
+      <div class="ai-stats-text-{{ ai_gen_id }}">{{ block.settings.stat_3_text }}</div>
+    </div>
+  </div>
+</stats-bar-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class StatsBar{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.animated = false;
+      }
+
+      connectedCallback() {
+        this.setupIntersectionObserver();
+      }
+
+      setupIntersectionObserver() {
+        const options = {
+          threshold: 0.5,
+          rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !this.animated) {
+              this.animateNumbers();
+              this.animated = true;
+            }
+          });
+        }, options);
+
+        observer.observe(this);
+      }
+
+      animateNumbers() {
+        const numbers = this.querySelectorAll('.ai-stats-number-{{ ai_gen_id }}');
+        
+        numbers.forEach(number => {
+          const target = parseInt(number.getAttribute('data-target'));
+          const duration = 1500;
+          const increment = target / (duration / 16);
+          let current = 0;
+
+          const updateNumber = () => {
+            current += increment;
+            if (current < target) {
+              number.textContent = Math.floor(current);
+              requestAnimationFrame(updateNumber);
+            } else {
+              number.textContent = target;
+            }
+          };
+
+          updateNumber();
+        });
+      }
+    }
+
+    customElements.define('stats-bar-{{ ai_gen_id }}', StatsBar{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Stats announcement bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Statistics"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_text",
+      "label": "Stat 1 text",
+      "default": "INSTANT COLD SHOCK"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_text",
+      "label": "Stat 2 text",
+      "default": "SECOND MORNING RITUAL"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_text",
+      "label": "Stat 3 text",
+      "default": "WIPES PER CHAMBER"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Number color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "percent_color",
+      "label": "Label color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#808080"
+    },
+    {
+      "type": "range",
+      "id": "number_size",
+      "label": "Number size",
+      "min": 24,
+      "max": 72,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stats announcement bar"
+    }
+  ]
+}
+{% endschema %}

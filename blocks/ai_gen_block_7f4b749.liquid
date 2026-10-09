@@ -1,0 +1,346 @@
+{% doc %}
+  @prompt
+    A small strip across screen like an announchment bar but with 3 seperate things of text. One being 97% INSTANT COLD SHOCK with the number like popping up from 0. The second text will be 30 SECOND MORNING RITUAL. the last will be 30 WIPES PER CHAMBER. Make the numbers above the actual text. Make the background white, numbers black, percents the same blue as our theme, and text grey underneath., Ok just add the percent label to 30 second morning ritual and 30 wipes per chamber. Make it so i can edit all text incluidng numbers, percents and words underneath.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-announcement-strip-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px 20px;
+  }
+
+  .ai-announcement-strip__container-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+  }
+
+  .ai-announcement-strip__item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+  }
+
+  .ai-announcement-strip__number-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .ai-announcement-strip__number-{{ ai_gen_id }} {
+    font-size: {{ block.settings.number_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.number_color }};
+    line-height: 1;
+  }
+
+  .ai-announcement-strip__percent-{{ ai_gen_id }} {
+    font-size: {{ block.settings.percent_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.percent_color }};
+    line-height: 1;
+    margin-left: 2px;
+  }
+
+  .ai-announcement-strip__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-announcement-strip__container-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ai-announcement-strip__number-{{ ai_gen_id }} {
+      font-size: {{ block.settings.number_size | times: 0.8 }}px;
+    }
+
+    .ai-announcement-strip__percent-{{ ai_gen_id }} {
+      font-size: {{ block.settings.percent_size | times: 0.8 }}px;
+    }
+
+    .ai-announcement-strip__text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<announcement-strip-{{ ai_gen_id }}
+  class="ai-announcement-strip-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+  data-animation-duration="{{ block.settings.animation_duration }}"
+>
+  <div class="ai-announcement-strip__container-{{ ai_gen_id }}">
+    <div class="ai-announcement-strip__item-{{ ai_gen_id }}">
+      <div class="ai-announcement-strip__number-wrapper-{{ ai_gen_id }}">
+        <span
+          class="ai-announcement-strip__number-{{ ai_gen_id }} ai-announcement-strip__animated-number-{{ ai_gen_id }}"
+          data-target="{{ block.settings.stat_1_number }}"
+          >0</span
+        >
+        <span class="ai-announcement-strip__percent-{{ ai_gen_id }}">{{ block.settings.stat_1_percent }}</span>
+      </div>
+      <div class="ai-announcement-strip__text-{{ ai_gen_id }}">{{ block.settings.stat_1_text }}</div>
+    </div>
+
+    <div class="ai-announcement-strip__item-{{ ai_gen_id }}">
+      <div class="ai-announcement-strip__number-wrapper-{{ ai_gen_id }}">
+        <span
+          class="ai-announcement-strip__number-{{ ai_gen_id }} ai-announcement-strip__animated-number-{{ ai_gen_id }}"
+          data-target="{{ block.settings.stat_2_number }}"
+          >0</span
+        >
+        <span class="ai-announcement-strip__percent-{{ ai_gen_id }}">{{ block.settings.stat_2_percent }}</span>
+      </div>
+      <div class="ai-announcement-strip__text-{{ ai_gen_id }}">{{ block.settings.stat_2_text }}</div>
+    </div>
+
+    <div class="ai-announcement-strip__item-{{ ai_gen_id }}">
+      <div class="ai-announcement-strip__number-wrapper-{{ ai_gen_id }}">
+        <span
+          class="ai-announcement-strip__number-{{ ai_gen_id }} ai-announcement-strip__animated-number-{{ ai_gen_id }}"
+          data-target="{{ block.settings.stat_3_number }}"
+          >0</span
+        >
+        <span class="ai-announcement-strip__percent-{{ ai_gen_id }}">{{ block.settings.stat_3_percent }}</span>
+      </div>
+      <div class="ai-announcement-strip__text-{{ ai_gen_id }}">{{ block.settings.stat_3_text }}</div>
+    </div>
+  </div>
+</announcement-strip-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AnnouncementStrip{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.animated = false;
+      }
+
+      connectedCallback() {
+        this.animationDuration = parseInt(this.dataset.animationDuration) || 2000;
+        this.numbers = this.querySelectorAll('.ai-announcement-strip__animated-number-{{ ai_gen_id }}');
+        
+        if ('IntersectionObserver' in window) {
+          this.observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !this.animated) {
+                this.animateNumbers();
+                this.animated = true;
+              }
+            });
+          }, { threshold: 0.5 });
+          
+          this.observer.observe(this);
+        } else {
+          this.animateNumbers();
+        }
+      }
+
+      animateNumbers() {
+        this.numbers.forEach((numberElement) => {
+          const target = parseInt(numberElement.dataset.target);
+          const duration = this.animationDuration;
+          const startTime = performance.now();
+          
+          const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            const current = Math.floor(easeOutQuart * target);
+            
+            numberElement.textContent = current;
+            
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            } else {
+              numberElement.textContent = target;
+            }
+          };
+          
+          requestAnimationFrame(animate);
+        });
+      }
+
+      disconnectedCallback() {
+        if (this.observer) {
+          this.observer.disconnect();
+        }
+      }
+    }
+
+    customElements.define('announcement-strip-{{ ai_gen_id }}', AnnouncementStrip{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Announcement strip",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Stat 1"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_number",
+      "label": "Number",
+      "default": "97"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_percent",
+      "label": "Percent label",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_text",
+      "label": "Text",
+      "default": "INSTANT COLD SHOCK"
+    },
+    {
+      "type": "header",
+      "content": "Stat 2"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_number",
+      "label": "Number",
+      "default": "30"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_percent",
+      "label": "Percent label",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_text",
+      "label": "Text",
+      "default": "SECOND MORNING RITUAL"
+    },
+    {
+      "type": "header",
+      "content": "Stat 3"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_number",
+      "label": "Number",
+      "default": "30"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_percent",
+      "label": "Percent label",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_text",
+      "label": "Text",
+      "default": "WIPES PER CHAMBER"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Number color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "percent_color",
+      "label": "Percent color",
+      "default": "#5fc4f2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#808080"
+    },
+    {
+      "type": "range",
+      "id": "number_size",
+      "label": "Number size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "percent_size",
+      "label": "Percent size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation duration",
+      "min": 1000,
+      "max": 4000,
+      "step": 500,
+      "unit": "ms",
+      "default": 2000
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement strip"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}
