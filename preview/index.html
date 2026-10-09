@@ -133,8 +133,13 @@
     .hero picture img { position: absolute; top: 0; right: 0; height: 100%; width: auto; max-width: none; }
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 50%); }
     /* Hero copy sized after Based's hero: 360px column, 40px title, 14/20 subhead, 48px controls */
-    .hero-copy { position: relative; z-index: 2; width: min(360px, 100%); }
-    .hero h1 { width: 420px; max-width: 100%; font-size: 40px; line-height: 1.05; font-weight: 500; text-transform: uppercase; letter-spacing: -.64px; }
+    .hero-copy { position: relative; z-index: 2; width: min(540px, 100%); }
+    .hero-sub, .hero-form { max-width: 360px; }
+    .hero h1 { width: 540px; max-width: 100%; font-size: 40px; font-weight: 500; text-transform: uppercase; letter-spacing: -.02em; }
+    /* two lines set to the same width: each line's size is fitted to the title width by script */
+    .fit-title .l1, .fit-title .l2 { display: block; white-space: nowrap; width: max-content; }
+    .fit-title .l1 { line-height: 1.12; }
+    .fit-title .l2 { line-height: .98; font-weight: 600; letter-spacing: -.03em; }
     .hero-sub { margin: 14px 0 0; color: #fff; font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: -.21px; }
     .hero-form { display: grid; gap: 8px; margin-top: 24px; }
     .hero-form input {
@@ -332,9 +337,11 @@
       .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 30%); }
       .hero > .wrap { position: relative; z-index: 2; }
       .hero-copy { width: 100%; max-width: 340px; margin-inline: auto; }
-      .hero h1 { width: auto; font-size: clamp(24px, 7.4vw, 30px); line-height: 1.02; letter-spacing: -.035em; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+      .hero h1 { width: 100%; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+      .fit-title .l1, .fit-title .l2 { margin-inline: auto; }
+      .hero-sub, .hero-form { max-width: none; }
       .hero-sub { display: none; }
-      .hero-copy { max-width: 300px; }
+      .hero-copy { max-width: 330px; }
       .hero-form { margin-top: 14px; gap: 6px; }
       .hero-form input { height: 42px; font-size: 13px; padding: 0 14px; }
       .hero-form .btn { height: 42px; font-size: 12px; letter-spacing: .02em; }
@@ -399,7 +406,7 @@
       </picture>
       <div class="wrap">
         <div class="hero-copy">
-          <h1>The rush of a cold plunge, <span class="ice">in a wipe.</span></h1>
+          <h1 class="fit-title"><span class="l1">The rush of a cold plunge,</span> <span class="l2 ice">in a wipe.</span></h1>
           <p class="hero-sub">Premium cold therapy facial wipes your mind, body, &amp; skin crave the moment you wake.</p>
           <form class="hero-form" id="notify-form" novalidate>
             <label class="sr-only" for="notify-phone">Phone number</label>
@@ -684,7 +691,16 @@
     (function () {
       var hdr = document.querySelector('.site-header');
       var copy = document.querySelector('.hero-copy');
+      var title = document.querySelector('.fit-title');
+      function fitTitle() {
+        var w = title.clientWidth;
+        title.querySelectorAll('span').forEach(function (s) {
+          s.style.fontSize = '100px';
+          s.style.fontSize = (100 * w / s.getBoundingClientRect().width) + 'px';
+        });
+      }
       function setH() {
+        fitTitle();
         document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px');
         document.documentElement.style.setProperty('--copy-h', copy.offsetHeight + 'px');
       }
