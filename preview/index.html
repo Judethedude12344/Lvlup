@@ -139,7 +139,8 @@
     /* two lines set to the same width: each line's size is fitted to the title width by script */
     .fit-title .l1, .fit-title .l2 { display: block; white-space: nowrap; width: max-content; }
     .fit-title .l1 { line-height: 1.12; }
-    .fit-title .l2 { line-height: .98; font-weight: 600; letter-spacing: -.065em; }
+    /* tight tracking pulls the full stop past the text box; the padding keeps it inside the gradient's paint area */
+    .fit-title .l2 { line-height: .98; font-weight: 600; letter-spacing: -.065em; padding-right: .1em; margin-right: -.1em; }
     /* one line, fitted to the title width by script; soft grey like Based's hero subhead */
     .hero-sub { margin: 14px 0 0; color: #a7b0b7; font-size: 15px; line-height: 1.4; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; width: max-content; }
     .hero-form { display: grid; gap: 8px; margin-top: 24px; }
