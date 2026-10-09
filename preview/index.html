@@ -142,8 +142,8 @@
     /* tight tracking pulls the full stop past the text box; the padding keeps it inside the gradient's paint area */
     .fit-title .l2 { line-height: .98; font-weight: 600; letter-spacing: -.065em; padding-right: .1em; margin-right: -.1em; }
     /* one line, fitted to the title width by script; soft grey like Based's hero subhead */
-    /* two bold lines at one size, each justified to the title width */
-    .hero-sub { margin: 14px 0 0; color: #a7b0b7; font-size: 15px; line-height: 1.4; font-weight: 700; letter-spacing: -.01em; width: var(--title-w, 540px); max-width: 100%; }
+    /* two bold lines at one size; line 2 is justified to line 1's width */
+    .hero-sub { margin: 14px 0 0; color: #a7b0b7; font-size: 15px; line-height: 1.4; font-weight: 700; letter-spacing: -.01em; width: var(--sub-w, max-content); max-width: 100%; }
     .hero-sub span { display: block; white-space: nowrap; text-align: justify; text-align-last: justify; }
     .hero-form { display: grid; gap: 8px; margin-top: 24px; }
     .hero-form input {
@@ -719,14 +719,18 @@
         document.documentElement.style.setProperty('--title-w', tw + 'px');
         fitTo(l1, tw);
         if (sub && getComputedStyle(sub).display !== 'none') {
-          // largest size at which both lines fit (the longer line fills the width), then justify the other to match
-          var size = 1e9;
-          sub.querySelectorAll('span').forEach(function (s) {
-            s.style.display = 'inline'; sub.style.fontSize = '100px';
-            size = Math.min(size, 100 * tw / s.getBoundingClientRect().width);
-            s.style.display = '';
-          });
+          // same size as when the sentence sat on one line across the title width;
+          // split in two, the block is as wide as line 1 and line 2 is justified to match it
+          var spans = sub.querySelectorAll('span');
+          sub.style.width = 'max-content'; spans.forEach(function (x) { x.style.display = 'inline'; });
+          sub.style.fontSize = '100px';
+          var size = Math.min(17, 100 * tw / sub.getBoundingClientRect().width);
           sub.style.fontSize = size + 'px';
+          spans.forEach(function (x) { x.style.display = ''; });
+          sub.style.width = '';
+          spans[0].style.display = 'inline';
+          sub.style.setProperty('--sub-w', spans[0].getBoundingClientRect().width + 'px');
+          spans[0].style.display = '';
         }
       }
       function setH() {
