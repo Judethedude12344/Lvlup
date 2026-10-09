@@ -103,8 +103,8 @@
     /* Hero */
     .hero { position: relative; min-height: clamp(520px, 44vw, 640px); display: flex; align-items: center; overflow: hidden; background: #050607; }
     .hero picture, .hero picture img { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .hero picture img { object-fit: cover; object-position: 78% 40%; }
-    .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,6,7,.96) 0%, rgba(5,6,7,.82) 34%, rgba(5,6,7,.15) 66%, rgba(5,6,7,0) 100%); }
+    .hero picture img { object-fit: cover; object-position: 85% 50%; }
+    .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,6,7,.9) 0%, rgba(5,6,7,.6) 30%, rgba(5,6,7,0) 55%); }
     .hero-copy { position: relative; z-index: 2; max-width: 520px; }
     .hero h1 { font-size: clamp(36px, 4.2vw, 56px); line-height: 1.04; text-transform: uppercase; letter-spacing: -.01em; }
     .hero p { margin: 18px 0 30px; color: #d6dbdf; font-size: 15px; line-height: 1.6; max-width: 40ch; }
@@ -272,9 +272,12 @@
     }
     @media (max-width: 860px) {
       .nav-links { display: none; }
-      .hero { min-height: 640px; align-items: flex-end; padding-bottom: 36px; }
-      .hero picture img { object-position: center 25%; }
-      .hero::after { background: linear-gradient(0deg, rgba(5,6,7,.97) 0%, rgba(5,6,7,.85) 38%, rgba(5,6,7,0) 70%); }
+      .hero { min-height: 0; flex-direction: column; align-items: stretch; padding-bottom: 40px; }
+      .hero picture { position: relative; inset: auto; display: block; height: auto; aspect-ratio: 1 / 1; }
+      .hero picture img { object-position: 76% 50%; }
+      .hero picture::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(0deg, #050607 0%, rgba(5,6,7,0) 100%); }
+      .hero::after { content: none; }
+      .hero > .wrap { margin-top: -28px; }
       .hero .btn { min-width: 0; width: 100%; }
       .stats { grid-template-columns: 1fr 1fr; }
       .stats > :first-child { grid-column: 1 / -1; }
@@ -328,8 +331,8 @@
   <main id="top">
     <section class="hero">
       <picture>
-        <source media="(max-width: 749px)" srcset="../assets/cryochamberpic-hero-mobile.png">
-        <img src="../assets/cryochamberpic-hero.png" alt="Man holding the Cryo Chamber">
+        <source type="image/webp" srcset="../assets/hero-chamber-bathroom.webp">
+        <img src="../assets/hero-chamber-bathroom.jpg" alt="Woman using a Cryo Wipe at her bathroom counter, white Cryo Chamber beside her" width="1672" height="941">
       </picture>
       <div class="wrap">
         <div class="hero-copy">
