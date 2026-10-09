@@ -121,8 +121,9 @@
 
     /* Hero */
     .hero { position: relative; margin-top: calc(-1 * var(--hdr-h, 77px)); padding-top: var(--hdr-h, 77px); min-height: calc(var(--hdr-h, 77px) + max(520px, min(56.25vw, calc(100svh - 110px)))); display: flex; align-items: center; overflow: hidden; background: #000; }
-    .hero picture, .hero picture img { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .hero picture img { object-fit: contain; object-position: 100% 100%; }
+    .hero picture { position: absolute; inset: 0; overflow: hidden; }
+    /* Fill the hero's full height, pinned right; the photo's black left edge blends into the page at any width */
+    .hero picture img { position: absolute; top: 0; right: 0; height: 100%; width: auto; max-width: none; }
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 50%); }
     .hero-copy { position: relative; z-index: 2; max-width: 520px; }
     .hero h1 { font-size: clamp(36px, 4.2vw, 56px); line-height: 1.04; text-transform: uppercase; letter-spacing: -.01em; }
@@ -305,7 +306,7 @@
       /* Phone hero: photo fills the frame; short copy sits top-left over the dark mirror, clear of her and the Chamber */
       .hero { min-height: 0; height: calc(var(--hdr-h, 77px) + 104vw); align-items: flex-start; padding-block: calc(var(--hdr-h, 77px) + 7%) 0; }
       .hero picture { inset: 0 0 auto 0; height: calc(var(--hdr-h, 77px) + 121vw); }
-      .hero picture img { object-fit: cover; object-position: 78% 100%; }
+      .hero picture img { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 100%; }
       .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.32) 0%, rgba(0,0,0,.12) 18%, rgba(0,0,0,0) 34%); }
       .hero > .wrap { position: relative; z-index: 2; }
       .hero-copy { max-width: 56%; }
