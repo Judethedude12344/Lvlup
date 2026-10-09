@@ -6,7 +6,8 @@
   <title>Cryo Wipes Preview</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@600&display=swap" rel="stylesheet">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
   <style>
     /* Layout: premium dark storefront. Slim bar, full-bleed hero with left copy,
        filterable product grid, image category tiles, glowing comparison column,
@@ -238,6 +239,16 @@
       filter: blur(6px);
     }
     .chamber-media img { position: absolute; z-index: 2; left: 50%; bottom: 21%; width: 64%; transform: translateX(-50%); }
+    .chamber-3d-canvas { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; display: block; cursor: grab; outline: none; }
+    .chamber-3d-canvas:active { cursor: grabbing; }
+    .chamber-media.is-3d > img, .chamber-media.is-3d::after { display: none; }
+    .chamber-ui { position: absolute; z-index: 3; left: 18px; right: 18px; bottom: 16px; display: none; align-items: center; justify-content: space-between; gap: 12px; pointer-events: none; }
+    .chamber-media.is-3d .chamber-ui { display: flex; }
+    .drag-hint { font: 500 11px var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .chamber-swatches { display: flex; gap: 10px; pointer-events: auto; }
+    .cs { width: 24px; height: 24px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+    .cs.white { background: #f2f2ef; } .cs.black { background: #17181a; }
+    .cs[aria-pressed="true"] { box-shadow: 0 0 0 2px #0e1012, 0 0 0 4px var(--ice); }
     .chamber-media::after { content: ""; position: absolute; z-index: 1; left: 50%; bottom: 17%; width: 62%; height: 8%; transform: translateX(-50%); background: radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.75) 0%, rgba(0,0,0,0) 100%); }
     .specs { list-style: none; margin: 26px 0 0; padding: 0; border-top: 1px solid var(--line); }
     .specs li { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
@@ -524,10 +535,17 @@
 
     <section class="section wrap" id="chamber">
       <div class="chamber">
-        <div class="chamber-media">
+        <div class="chamber-media" data-chamber-3d>
           <div class="stripe" aria-hidden="true"></div>
           <div class="stage" aria-hidden="true"></div>
           <img src="../assets/chamber-white-trim.png" alt="Cryo Chamber, White Edition, with lid open">
+          <div class="chamber-ui">
+            <span class="drag-hint">Drag to rotate</span>
+            <div class="chamber-swatches" role="group" aria-label="Chamber colour">
+              <button type="button" class="cs white" data-chamber-colour="white" aria-pressed="true" aria-label="White Edition"></button>
+              <button type="button" class="cs black" data-chamber-colour="black" aria-pressed="false" aria-label="Black Edition"></button>
+            </div>
+          </div>
         </div>
         <div>
           <p class="eyebrow">The Cryo Chamber</p>
@@ -620,6 +638,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script type="module" src="../assets/cryo-chamber-3d.js"></script>
   <script>
     (function () {
       var count = 0, timer;
