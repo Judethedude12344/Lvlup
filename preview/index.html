@@ -142,7 +142,9 @@
     /* tight tracking pulls the full stop past the text box; the padding keeps it inside the gradient's paint area */
     .fit-title .l2 { line-height: .98; font-weight: 600; letter-spacing: -.065em; padding-right: .1em; margin-right: -.1em; }
     /* one line, fitted to the title width by script; soft grey like Based's hero subhead */
-    .hero-sub { margin: 14px 0 0; color: #a7b0b7; font-size: 15px; line-height: 1.4; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; width: max-content; }
+    /* two bold lines at one size, each justified to the title width */
+    .hero-sub { margin: 14px 0 0; color: #a7b0b7; font-size: 15px; line-height: 1.4; font-weight: 700; letter-spacing: -.01em; width: var(--title-w, 540px); max-width: 100%; }
+    .hero-sub span { display: block; white-space: nowrap; text-align: justify; text-align-last: justify; }
     .hero-form { display: grid; gap: 8px; margin-top: 24px; }
     .hero-form input {
       height: 48px; padding: 0 16px; border: 1px solid rgba(255,255,255,.28); border-radius: 0;
@@ -417,7 +419,7 @@
       <div class="wrap">
         <div class="hero-copy">
           <h1 class="fit-title"><span class="l1">The rush of a cold plunge,</span> <span class="l2 ice">in a wipe.</span></h1>
-          <p class="hero-sub">Premium cold therapy facial wipes your mind, body, &amp; skin crave the moment you wake.</p>
+          <p class="hero-sub"><span class="s1">Premium cold therapy facial wipes your mind,</span> <span class="s2">body, &amp; skin crave the moment you wake.</span></p>
           <form class="hero-form" id="notify-form" novalidate>
             <label class="sr-only" for="notify-phone">Phone number</label>
             <input id="notify-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Phone number" required>
@@ -716,7 +718,16 @@
         var tw = l2.getBoundingClientRect().width;
         document.documentElement.style.setProperty('--title-w', tw + 'px');
         fitTo(l1, tw);
-        if (sub && getComputedStyle(sub).display !== 'none') fitTo(sub, tw, 17);
+        if (sub && getComputedStyle(sub).display !== 'none') {
+          // largest size at which both lines fit (the longer line fills the width), then justify the other to match
+          var size = 1e9;
+          sub.querySelectorAll('span').forEach(function (s) {
+            s.style.display = 'inline'; sub.style.fontSize = '100px';
+            size = Math.min(size, 100 * tw / s.getBoundingClientRect().width);
+            s.style.display = '';
+          });
+          sub.style.fontSize = size + 'px';
+        }
       }
       function setH() {
         fitTitle();
