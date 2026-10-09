@@ -314,19 +314,18 @@
     }
     @media (max-width: 860px) {
       .nav-links { display: none; }
-      /* Phone hero: photo fills the frame; short copy sits top-left over the dark mirror, clear of her and the Chamber */
-      /* photo starts just under the header (12px tucked behind its fade) so her head is clear of it */
-      .hero { min-height: 0; height: calc(var(--hdr-h, 77px) - 12px + 104vw); align-items: flex-start; padding-block: calc(var(--hdr-h, 77px) - 12px + 26.5vw) 0; }
-      /* phones use a version of the photo extended 240px upward, so the wall and mirror fill the space behind the header */
-      .hero picture { inset: calc(var(--hdr-h, 77px) - 12px - 30.86vw) 0 auto 0; height: 151.86vw; }
-      .hero picture img { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 100%; }
-      .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.32) 0%, rgba(0,0,0,.12) 18%, rgba(0,0,0,0) 34%); }
+      /* Phone hero (after Based): a portrait copy of the photo extended upward, so the headline sits
+         centred on plain wall above her head. Head lands 200px under the header; photo ends at the Chamber's feet. */
+      .hero { min-height: 0; height: calc(var(--hdr-h, 77px) + 200px + 101.16vw); align-items: flex-start; justify-content: center; padding-block: calc(var(--hdr-h, 77px) + 22px) 0; text-align: center; }
+      .hero picture { inset: calc(var(--hdr-h, 77px) + 200px - 92.8vw) 0 auto 0; height: 210.93vw; }
+      .hero picture img { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+      .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 30%); }
       .hero > .wrap { position: relative; z-index: 2; }
-      .hero-copy { max-width: 56%; }
-      .hero .eyebrow { font-size: 10px; margin-bottom: 10px; }
-      .hero h1 { font-size: clamp(26px, 8.2vw, 36px); line-height: 1.04; text-shadow: 0 1px 14px rgba(0,0,0,.3); }
+      .hero-copy { max-width: none; margin-inline: auto; }
+      .hero .eyebrow { display: none; }
+      .hero h1 { font-size: clamp(26px, 7.6vw, 34px); line-height: 1.04; }
       .hero p { display: none; }
-      .hero .btn { min-width: 0; margin-top: 18px; padding: 14px 20px; font-size: 13px; }
+      .hero .btn { min-width: 0; margin-top: 18px; padding: 14px 26px; font-size: 13px; }
       .hero .btn .lbl-long { display: none; }
       .hero .btn .lbl-short { display: inline; }
       .stats { grid-template-columns: 1fr 1fr; }
@@ -383,10 +382,10 @@
   <main id="top">
     <section class="hero">
       <picture>
-        <source media="(max-width: 860px)" type="image/webp" srcset="../assets/hero-chamber-bathroom-tall.webp">
-        <source media="(max-width: 860px)" srcset="../assets/hero-chamber-bathroom-tall.jpg">
-        <source type="image/webp" srcset="../assets/hero-chamber-bathroom.webp">
-        <img src="../assets/hero-chamber-bathroom.jpg" alt="Woman using a Cryo Wipe at her bathroom counter, white Cryo Chamber beside her" width="1672" height="941">
+        <source media="(max-width: 860px)" type="image/webp" srcset="../assets/hero-chamber-bathroom-mobile.webp">
+        <source media="(max-width: 860px)" srcset="../assets/hero-chamber-bathroom-mobile.jpg">
+        <source type="image/webp" srcset="../assets/hero-chamber-bathroom-tall.webp">
+        <img src="../assets/hero-chamber-bathroom-tall.jpg" alt="Woman using a Cryo Wipe at her bathroom counter, white Cryo Chamber beside her" width="1672" height="1181">
       </picture>
       <div class="wrap">
         <div class="hero-copy">
