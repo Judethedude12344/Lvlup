@@ -146,11 +146,6 @@
     .hero-form input:focus { outline: none; border-color: var(--ice); }
     .hero-form input[aria-invalid="true"] { border-color: #e2706b; }
     .hero-form .btn { height: 48px; padding: 0 20px; width: 100%; font-size: 14px; }
-    .hero-legal { margin: 2px 0 0; color: #6f7880; font-size: 10px; line-height: 1.4; }
-    .hero-status { display: flex; align-items: center; gap: 10px; margin: 6px 0 0; padding: 12px 14px; background: rgba(10,11,12,.6); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); color: #c9d0d5; font-size: 13px; line-height: 1.35; }
-    .hero-status b { color: #fff; font-weight: 700; }
-    .hero-status .dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #e2706b; box-shadow: 0 0 8px rgba(226,112,107,.6); }
-    .hero-status.ok .dot { background: var(--ice); box-shadow: 0 0 8px rgba(124,200,230,.7); }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* Products */
@@ -337,9 +332,12 @@
       .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 30%); }
       .hero > .wrap { position: relative; z-index: 2; }
       .hero-copy { width: 100%; max-width: 340px; margin-inline: auto; }
-      .hero h1 { width: auto; font-size: clamp(28px, 9vw, 35px); line-height: 1.05; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
-      .hero-sub, .hero-legal, .hero-status { display: none; }
-      .hero-form { margin-top: 16px; }
+      .hero h1 { width: auto; font-size: clamp(24px, 7.4vw, 30px); line-height: 1.02; letter-spacing: -.035em; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+      .hero-sub { display: none; }
+      .hero-copy { max-width: 300px; }
+      .hero-form { margin-top: 14px; gap: 6px; }
+      .hero-form input { height: 42px; font-size: 13px; padding: 0 14px; }
+      .hero-form .btn { height: 42px; font-size: 12px; letter-spacing: .02em; }
       .stats { grid-template-columns: 1fr 1fr; }
       .stats > :first-child { grid-column: 1 / -1; }
       .banner { display: flex; flex-direction: column; align-items: stretch; min-height: 0; }
@@ -406,9 +404,7 @@
           <form class="hero-form" id="notify-form" novalidate>
             <label class="sr-only" for="notify-phone">Phone number</label>
             <input id="notify-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Phone number" required>
-            <button class="btn" type="submit" id="notify-btn">Notify me for Batch Two</button>
-            <p class="hero-legal">By submitting you agree to receive SMS marketing from Cryo Wipes. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
-            <p class="hero-status" id="notify-status" role="status"><span class="dot" aria-hidden="true"></span><span class="msg">This batch is <b>sold out.</b> Join the waitlist for Batch Two.</span></p>
+            <button class="btn" type="submit" id="notify-btn">Notify me</button>
           </form>
         </div>
       </div>
@@ -700,7 +696,6 @@
       var form = document.getElementById('notify-form');
       var input = document.getElementById('notify-phone');
       var btn = document.getElementById('notify-btn');
-      var status = document.getElementById('notify-status');
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var digits = input.value.replace(/\D/g, '');
@@ -708,13 +703,11 @@
           input.setAttribute('aria-invalid', 'true');
           input.focus();
           btn.textContent = 'Enter a valid phone number';
-          setTimeout(function () { btn.textContent = 'Notify me for Batch Two'; }, 2200);
+          setTimeout(function () { btn.textContent = 'Notify me'; }, 2200);
           return;
         }
         input.removeAttribute('aria-invalid');
         btn.textContent = "You're on the list";
-        status.classList.add('ok');
-        status.querySelector('.msg').innerHTML = "You're on the <b>Batch Two</b> waitlist.";
       });
       input.addEventListener('input', function () { input.removeAttribute('aria-invalid'); });
     })();
