@@ -725,6 +725,7 @@
           sub.style.width = 'max-content'; spans.forEach(function (x) { x.style.display = 'inline'; });
           sub.style.fontSize = '100px';
           var size = Math.min(17, 100 * tw / sub.getBoundingClientRect().width);
+          size *= 0.88; // a touch smaller than the one-line fit
           sub.style.fontSize = size + 'px';
           spans.forEach(function (x) { x.style.display = ''; });
           sub.style.width = '';
