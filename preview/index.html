@@ -629,27 +629,27 @@
           <p class="sub">Everything you need to know about Cryo Wipes and the Cryo Chamber.</p>
         </div>
         <div class="faq-list">
-          <details>
+          <details name="faq">
             <summary>Why use Cryo Wipes?</summary>
             <p>Cryo Wipes give you an instant ice-cold shock that wakes you up, depuffs your face, and leaves your skin clean and refreshed. Each wipe is fresh and single-use, making it far more hygienic than using the same towel every day.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>Why do I need a Cryo Chamber?</summary>
             <p>The Cryo Chamber is a small cooling unit that keeps your wipes ultra cold, right above freezing, while keeping them moist and soft. Its insulated design stops the wipes drying out and makes using Cryo Wipes super convenient.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>Why not just put the wipes in the fridge?</summary>
             <p>Household refrigerators aren't cold enough to deliver a true near-freezing cold shock. Keeping wipes next to food can introduce odors or contamination, and without an airtight seal they dry out and stiffen. And walking to the kitchen every morning isn't convenient.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>What are the ingredients?</summary>
             <p>Aloe Barbadensis Leaf Water, Cucumber Extract, Green Tea Extract, Niacinamide, Vitamin B5, Glycerin, and Witch Hazel Water (alcohol-free). All ingredients are dermatologist-tested and suitable for sensitive skin.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>How many wipes are in each pack?</summary>
             <p>Each pack contains 30 Cryo Wipes. Tear open the pack, place the wipes in your Cryo Chamber, and let them chill before use.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>How long does shipping take?</summary>
             <p>Delivery times vary by location and carrier. You'll receive tracking information as soon as your order ships.</p>
           </details>
@@ -746,6 +746,12 @@
       });
       input.addEventListener('input', function () { input.removeAttribute('aria-invalid'); });
     })();
+    // FAQ: only one answer open at a time (name="faq" does this natively; this covers older browsers)
+    document.querySelectorAll('.faq-list details').forEach(function (d, i, all) {
+      d.addEventListener('toggle', function () {
+        if (d.open) all.forEach(function (o) { if (o !== d) o.open = false; });
+      });
+    });
     (function () {
       var count = 0, timer;
       var countEl = document.getElementById('cart-count');
