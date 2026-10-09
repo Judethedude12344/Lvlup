@@ -132,11 +132,26 @@
     /* Fill the hero's full height, pinned right; the photo's black left edge blends into the page at any width */
     .hero picture img { position: absolute; top: 0; right: 0; height: 100%; width: auto; max-width: none; }
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 50%); }
-    .hero-copy { position: relative; z-index: 2; max-width: 520px; }
-    .hero h1 { font-size: clamp(36px, 4.2vw, 56px); line-height: 1.04; text-transform: uppercase; letter-spacing: -.01em; }
-    .hero p { margin: 18px 0 30px; color: #d6dbdf; font-size: 15px; line-height: 1.6; max-width: 40ch; }
-    .hero .btn { min-width: 290px; }
-    .hero .btn .lbl-short { display: none; }
+    /* Hero copy sized after Based's hero: 360px column, 40px title, 14/20 subhead, 48px controls */
+    .hero-copy { position: relative; z-index: 2; width: min(360px, 100%); }
+    .hero h1 { width: 420px; max-width: 100%; font-size: 40px; line-height: 1.05; font-weight: 500; text-transform: uppercase; letter-spacing: -.64px; }
+    .hero-sub { margin: 14px 0 0; color: #fff; font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: -.21px; }
+    .hero-form { display: grid; gap: 8px; margin-top: 24px; }
+    .hero-form input {
+      height: 48px; padding: 0 16px; border: 1px solid rgba(255,255,255,.28); border-radius: 0;
+      background: rgba(10,11,12,.55); color: var(--text); font: 400 14px var(--body);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    }
+    .hero-form input::placeholder { color: #8d969e; }
+    .hero-form input:focus { outline: none; border-color: var(--ice); }
+    .hero-form input[aria-invalid="true"] { border-color: #e2706b; }
+    .hero-form .btn { height: 48px; padding: 0 20px; width: 100%; font-size: 14px; }
+    .hero-legal { margin: 2px 0 0; color: #6f7880; font-size: 10px; line-height: 1.4; }
+    .hero-status { display: flex; align-items: center; gap: 10px; margin: 6px 0 0; padding: 12px 14px; background: rgba(10,11,12,.6); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); color: #c9d0d5; font-size: 13px; line-height: 1.35; }
+    .hero-status b { color: #fff; font-weight: 700; }
+    .hero-status .dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #e2706b; box-shadow: 0 0 8px rgba(226,112,107,.6); }
+    .hero-status.ok .dot { background: var(--ice); box-shadow: 0 0 8px rgba(124,200,230,.7); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* Products */
     .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
@@ -314,20 +329,17 @@
     }
     @media (max-width: 860px) {
       .nav-links { display: none; }
-      /* Phone hero (after Based): portrait slice of the photo (1000px wide, 1px = 0.1vw) with extra wall on top.
-         Her head lands 78px under the header; the crop ends below the Chamber's feet with a strip of counter. */
-      .hero { min-height: 0; height: calc(var(--hdr-h, 77px) + 78px + 85.8vw); align-items: flex-start; justify-content: center; padding-block: calc(var(--hdr-h, 77px) + 10px) 0; text-align: center; }
-      .hero picture { inset: calc(var(--hdr-h, 77px) + 78px - 53.3vw) 0 auto 0; height: 145.2vw; }
+      /* Phone hero (after Based mobile): centred title + the two boxes on the wall; her head sits 22px under the form.
+         Image is a 1000px-wide portrait slice (1px = 0.1vw); her head is at image row 833, the crop ends ~65px below the Chamber's feet. */
+      .hero { min-height: 0; height: calc(var(--hdr-h, 77px) + var(--copy-h, 220px) + 40px + 85.8vw); align-items: flex-start; justify-content: center; padding-block: calc(var(--hdr-h, 77px) + 18px) 0; text-align: center; }
+      .hero picture { inset: calc(var(--hdr-h, 77px) + var(--copy-h, 220px) + 40px - 83.3vw) 0 auto 0; height: 175.2vw; }
       .hero picture img { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
       .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 30%); }
       .hero > .wrap { position: relative; z-index: 2; }
-      .hero-copy { max-width: none; margin-inline: auto; }
-      .hero .eyebrow { display: none; }
-      .hero h1 { font-size: clamp(21px, 6vw, 26px); line-height: 1.04; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
-      .hero p { display: none; }
-      .hero .btn { min-width: 0; margin-top: 10px; padding: 10px 20px; font-size: 11.5px; }
-      .hero .btn .lbl-long { display: none; }
-      .hero .btn .lbl-short { display: inline; }
+      .hero-copy { width: 100%; max-width: 340px; margin-inline: auto; }
+      .hero h1 { width: auto; font-size: clamp(28px, 9vw, 35px); line-height: 1.05; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+      .hero-sub, .hero-legal, .hero-status { display: none; }
+      .hero-form { margin-top: 16px; }
       .stats { grid-template-columns: 1fr 1fr; }
       .stats > :first-child { grid-column: 1 / -1; }
       .banner { display: flex; flex-direction: column; align-items: stretch; min-height: 0; }
@@ -382,17 +394,22 @@
   <main id="top">
     <section class="hero">
       <picture>
-        <source media="(max-width: 860px)" type="image/webp" srcset="../assets/hero-chamber-bathroom-mobile-v4.webp">
-        <source media="(max-width: 860px)" srcset="../assets/hero-chamber-bathroom-mobile-v4.jpg">
+        <source media="(max-width: 860px)" type="image/webp" srcset="../assets/hero-chamber-bathroom-mobile-v5.webp">
+        <source media="(max-width: 860px)" srcset="../assets/hero-chamber-bathroom-mobile-v5.jpg">
         <source type="image/webp" srcset="../assets/hero-chamber-bathroom-tall-v2.webp">
         <img src="../assets/hero-chamber-bathroom-tall-v2.jpg" alt="Woman using a Cryo Wipe at her bathroom counter, white Cryo Chamber beside her" width="1672" height="1081">
       </picture>
       <div class="wrap">
         <div class="hero-copy">
-          <p class="eyebrow">Now available</p>
           <h1>The rush of a cold plunge, <span class="ice">in a wipe.</span></h1>
-          <p>Cryo Wipes chill in the Cryo Chamber to just above freezing. Thirty seconds, every morning, to wake up, depuff and reset.</p>
-          <a class="btn" href="#shop"><span class="lbl-long">Shop the Starter Kit</span><span class="lbl-short">Shop now</span></a>
+          <p class="hero-sub">Premium cold therapy facial wipes your mind, body, &amp; skin crave the moment you wake.</p>
+          <form class="hero-form" id="notify-form" novalidate>
+            <label class="sr-only" for="notify-phone">Phone number</label>
+            <input id="notify-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Phone number" required>
+            <button class="btn" type="submit" id="notify-btn">Notify me for Batch Two</button>
+            <p class="hero-legal">By submitting you agree to receive SMS marketing from Cryo Wipes. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
+            <p class="hero-status" id="notify-status" role="status"><span class="dot" aria-hidden="true"></span><span class="msg">This batch is <b>sold out.</b> Join the waitlist for Batch Two.</span></p>
+          </form>
         </div>
       </div>
     </section>
@@ -670,9 +687,36 @@
   <script>
     (function () {
       var hdr = document.querySelector('.site-header');
-      function setH() { document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px'); }
+      var copy = document.querySelector('.hero-copy');
+      function setH() {
+        document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px');
+        document.documentElement.style.setProperty('--copy-h', copy.offsetHeight + 'px');
+      }
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(setH);
       setH();
       window.addEventListener('resize', setH);
+    })();
+    (function () {
+      var form = document.getElementById('notify-form');
+      var input = document.getElementById('notify-phone');
+      var btn = document.getElementById('notify-btn');
+      var status = document.getElementById('notify-status');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var digits = input.value.replace(/\D/g, '');
+        if (digits.length < 10) {
+          input.setAttribute('aria-invalid', 'true');
+          input.focus();
+          btn.textContent = 'Enter a valid phone number';
+          setTimeout(function () { btn.textContent = 'Notify me for Batch Two'; }, 2200);
+          return;
+        }
+        input.removeAttribute('aria-invalid');
+        btn.textContent = "You're on the list";
+        status.classList.add('ok');
+        status.querySelector('.msg').innerHTML = "You're on the <b>Batch Two</b> waitlist.";
+      });
+      input.addEventListener('input', function () { input.removeAttribute('aria-invalid'); });
     })();
     (function () {
       var count = 0, timer;
