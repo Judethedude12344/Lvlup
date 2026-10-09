@@ -127,7 +127,7 @@
     @keyframes bump { 50% { transform: scale(1.35); } }
 
     /* Hero */
-    .hero { position: relative; margin-top: calc(-1 * var(--hdr-h, 77px)); padding-top: var(--hdr-h, 77px); min-height: calc(var(--hdr-h, 77px) + max(520px, min(56.25vw, calc(100svh - 110px)))); display: flex; align-items: center; overflow: hidden; background: #000; }
+    .hero { position: relative; margin-top: calc(-1 * var(--hdr-h, 77px)); padding-top: var(--hdr-h, 77px); /* desktop: leave ~200px of the screen so the Shop heading and filters show on load */ height: max(470px, min(calc(var(--hdr-h, 77px) + 56.25vw), calc(100svh - 200px))); display: flex; align-items: center; overflow: hidden; background: #000; }
     .hero picture { position: absolute; inset: 0; overflow: hidden; }
     /* Fill the hero's full height, pinned right; the photo's black left edge blends into the page at any width */
     .hero picture img { position: absolute; top: 0; right: 0; height: 100%; width: auto; max-width: none; }
